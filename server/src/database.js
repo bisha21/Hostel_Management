@@ -1,5 +1,5 @@
 import { Sequelize } from 'sequelize';
-export const sequelize = new Sequelize('hostel_management', 'root', 'Bishal@#1234', {
+export const sequelize = new Sequelize('hostelmanagement', 'root', '', {
   host: 'localhost',
   dialect: 'mysql'
 });

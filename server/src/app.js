@@ -4,6 +4,8 @@ import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
 import {sequelize} from './database.js'
 import  userRoute from './routes/userRoutes.js'
+import roomRoute from './routes/roomRoutes.js'
+import studentRoute from './routes/studentRoutes.js'
 
 dotenv.config();
 
@@ -34,6 +36,8 @@ app.get('/', (req, res) =>{
 })
 
 app.use('/api/auth',userRoute);
+app.use('/api/room',roomRoute);
+app.use('/api/student',studentRoute);
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
 

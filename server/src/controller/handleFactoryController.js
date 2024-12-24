@@ -1,5 +1,5 @@
-import AppError from "../utlis/appError";
-import asyncHandler from "../utlis/catchAsync";
+import AppError from "../utlis/appError.js";
+import asyncHandler from "../utlis/catchAsync.js";
 
 
 export const deleteOne = (Model) =>
@@ -18,24 +18,28 @@ export const deleteOne = (Model) =>
 
 export const updateOne = (Model) =>
   asyncHandler(async (req, res, next) => {
-    const doc = await Model.update(req.body, {
-      where: { id: req.params.id },
-      returning: true,
-      individualHooks: true,
-    });
+    const doc = await Model.findByPk(req.params.id); // or findOne({ where: { id: req.params.id } })
 
-    if (doc[0] === 0) {
+    if (!doc) {
       return next(new AppError(`No document found with ID ${req.params.id}`, 404));
     }
 
+    // Note that we use `set` to update only the fields passed in the request body
+    await doc.set(req.body);
+
+    // Save the updated document
+    await doc.save();
+
+    // Return the updated document as the response
     res.status(200).json({
       status: "success",
       data: {
-        data: doc[1][0], // Sequelize returns an array of updated rows
+        data: doc, // The updated document
       },
       message: `Item with ID ${req.params.id} was updated successfully`,
     });
   });
+
 
 export const createOne = (Model) =>
   asyncHandler(async (req, res) => {
@@ -68,27 +72,31 @@ export const getOne = (Model, includeOptions) =>
     });
   });
 
-export const getAll = (Model, filterOptions) =>
-  asyncHandler(async (req, res) => {
-    const filter = req.params.tourId ? { where: { tourId: req.params.tourId } } : filterOptions || {};
-
-    const limit = req.query.limit ? parseInt(req.query.limit) : 100; // Default limit
-    const offset = req.query.page ? (parseInt(req.query.page) - 1) * limit : 0; // Pagination
-
-    const { count, rows } = await Model.findAndCountAll({
-      ...filter,
-      limit,
-      offset,
-      order: req.query.sort ? [[req.query.sort.split(',')[0], req.query.sort.split(',')[1] || 'ASC']] : [['createdAt', 'DESC']],
-      attributes: req.query.fields ? req.query.fields.split(',') : undefined, // Select specific fields
+  export const getAll = (Model, filterOptions) =>
+    asyncHandler(async (req, res) => {
+      const filterCriteria = { ...filterOptions }; // Use provided filter options
+  
+      // If there are query params for filtering, apply them
+      if (req.query) {
+        Object.keys(req.query).forEach((key) => {
+          if (req.query[key]) {
+            filterCriteria[key] = req.query[key]; // Apply query parameters as filters
+          }
+        });
+      }
+  
+      // Query the database with filtering and pagination (if needed)
+      const { count, rows } = await Model.findAndCountAll({
+        where: filterCriteria,
+      });
+  
+      res.status(200).json({
+        status: "success",
+        requestedAt: req.requestTime,
+        results: count,
+        data: {
+          data: rows,
+        },
+      });
     });
-
-    res.status(200).json({
-      status: "success",
-      requestedAt: req.requestTime,
-      results: count,
-      data: {
-        data: rows,
-      },
-    });
-  });
+  
