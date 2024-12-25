@@ -6,6 +6,8 @@ import {sequelize} from './database.js'
 import  userRoute from './routes/userRoutes.js'
 import roomRoute from './routes/roomRoutes.js'
 import studentRoute from './routes/studentRoutes.js'
+import adminRoute from './routes/adminRoutes.js'
+import Admin from "./model/adminModel.js";
 
 dotenv.config();
 
@@ -23,6 +25,17 @@ const app = express();
         console.error('Unable to connect to the database or sync:', error);
     }
 })();
+// (
+//     async () => {
+//         try {
+//             await Admin.sync({force: true});
+//             console.log('Admin table created successfully.');
+//         }catch (error) {
+//             console.error('Unable to create Admin table:', error);
+//         }
+//     }
+// )();
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -38,6 +51,7 @@ app.get('/', (req, res) =>{
 app.use('/api/auth',userRoute);
 app.use('/api/room',roomRoute);
 app.use('/api/student',studentRoute);
+app.use('/api/admin',adminRoute);
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
 
