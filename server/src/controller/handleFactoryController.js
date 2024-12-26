@@ -46,9 +46,9 @@ export const createOne = (Model) =>
     const doc = await Model.create(req.body);
     res.status(201).json({
       status: "success",
-      data: {
-        data: doc,
-      },
+
+      data: doc,
+
       message: `Item was created successfully`,
     });
   });
@@ -66,37 +66,36 @@ export const getOne = (Model, includeOptions) =>
 
     res.status(200).json({
       status: "success",
-      data: {
-        data: doc,
-      },
+
+      data: doc,
+
     });
   });
 
-  export const getAll = (Model, filterOptions) =>
-    asyncHandler(async (req, res) => {
-      const filterCriteria = { ...filterOptions }; // Use provided filter options
-  
-      // If there are query params for filtering, apply them
-      if (req.query) {
-        Object.keys(req.query).forEach((key) => {
-          if (req.query[key]) {
-            filterCriteria[key] = req.query[key]; // Apply query parameters as filters
-          }
-        });
-      }
-  
-      // Query the database with filtering and pagination (if needed)
-      const { count, rows } = await Model.findAndCountAll({
-        where: filterCriteria,
+export const getAll = (Model, filterOptions) =>
+  asyncHandler(async (req, res) => {
+    const filterCriteria = { ...filterOptions }; // Use provided filter options
+
+    // If there are query params for filtering, apply them
+    if (req.query) {
+      Object.keys(req.query).forEach((key) => {
+        if (req.query[key]) {
+          filterCriteria[key] = req.query[key]; // Apply query parameters as filters
+        }
       });
-  
-      res.status(200).json({
-        status: "success",
-        requestedAt: req.requestTime,
-        results: count,
-        data: {
-          data: rows,
-        },
-      });
+    }
+
+    // Query the database with filtering and pagination (if needed)
+    const { count, rows } = await Model.findAndCountAll({
+      where: filterCriteria,
     });
-  
+
+    res.status(200).json({
+      status: "success",
+      requestedAt: req.requestTime,
+      results: count,
+
+      data: rows,
+
+    });
+  });

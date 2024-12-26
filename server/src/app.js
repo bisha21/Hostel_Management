@@ -7,7 +7,7 @@ import  userRoute from './routes/userRoutes.js'
 import roomRoute from './routes/roomRoutes.js'
 import studentRoute from './routes/studentRoutes.js'
 import adminRoute from './routes/adminRoutes.js'
-import Admin from "./model/adminModel.js";
+import messRoute from './routes/messRoute.js'
 
 dotenv.config();
 
@@ -28,7 +28,7 @@ const app = express();
 // (
 //     async () => {
 //         try {
-//             await Admin.sync({force: true});
+//             await Mess.sync({force: true});
 //             console.log('Admin table created successfully.');
 //         }catch (error) {
 //             console.error('Unable to create Admin table:', error);
@@ -52,6 +52,7 @@ app.use('/api/auth',userRoute);
 app.use('/api/room',roomRoute);
 app.use('/api/student',studentRoute);
 app.use('/api/admin',adminRoute);
+app.use('/api/mess',messRoute);
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
 
