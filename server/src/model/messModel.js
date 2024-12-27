@@ -42,7 +42,5 @@ const Mess = sequelize.define('Mess', {
   timestamps: true,
 });
 
-// Mess has many Feedback
-// Mess.hasMany(Feedback, { foreignKey: 'messId' });
 
 export default Mess;
