@@ -10,7 +10,7 @@ import adminRoute from './routes/adminRoutes.js'
 import messRoute from './routes/messRoute.js'
 import reviewRoute from './routes/feedbackRoutes.js';
 import visitorRoute from './routes/visitorRoutes.js'
-import { Visitor } from "./model/visitorModel.js";
+import User from "./model/userModal.js";
 
 dotenv.config();
 
@@ -28,16 +28,16 @@ const app = express();
         console.error('Unable to connect to the database or sync:', error);
     }
 })();
-// (
-//     async () => {
-//         try {
-//             await Visitor.sync({force: true});
-//             console.log('Admin table created successfully.');
-//         }catch (error) {
-//             console.error('Unable to create Admin table:', error);
-//         }
-//     }
-// )();
+(
+    async () => {
+        try {
+            await User.sync({force: true});
+            console.log('Admin table created successfully.');
+        }catch (error) {
+            console.error('Unable to create Admin table:', error);
+        }
+    }
+)();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
