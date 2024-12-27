@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 
 export const createToken = async (data) => {
   try {
-    const authToken = jwt.sign(data, "234567890", {
+    const authToken = jwt.sign(data, process.env.JWT_SECRET, {
       expiresIn: "1h", // token expires in 1 hour
     });
     

@@ -10,23 +10,30 @@ export const protectedRoutes = asyncHandler(async (req, res, next) => {
 
     if (authHeader && authHeader.startsWith("Bearer ")) {
       authToken = authHeader.split(" ")[1];
-      console.log("Bearer ",authToken);
+      console.log("Bearer token:", authToken);
     } else if (req.headers.cookie) {
       const cookie = req.headers.cookie;
       authToken = cookie.split("=")[1];
-      console.log("Cookie ",authToken);
+      console.log("Cookie token:", authToken);
     }
 
     if (!authToken) {
-      return res.status(401).send("Unauthorized.");
+      return res.status(401).send("Unauthorized: No token provided.");
     }
 
-    jwt.verify(authToken, process.env.JWT_SECRET, (user) => {
-      
-      req.user = user;
+    // Verify the token
+    jwt.verify(authToken, process.env.JWT_SECRET, (err, decoded) => {
+      // if (err) {
+      //   console.error("JWT Verification Error:", err.message);
+      //   return next(new AppError("Invalid token.", 401));
+      // }
+
+      req.user = decoded; // Attach the decoded payload (user information) to req.user
+      console.log("Decoded user:", req.user.userId);
+
       next();
     });
   } catch (error) {
-    return next(new AppError("Invalid token.", 401));
+    return next(new AppError("An error occurred during token verification.", 401));
   }
 });
