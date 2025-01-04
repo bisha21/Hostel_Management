@@ -1,7 +1,7 @@
 import PageHeader from "../../../components/reusables/page-header";
+import CalendarPreview from "./_components/calendar";
 import { DailyStats } from "./_components/daily-stats";
-import { MenuManagement } from "./_components/menu-management";
-import { OrdersOverview } from "./_components/orders-overview";
+import { Component } from "./_components/pie-chart";
 
 export default function Dashboard() {
   return (
@@ -10,10 +10,10 @@ export default function Dashboard() {
       <div>
         <div className="flex gap-4">
           <DailyStats />
-          <OrdersOverview />
+          <CalendarPreview />
+          <Component />
         </div>
         <div className="mt-4">
-          <MenuManagement />
         </div>
       </div>
     </div>

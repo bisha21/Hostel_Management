@@ -10,7 +10,7 @@ export default function RoleSelector({setIsRoleSelected}: {setIsRoleSelected: Re
     const role = form.watch('role')
     return (
         <div>
-            <div className="w-full p-4 border rounded-md z-40 bg-card-foreground">
+            <div className="w-full p-4 border rounded-md z-40 bg-card-background">
             <p className="text-center font-medium text-lg underline underline-offset-4">Register</p>
             <p className="text-center font-medium text-base">Select your role</p>
                 <div className="flex justify-center items-center gap-4 mt-4">

@@ -39,7 +39,7 @@ export function DailyStats() {
                             <p className="text-md font-medium">21</p>
                         </div>
                         <div className='flex items-center'>
-                            <p className="text-sm font-medium text-gray-500">Customers</p>
+                            <p className="text-sm font-medium text-gray-500">Students</p>
                         </div>
                     </div>
                     <div>
@@ -50,7 +50,7 @@ export function DailyStats() {
                                 <p className="text-md font-medium">24</p>
                         </div>
                         <div className='flex items-center'>
-                            <p className="text-sm font-medium text-gray-500">Orders</p>
+                            <p className="text-sm font-medium text-gray-500">Payments</p>
                         </div>
                     </div>
                 </div>

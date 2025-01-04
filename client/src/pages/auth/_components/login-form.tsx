@@ -24,7 +24,7 @@ export default function LoginForm() {
     }
 
     return (
-        <div className="w-full p-4 border rounded-md z-40 bg-card-foreground">
+        <div className="w-full p-4 border rounded-md z-40 bg-card-background">
             <div className="flex justify-center items-center">
                 <img src={LOGIN_IMAGE} alt="LOGO" width={150} />
             </div>
