@@ -1,34 +1,15 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import { Button } from "../../../components/ui/button";
-import {Form} from "../../../components/ui/form";
 import FormInput from "../../../components/reusables/form-input";
-import { registerSchema, TRegisterType } from "../../../schemas/register";
-import { useRegisterMutation } from "../../../api/mutations/auth.mutation";
+import { TRegisterType } from "../../../schemas/register";
 
 
 export default function RegisterForm() {
-    const {mutate, isLoading} = useRegisterMutation();
-    const form = useForm<TRegisterType>({
-        resolver: zodResolver(registerSchema),
-        mode: "onChange",
-        values: {
-            username: "",
-            password: "",
-            password2:"",
-            email: "",
-        }
-    });
-
-    const onSubmit = (data: TRegisterType) => {
-        mutate(data)
-    }
+    const form = useFormContext<TRegisterType>();
 
     return (
-        <div className="w-full p-4 border rounded-md z-40 bg-background">
+        <div className="w-full p-4 border rounded-md z-40 bg-card-foreground">
             <p className="text-center font-medium text-lg underline underline-offset-4">Register</p>
-            <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-4 mt-3">
                     <FormInput 
                         label="Email" 
                         form={form} 
@@ -41,7 +22,7 @@ export default function RegisterForm() {
                     <FormInput 
                         label="Username" 
                         form={form} 
-                        name="username" 
+                        name="name" 
                         type="text" 
                         placeholder="Username" 
                         required
@@ -60,14 +41,12 @@ export default function RegisterForm() {
                         <FormInput 
                         label="Confirm Password" 
                         form={form} 
-                        name="password2" 
+                        name="confirmPassword" 
                         type="password" 
                         placeholder="Password"
                         required
                         />
-                    <Button className="w-full mt-4" disabled={isLoading}>Register</Button>
-                </form>
-            </Form>
+                    <Button className="w-full mt-4">Register</Button>
         </div>
     )
 }
