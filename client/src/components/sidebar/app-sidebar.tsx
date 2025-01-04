@@ -1,4 +1,4 @@
-import { Coffee, HandPlatter, Home, ShoppingBag, ShoppingBasket, Utensils } from "lucide-react"
+import { Codesandbox, Coffee, HandCoins, HandPlatter, Home, ScanEye, ShoppingBag, ShoppingBasket, Utensils, UtensilsCrossed } from "lucide-react"
 
 import {
   Sidebar,
@@ -23,29 +23,24 @@ const items = [
     icon: Home,
   },
   {
-    title: "Orders",
-    url: "/orders",
-    icon: ShoppingBag,
+    title: "Attendence",
+    url: "#",
+    icon: ScanEye,
   },
   {
-    title: "Menus",
-    url: "/menu",
-    icon: HandPlatter,
+    title: "Room Booking",
+    url: "#",
+    icon: Codesandbox,
   },
   {
-    title: "Table",
-    url: "/table",
-    icon: Utensils,
+    title: "Payment",
+    url: "#",
+    icon: HandCoins,
   },
   {
-    title: "Inventory",
-    url: "/inventory",
-    icon: ShoppingBasket,
-  },
-  {
-    title: "Category",
-    url: "/category",
-    icon: Coffee,
+    title: "Dining",
+    url: "#",
+    icon: UtensilsCrossed,
   },
 ]
 
