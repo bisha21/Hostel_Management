@@ -9,7 +9,7 @@ const User = sequelize.define('User', {
     primaryKey: true,
     // autoIncrement: true,
   },
-  name: {
+  username: {
     type: DataTypes.STRING,
     allowNull: false,
     validate: {
@@ -31,10 +31,25 @@ const User = sequelize.define('User', {
       notEmpty: true,
     },
   },
-  role: {
+  user_type: {
     type: DataTypes.ENUM('student', 'admin'),
     allowNull: false,
   },
+  address:{
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  phone_number: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  profile_picture: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  
+},{
+  timestamps: true
 });
 
 export default User;

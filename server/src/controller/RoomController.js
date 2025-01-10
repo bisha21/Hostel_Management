@@ -5,11 +5,11 @@ import { deleteOne, getAll, getOne, updateOne } from "./handleFactoryController.
 
 // Controller function to create a room
 export const createRoom = asyncHandler(async (req, res, next) => {
-    const { RoomNumber, Capacity, Status, Preferences } = req.body;
+    const { RoomNumber, Capacity, Status, Type, Description,Price,FloorNumber } = req.body;
     console.log(req.body);
 
     // Validate input
-    if (!RoomNumber || !Capacity || !Status || !Preferences) {
+    if (!RoomNumber || !Capacity || !Status || !Type  || !Price || !FloorNumber) {
         return next(new AppError("All fields are required", 400));
     }
 
@@ -30,7 +30,10 @@ export const createRoom = asyncHandler(async (req, res, next) => {
         RoomNumber,
         Capacity,
         Status,
-        Preferences,
+        Type,
+        Description,
+        Price,
+        FloorNumber
     });
 
     return res.status(201).json({

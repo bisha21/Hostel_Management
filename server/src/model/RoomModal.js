@@ -22,12 +22,22 @@ const Room = sequelize.define('Room', {
         defaultValue: 'Available',
         allowNull: true,
     },
-    Preferences: {
-        type: DataTypes.STRING(255),
-        allowNull: true,
-    },
-}, {
-    timestamps: false, // assuming no createdAt and updatedAt fields
+   Type:{
+    type:DataTypes.ENUM('Single','Double','Triple'),
+    allowNull:false,
+   },
+   Price:{
+    type:DataTypes.INTEGER,
+    allowNull:false,
+   },
+   Description:{
+    type:DataTypes.STRING(100),
+    allowNull:true,
+   },
+   FloorNumber: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+   },
 });
 
 

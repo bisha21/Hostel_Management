@@ -2,32 +2,43 @@ import { DataTypes } from "sequelize";
 import { sequelize } from "../database.js";  // Make sure to adjust the path for your database configuration
 
 // Define the Visitor model
-export const Visitor = sequelize.define("Visitor", {
+export const Attendance = sequelize.define("Attendance", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
     allowNull: false,
   },
-  name: {
-    type: DataTypes.STRING(255),
-    allowNull: false,
-  },
-  studentId: {
+  
+  userId: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: "Students", 
+      model: "Users", 
       key: "id",         
     },
     onDelete: "CASCADE", 
   },
-  type: {
-    type: DataTypes.STRING(255),
+  date: {
+    type: DataTypes.DATE,
     allowNull: false,
+
   },
-}, {
-  tableName: 'visitors',  
-  timestamps: false,      
+  status:{
+    type: DataTypes.ENUM('present', 'absent'),
+    allowNull: false
+  },
+  reason:{
+    type: DataTypes.STRING(255),
+    // allowNull: false,
+  },
+  location:{
+    type: DataTypes.STRING(255),
+  },
+  is_approved:{
+    type: DataTypes.BOOLEAN,
+  }
+
+
 });
 

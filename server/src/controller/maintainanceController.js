@@ -1,11 +1,11 @@
-import Feedback from '../model/feedbackModel.js';
-import Mess from '../model/messModel.js'
+// import Feedback from '../model/feedbackModel.js';
+import Maintenance from '../model/maintainanceModel.js';
 import { createOne, deleteOne, getAll, getOne, updateOne } from './handleFactoryController.js'
-export const creatMeal= createOne(Mess);
-export const updateMeal= updateOne(Mess);
-export const deleteMeal= deleteOne(Mess);
-export const getMeal= getAll(Mess);
-export const getMealById= getOne(Mess);
+export const creatMaintainance= createOne(Maintenance);
+export const updateMaintainance= updateOne(Maintenance);
+export const deleteMaintainance= deleteOne(Maintenance);
+export const getMaintainance= getAll(Maintenance);
+export const getMaintainanceById= getOne(Maintenance);
 
 // Function to get all reviews for a specific Mess
 export const getMessReviewById= async (req, res) => {

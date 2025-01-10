@@ -2,17 +2,18 @@ import { api } from "../api";
 import { useMutation } from '@tanstack/react-query'
 import { toastTrigger } from "../../lib/utils";
 import { TLoginType } from "../../schemas/login";
-import { useNavigate } from "react-router";
+import { data, useNavigate } from "react-router";
 import { TRegisterType } from "../../schemas/register";
+import { useContext } from "react";
+import { AuthContext } from "../../context/authContext";
 
 export const useLoginMutation = () => {
 const navigate = useNavigate()
 
     const loginMutation = useMutation({
-        mutationFn: (data:TLoginType) => api.post('/auth/token', data),
+        mutationFn: (data:TLoginType) => api.post('/auth/login', data),
         onSuccess: (data) => {
-            localStorage.setItem('accessToken', data.data.access);
-            localStorage.setItem('refreshToken', data.data.refresh);
+            localStorage.setItem('authToken', data.data.authToken);
             toastTrigger('Login successful', undefined,'success');
             navigate('/');
         },
@@ -27,10 +28,10 @@ const navigate = useNavigate()
 export const useRegisterMutation = () => {
     const navigate = useNavigate()
     const registerMutation = useMutation({
-        mutationFn: (data:TRegisterType) => api.post('/register/', data),
+        mutationFn: (data:TRegisterType) => api.post('auth/register', data),
         onSuccess: () => {
             toastTrigger('Registration successful', undefined,'success');
-            navigate('/auth');
+            navigate('/');
         },
         onError: () => {
             toastTrigger('Registration failed', undefined,'error');

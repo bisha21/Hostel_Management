@@ -13,7 +13,7 @@ export default function LoginForm() {
         resolver: zodResolver(loginSchema),
         mode: "onChange",
         values: {
-            username: "",
+            email: "",
             password: ""
         }
     });
@@ -33,11 +33,11 @@ export default function LoginForm() {
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-4 mt-3">
                     <FormInput
-                        label="Username"
+                        label="email"
                         form={form}
-                        name="username"
+                        name="email"
                         type="text"
-                        placeholder="Username"
+                        placeholder="email"
                         required
                     />
 

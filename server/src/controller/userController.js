@@ -5,10 +5,10 @@ import asyncHandler from "../utlis/catchAsync.js";
 import bcrypt from 'bcryptjs';
 
 export const registerUser = asyncHandler(async (req, res, next) => {
-    const { name, email, password, role, confirmPassword } = req.body;
+    const { username, email,address,profile, password, user_type, confirmPassword,phoneNumber } = req.body;
 
     // Check for missing fields
-    if (!name || !email || !password || !role || !confirmPassword) {
+    if (!username || !email || !password || !user_type || !confirmPassword||!address | !phoneNumber) {
         return next(new AppError('All fields are required', 400));
     }
 
@@ -30,10 +30,13 @@ export const registerUser = asyncHandler(async (req, res, next) => {
 
     // Create the new user
     const newUser = await User.create({
-        name,
+        username,
         email,
         password: hashedPassword,
-        role,
+        user_type,
+        address,
+        phone_number:phoneNumber,
+        profile
     });
 
     // Generate authentication token
@@ -52,7 +55,9 @@ export const registerUser = asyncHandler(async (req, res, next) => {
 
 export const login= asyncHandler(async (req, res,next) => {
     const { email, password } = req.body;
+
     const user = await User.findOne({ where: { email } });
+
     if(!user)
     {
        return next(new AppError('Invalid email or password', 400));
