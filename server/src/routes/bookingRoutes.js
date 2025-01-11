@@ -4,5 +4,5 @@ import { protectedRoutes } from '../middleware/protectRoute.js';
 const router= express.Router({mergeParams:true});
 router.use(protectedRoutes);
 router.get('/',createBooking)
-router.get('/:id',getAllBookings).patch(updateBooking);
+router.route('/:id').get(getAllBookings).patch(updateBooking);
 export default router;
