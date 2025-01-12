@@ -16,11 +16,14 @@ export default function RegisterPage() {
         resolver: zodResolver(registerSchema),
         mode: "onChange",
         values: {
-            name: "",
+            username: "",
             password: "",
             confirmPassword:"",
             email: "",
-            role: "student",
+            address: "",
+            phone_number: 0,
+            user_type: "student",
+            profile_picture:"",
         }
     });
     const onSubmit = (data: TRegisterType) => {
