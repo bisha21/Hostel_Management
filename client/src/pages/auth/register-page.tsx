@@ -14,6 +14,7 @@ import {
 import RoleSelector from './_components/role-selector';
 import { useRegisterMutation } from '../../api/mutations/auth.mutation';
 import { useState } from 'react';
+import RegisterForm from './_components/register-form';
 
 export default function RegisterPage() {
   const [isRoleSelected, setIsRoleSelected] = useState(false);
@@ -23,20 +24,19 @@ export default function RegisterPage() {
     resolver: zodResolver(registerSchema),
     mode: 'onChange',
     defaultValues: {
-      name: '',
+      username: '',
       password: '',
       confirmPassword: '',
       email: '',
       user_type: 'student',
       address: '',
-      phone_number: '',
+      phoneNumber: '',
       profile: '',
     },
   });
 
   const onSubmit = (data: TRegisterType) => {
     mutate(data);
-    console.log(data);
   };
 
   return (
@@ -48,7 +48,7 @@ export default function RegisterPage() {
         <div className="flex justify-center items-center">
           <img src={HORIZONTAL_LOGO} alt="LOGO" width={250} />
         </div>
-        <Form {...form} className="px-4 py-5">
+        <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
             className="w-full space-y-4 mt-3 px-10 py-5"
@@ -56,157 +56,7 @@ export default function RegisterPage() {
             {!isRoleSelected ? (
               <RoleSelector setIsRoleSelected={setIsRoleSelected} />
             ) : (
-              <>
-                {/* Name */}
-                <FormField
-                  name="username"
-                  render={({ field }) => (
-                    <FormItem className='flex flex-col'>
-                      <FormLabel>Full Name</FormLabel>
-                      <FormControl>
-                        <input
-                          {...field}
-                          className="input"
-                          placeholder="Enter your name"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                {/* Email */}
-                <FormField
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem className='flex flex-col'>
-                      <FormLabel>Email</FormLabel>
-                      <FormControl>
-                        <input
-                          {...field}
-                          className="input"
-                          placeholder="Enter your email"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                {/* Password */}
-                <FormField
-                  name="password"
-                  render={({ field }) => (
-                    <FormItem className='flex flex-col'>
-                      <FormLabel>Password</FormLabel>
-                      <FormControl>
-                        <input
-                          {...field}
-                          type="password"
-                          className="input"
-                          placeholder="Enter your password"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                {/* Confirm Password */}
-                <FormField
-                  name="confirmPassword"
-                  render={({ field }) => (
-                    <FormItem className='flex flex-col'>
-                      <FormLabel>Confirm Password</FormLabel>
-                      <FormControl>
-                        <input
-                          {...field}
-                          type="password"
-                          className="input"
-                          placeholder="Confirm your password"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                {/* User Type */}
-                <FormField
-                  name="user_type"
-                  render={({ field }) => (
-                    <FormItem className='flex flex-col'>
-                      <FormLabel>User Type</FormLabel>
-                      <FormControl>
-                        <select {...field} className="input">
-                          <option value="admin">Admin</option>
-                          <option value="student">Student</option>
-                        </select>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                {/* Address */}
-                <FormField
-                  name="address"
-                  render={({ field }) => (
-                    <FormItem className='flex flex-col'>
-                      <FormLabel>Address</FormLabel>
-                      <FormControl>
-                        <input
-                          {...field}
-                          className="input"
-                          placeholder="Enter your address"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                {/* Phone Number */}
-                <FormField
-                  name="phoneNumber"
-                  render={({ field }) => (
-                    <FormItem className='flex flex-col'>
-                      <FormLabel>Phone Number</FormLabel>
-                      <FormControl>
-                        <input
-                          {...field}
-                          className="input"
-                          placeholder="Enter your phone number"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                {/* Profile */}
-                <FormField
-                  name="profile"
-                  render={({ field }) => (
-                    <FormItem className='flex flex-col'>
-                      <FormLabel>Profile</FormLabel>
-                      <FormControl>
-                        <input
-                          {...field}
-                          className="input"
-                          placeholder="Profile link or details"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                {/* Submit Button */}
-                <Button type="submit" className="w-full" isLoading={isLoading}>
-                  Register
-                </Button>
-              </>
+              <RegisterForm/>
             )}
           </form>
         </Form>
