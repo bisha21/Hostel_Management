@@ -11,10 +11,8 @@ import maintainanceRoutes from './routes/maintainanceRoute.js'
 import bookingRoute from './routes/bookingRoutes.js'
 // import reviewRoute from './routes/feedbackRoutes.js';
 import cors from 'cors';
-import User from "./model/userModal.js";
-import Room from "./model/RoomModal.js";
-import Maintenance from "./model/maintainanceModel.js";
-import Booking from "./model/bookingModel.js";
+
+import complaintRoute from './routes/complaintRoutes.js';
 
 dotenv.config();
 
@@ -36,7 +34,7 @@ const app = express();
 // (
 //     async () => {
 //         try {
-//             await Booking.sync({ force: true });
+//             await Complaint.sync({ force: true });
 //             console.log('User created successfully.');
 //         } catch (error) {
 //             console.error('Unable to create Admin table:', error);
@@ -71,6 +69,7 @@ app.use('/api/student', studentRoute);
 app.use('/api/admin', adminRoute);
 app.use('/api/maintainance', maintainanceRoutes);
 app.use('/api/booking', bookingRoute);
+app.use('/api/complaint', complaintRoute);
 // app.use('/api/review', reviewRoute);
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
