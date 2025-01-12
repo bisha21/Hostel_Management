@@ -22,12 +22,27 @@ export default function RegisterForm() {
                     <FormInput 
                         label="Username" 
                         form={form} 
-                        name="name" 
+                        name="username" 
                         type="text" 
                         placeholder="Username" 
                         required
                         />
-
+                    <FormInput 
+                        label="Address" 
+                        form={form} 
+                        name="address" 
+                        type="text" 
+                        placeholder="Address" 
+                        required
+                        />
+                    <FormInput 
+                        label="Phone number" 
+                        form={form} 
+                        name="phone_number" 
+                        type="number" 
+                        placeholder="9800000000" 
+                        required
+                        />
 
                     <FormInput 
                         label="Password" 
