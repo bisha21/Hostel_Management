@@ -33,7 +33,7 @@ export default function LoginForm() {
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-4 mt-3">
                     <FormInput
-                        label="email"
+                        label="Email"
                         form={form}
                         name="email"
                         type="text"
