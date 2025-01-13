@@ -9,10 +9,12 @@ import studentRoute from './routes/studentRoutes.js'
 import adminRoute from './routes/adminRoutes.js'
 import maintainanceRoutes from './routes/maintainanceRoute.js'
 import bookingRoute from './routes/bookingRoutes.js'
+import notificationRoute from './routes/notificationRoutes.js'
 // import reviewRoute from './routes/feedbackRoutes.js';
 import cors from 'cors';
 
 import complaintRoute from './routes/complaintRoutes.js';
+import Notification from "./model/notificationModel.js";
 
 dotenv.config();
 
@@ -31,16 +33,16 @@ const app = express();
         console.error('Unable to connect to the database or sync:', error);
     }
 })();
-// (
-//     async () => {
-//         try {
-//             await Complaint.sync({ force: true });
-//             console.log('User created successfully.');
-//         } catch (error) {
-//             console.error('Unable to create Admin table:', error);
-//         }
-//     }
-// )();
+(
+    async () => {
+        try {
+            await Notification.sync({ force: true });
+            console.log('User created successfully.');
+        } catch (error) {
+            console.error('Unable to create Admin table:', error);
+        }
+    }
+)();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -70,6 +72,7 @@ app.use('/api/admin', adminRoute);
 app.use('/api/maintainance', maintainanceRoutes);
 app.use('/api/booking', bookingRoute);
 app.use('/api/complaint', complaintRoute);
+app.use('/api/sendnotification', notificationRoute)
 // app.use('/api/review', reviewRoute);
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
