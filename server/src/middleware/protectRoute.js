@@ -29,7 +29,7 @@ export const protectedRoutes = asyncHandler(async (req, res, next) => {
       // }
 
       req.user = decoded; // Attach the decoded payload (user information) to req.user
-      console.log("Decoded user:", req.user.userId);
+      console.log("Decoded user:", req.user);
 
       next();
     });
