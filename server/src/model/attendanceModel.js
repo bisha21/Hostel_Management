@@ -1,7 +1,6 @@
 import { DataTypes } from "sequelize";
-import { sequelize } from "../database.js";  // Make sure to adjust the path for your database configuration
+import { sequelize } from "../database.js";
 
-// Define the Visitor model
 export const Attendance = sequelize.define("Attendance", {
   id: {
     type: DataTypes.INTEGER,
@@ -9,36 +8,31 @@ export const Attendance = sequelize.define("Attendance", {
     autoIncrement: true,
     allowNull: false,
   },
-  
   userId: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: "Users", 
-      key: "id",         
+      model: "Users",
+      key: "id",
     },
-    onDelete: "CASCADE", 
+    onDelete: "CASCADE",
   },
   date: {
-    type: DataTypes.DATE,
+    type: DataTypes.DATEONLY, // Store only the date (not time)
     allowNull: false,
-
   },
-  status:{
-    type: DataTypes.ENUM('present', 'absent'),
-    allowNull: false
+  status: {
+    type: DataTypes.ENUM("present", "absent"),
+    allowNull: false,
   },
-  reason:{
-    type: DataTypes.STRING(255),
-    // allowNull: false,
-  },
-  location:{
-    type: DataTypes.STRING(255),
-  },
-  is_approved:{
+  is_approved: {
     type: DataTypes.BOOLEAN,
-  }
-
-
+  },
+}, {
+  indexes: [
+    {
+      unique: true,
+      fields: ["userId", "date"],
+    },
+  ],
 });
-
