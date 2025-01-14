@@ -5,19 +5,13 @@ import bodyParser from "body-parser";
 import { sequelize } from './database.js'
 import userRoute from './routes/userRoutes.js'
 import roomRoute from './routes/roomRoutes.js'
-import studentRoute from './routes/studentRoutes.js'
-import adminRoute from './routes/adminRoutes.js'
 import maintainanceRoutes from './routes/maintainanceRoute.js'
 import bookingRoute from './routes/bookingRoutes.js'
 import notificationRoute from './routes/notificationRoutes.js'
 import attendanceRoute from './routes/attendanceRoutes.js'
 // import reviewRoute from './routes/feedbackRoutes.js';
 import cors from 'cors';
-
 import complaintRoute from './routes/complaintRoutes.js';
-import Notification from "./model/notificationModel.js";
-import { Attendance } from "./model/attendanceModel.js";
-
 dotenv.config();
 
 
@@ -69,8 +63,6 @@ app.get('/', (req, res) => {
 
 app.use('/api/auth', userRoute);
 app.use('/api/room', roomRoute);
-app.use('/api/student', studentRoute);
-app.use('/api/admin', adminRoute);
 app.use('/api/maintainance', maintainanceRoutes);
 app.use('/api/booking', bookingRoute);
 app.use('/api/complaint', complaintRoute);
