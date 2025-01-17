@@ -1,6 +1,7 @@
 import { ModalType } from "../types/modal.types";
-import AddCategory from "./category/add-category-modal";
 import DeleteModal from "./delete-modal";
+import AddRoom from "./room/add-room";
+import EditRoom from "./room/edit-room";
 
 type TModalData = {
   [key in TModalKeys]: {
@@ -9,15 +10,19 @@ type TModalData = {
   };
 };
 
-export type TModalKeys = "ADD_CATEGORY" | "DELETE_ITEM";
+export type TModalKeys = "ADD_ROOM" | "EDIT_ROOM" | "DELETE_ITEM";
 
 export const ModalData: TModalData = {
-  ADD_CATEGORY: {
-    title: "Add Category",
-    component: AddCategory,
-  },
   DELETE_ITEM: {
     title: "Delete",
     component: DeleteModal,
+  },
+  ADD_ROOM: {
+    title: "Add Room",
+    component: AddRoom,
+  },
+  EDIT_ROOM: {
+    title: "Edit Room",
+    component: EditRoom,
   },
 };

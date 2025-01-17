@@ -6,6 +6,7 @@ import LoginPage from "./pages/auth/page"
 import ProtectedRoute from "./pages/auth/protected-route"
 import RegisterPage from "./pages/auth/register-page"
 import ModalX from "./modals/modal"
+import RoomPage from "./pages/auth-pages/room/page"
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
             </ProtectedRoute>
           }>
             <Route index element={<Dashboard />} />
+            <Route path="room" element={<RoomPage />} />
           </Route>
         </Routes>
       </BrowserRouter>
