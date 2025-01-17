@@ -15,6 +15,8 @@ import {
 import {HORIZONTAL_LOGO, LOGO } from "../../constants/images.ts"
 import { cn } from "../../lib/utils.ts";
 import { Link } from "react-router";
+import { useContext } from "react";
+import { AuthContext } from "../../context/authContext.tsx";
 // Menu items.
 const items = [
   {
@@ -45,6 +47,8 @@ const items = [
 ]
 
 export function AppSidebar() {
+  const user=useContext(AuthContext)
+  console.log("Hi i am from user",user);
   const {state} = useSidebar();
   return (
     <Sidebar collapsible="icon">
