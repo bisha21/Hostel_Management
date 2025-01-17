@@ -29,7 +29,7 @@ const items = [
   },
   {
     title: "Room Booking",
-    url: "#",
+    url: "/room",
     icon: Codesandbox,
   },
   {

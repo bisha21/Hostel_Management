@@ -1,6 +1,6 @@
 import { TDeleteItem } from "../api/mutations/delete.mutation";
 import { TModalKeys } from "../modals/data";
-import { TCategoryType } from "../schemas/category";
+import { TRoomResponse } from "./response.types";
 
 export type ModalType<K extends TModalKeys> = {
   initiatorName?: string;
@@ -11,6 +11,6 @@ export interface TModalDataMap {
   DELETE_ITEM: {
     type: TDeleteItem["type"];
   };
-  EDIT_CATEGORY: TCategoryType;
-  [key: string]: undefined | Record<string, any>;
+  EDIT_ROOM: TRoomResponse;
+  [key: string]: any;
 }

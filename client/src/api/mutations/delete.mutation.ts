@@ -5,29 +5,29 @@ import useModalContext from "../../hooks/useModalContext";
 
 export type TDeleteItem = {
   initiatorName: string;
-  type: "category" | "ingredient" | undefined;
+  type: "room" | undefined;
 };
 export const useDeleteItem = (
   queryClient: ReturnType<typeof useQueryClient>,
 ) => {
   const { closeModal } = useModalContext();
-  const { mutate: deleteCategory } = useMutation({
-    mutationFn: (data: string) => api.delete(`/categories/${data}/`),
+  const { mutate: deleteRoom } = useMutation({
+    mutationFn: (data: string) => api.delete(`/room/${data}/`),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["categories"] });
+      queryClient.invalidateQueries({ queryKey: ["room"] });
       closeModal("DELETE_ITEM");
-      toastTrigger("Category deleted successfully", undefined, "success");
+      toastTrigger("Room deleted successfully", undefined, "success");
     },
     onError: (error) => {
       console.error(error);
-      toastTrigger(`Category deletion failed`, undefined, "error");
+      toastTrigger(`Room deletion failed`, undefined, "error");
     },
   });
 
   function deleteHandler({ initiatorName, type }: TDeleteItem) {
     switch (type) {
-      case "category":
-        deleteCategory(initiatorName);
+      case "room":
+        deleteRoom(initiatorName);
         break;
       default:
         break;
