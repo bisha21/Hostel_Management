@@ -52,7 +52,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
     cors({
         origin: "*", // Frontend origin
-        methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"], 
+        methods: ["GET", "POST" , "DELETE", "PATCH", "OPTIONS"], 
     })
 );
 
