@@ -10,7 +10,7 @@ import bookingRoute from './routes/bookingRoutes.js'
 import notificationRoute from './routes/notificationRoutes.js'
 import attendanceRoute from './routes/attendanceRoutes.js'
 import paymentRoute from './routes/paymentRoutes.js'
-import  reportRoute from './routes/reportRoutes.js';
+import reportRoute from './routes/reportRoutes.js';
 // import reviewRoute from './routes/feedbackRoutes.js';
 import cors from 'cors';
 import complaintRoute from './routes/complaintRoutes.js';
@@ -52,8 +52,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
     cors({
         origin: "*", // Frontend origin
-        methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Allowed methods
-        credentials: true, // Allow credentials (cookies, authorization headers)
+        methods: ["GET", "POST" , "DELETE", "PATCH", "OPTIONS"], 
     })
 );
 
