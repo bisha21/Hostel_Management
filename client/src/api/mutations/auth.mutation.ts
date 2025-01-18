@@ -11,31 +11,23 @@ export const useLoginMutation = () => {
   const navigate = useNavigate();
   const authContext = useContext(AuthContext);
 
-  const loginMutation = useMutation({
-    mutationFn: (data: TLoginType) => api.post('/auth/login', data),
-    onSuccess: (data) => {
-      const { authToken, user_type } = data.data.data; // Extract user details
-
-      localStorage.setItem('authToken', authToken);
-      localStorage.setItem('user', JSON.stringify({ user_type }));
-      if (authContext) {
-        authContext.setIsAuthenticated(true);
-        authContext.setUser({user_type });
-      }
-
-      toastTrigger('Login successful', undefined, 'success');
-      navigate('/');
-    },
-    onError: () => {
-      toastTrigger(
-        'Login failed: Invalid Email or password.',
-        undefined,
-        'error'
-      );
-    },
-  });
-  return loginMutation;
-};
+    const loginMutation = useMutation({
+        mutationFn: (data:TLoginType) => api.post('/auth/login', data),
+        onSuccess: (data) => {
+            localStorage.setItem('authToken', data.data.authToken);
+            toastTrigger('Login successful', undefined,'success');
+            if(data.data.user_type==="admin") {
+                navigate('/');
+            }
+            navigate('/student');
+        },
+        onError: () => {
+            toastTrigger('Login failed: Invalid Email or password.',undefined, 'error');
+        }
+    }
+    )
+    return loginMutation
+}
 
 export const useRegisterMutation = () => {
   const navigate = useNavigate();
