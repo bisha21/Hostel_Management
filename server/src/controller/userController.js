@@ -41,7 +41,6 @@ export const registerUser = asyncHandler(async (req, res, next) => {
 
     // Generate authentication token
     const authToken = await createToken({ userId: newUser.id ,email: newUser.email,user_type:newUser.user_type });
-    console.log(authToken);
     res.cookie("authToken",authToken);
     // Respond with the created user and token
     res.status(200).json({
@@ -69,6 +68,7 @@ export const login= asyncHandler(async (req, res,next) => {
     }
     const authToken = await createToken({ userId: user.id,email: user.email,user_type:user.user_type});
     res.cookie("authToken",authToken);
+    
     res.status(200).json({
         status: 'success',
         data: {

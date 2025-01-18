@@ -7,17 +7,9 @@ import ProtectedRoute from './pages/auth/protected-route';
 import RegisterPage from './pages/auth/register-page';
 import ModalX from './modals/modal';
 import Applayout from './pages/auth-pages/student/Applayout';
+import RoomPage from './pages/auth-pages/room/page';
 import Home from './pages/auth-pages/student/Home';
-import { BrowserRouter, Route, Routes } from "react-router"
-import Layout from "./pages/auth-pages/layout"
-import Dashboard from "./pages/auth-pages/dashboard/page"
-import { Toaster } from "sonner"
-import LoginPage from "./pages/auth/page"
-import ProtectedRoute from "./pages/auth/protected-route"
-import RegisterPage from "./pages/auth/register-page"
-import ModalX from "./modals/modal"
-import RoomPage from "./pages/auth-pages/room/page"
-
+import Room from './pages/auth-pages/student/Room';
 
 function App() {
   return (
@@ -48,6 +40,7 @@ function App() {
             }
           >
             <Route index element={<Home />} />
+            <Route path='/student/rooms' element={<Room />} />
           </Route>
         </Routes>
       </BrowserRouter>
