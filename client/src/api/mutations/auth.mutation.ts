@@ -2,7 +2,7 @@ import { api } from '../api';
 import { useMutation } from '@tanstack/react-query';
 import { toastTrigger } from '../../lib/utils';
 import { TLoginType } from '../../schemas/login';
-import { data, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import { TRegisterType } from '../../schemas/register';
 import { useContext } from 'react';
 import { AuthContext } from '../../context/authContext';
@@ -13,18 +13,15 @@ export const useLoginMutation = () => {
 
   const loginMutation = useMutation({
     mutationFn: (data: TLoginType) => api.post('/auth/login', data),
+
     onSuccess: (data) => {
-      const { authToken, user_type } = data.data.data; // Extract user details
-
-      localStorage.setItem('authToken', authToken);
-      localStorage.setItem('user', JSON.stringify({ user_type }));
-      if (authContext) {
-        authContext.setIsAuthenticated(true);
-        authContext.setUser({user_type });
-      }
-
+      localStorage.setItem('authToken', data.data.data.authToken);
       toastTrigger('Login successful', undefined, 'success');
-      navigate('/');
+      if (data.data.data.user_type === 'admin') {
+        navigate('/');
+      } else {
+        navigate('/student');
+      }
     },
     onError: () => {
       toastTrigger(

@@ -23,7 +23,7 @@ export const updateOne = (Model) =>
     if (!doc) {
       return next(new AppError(`No document found with ID ${req.params.id}`, 404));
     }
-
+   console.log(req.body);
     // Note that we use `set` to update only the fields passed in the request body
     await doc.set(req.body);
 
