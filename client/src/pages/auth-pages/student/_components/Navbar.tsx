@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router'; // Import useLocation for getting the current route
-
+import logo from '../../../../assets/image/logo3.png'
 const items = [
   {
     title: 'Home',
@@ -27,20 +27,18 @@ const Navbar = () => {
 
 
   return (
-    <nav className="bg-teal-100 border-gray-200 dark:bg-gray-900">
+    <nav className="bg-[#141c24] border-gray-200">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <NavLink
           to="/"
           className="flex items-center space-x-3 rtl:space-x-reverse"
         >
           <img
-            src="https://dcassetcdn.com/design_img/2239944/517402/517402_11781462_2239944_9a6c7c25_image.jpg"
-            className="h-10 w-10"
+            src={logo}
+            className="h-10 w-20"
             alt="Flowbite Logo"
           />
-          <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-            Hostel
-          </span>
+          ]
         </NavLink>
         <div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
           <button
@@ -92,7 +90,7 @@ const Navbar = () => {
               <li key={index}>
                 <NavLink
                   to={item.url}
-                  className={`block py-2 px-3 ${'text-gray-900 hover:bg-gray-100'} md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700`}
+                  className={`block py-2 px-3 ${'text-gray-900 hover:bg-gray-100'}  md:text-teal-300  md:p-0 md:dark:text-blue-500 `}
                   aria-current={item.title === 'Home' ? 'page' : undefined}
                 >
                   {item.title}
