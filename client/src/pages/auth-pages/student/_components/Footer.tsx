@@ -1,14 +1,14 @@
-import React from 'react';
+import logo from '../../../../assets/image/logo3.png'
 
 const Footer = () => {
   return (
-    <div className="text-center pt-4 bg-teal-100">
+    <div className="text-center pt-4 bg-[#141c24]">
       <a
         href="#"
         className="flex items-center justify-center mb-5 text-2xl font-semibold text-gray-900"
       >
         <img
-          src="https://dcassetcdn.com/design_img/2239944/517402/517402_11781462_2239944_9a6c7c25_image.jpg"
+          src={logo}
           className="h-12 mr-3 sm:h-9"
           alt="Landwind Logo"
         />

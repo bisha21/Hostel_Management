@@ -10,6 +10,7 @@ import Applayout from './pages/auth-pages/student/Applayout';
 import RoomPage from './pages/auth-pages/room/page';
 import Home from './pages/auth-pages/student/Home';
 import Room from './pages/auth-pages/student/Room';
+import RoomDetail from './pages/auth-pages/student/_components/room/Rooms';
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
           >
             <Route index element={<Home />} />
             <Route path='/student/rooms' element={<Room />} />
+            <Route path='/student/rooms/:id' element={<RoomDetail />} />
           </Route>
         </Routes>
       </BrowserRouter>
