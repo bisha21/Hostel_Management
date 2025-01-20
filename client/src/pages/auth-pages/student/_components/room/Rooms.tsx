@@ -88,7 +88,7 @@ export default function RoomDetail() {
           </ul>
         </div>
       </div>
-      <Booking/>
+      <Booking id={id}/>
 
     </div>
   );
