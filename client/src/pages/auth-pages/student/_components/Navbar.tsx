@@ -15,11 +15,11 @@ const items = [
   },
   {
     title: 'Contact',
-    url: '/contact',
+    url: '/student/contact',
   },
   {
     title: 'About',
-    url: '/about', // Added forward slash to make it a valid route
+    url: '/student/about', // Added forward slash to make it a valid route
   },
 ];
 

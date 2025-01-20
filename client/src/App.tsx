@@ -11,6 +11,7 @@ import RoomPage from './pages/auth-pages/room/page';
 import Home from './pages/auth-pages/student/Home';
 import Room from './pages/auth-pages/student/Room';
 import RoomDetail from './pages/auth-pages/student/_components/room/Rooms';
+import Contact from './pages/auth-pages/student/Contact';
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
             <Route index element={<Home />} />
             <Route path='/student/rooms' element={<Room />} />
             <Route path='/student/rooms/:id' element={<RoomDetail />} />
+            <Route path='/student/contact' element={<Contact/>} />
           </Route>
         </Routes>
       </BrowserRouter>
