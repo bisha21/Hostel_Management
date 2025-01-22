@@ -12,6 +12,7 @@ import Home from './pages/auth-pages/student/Home';
 import Room from './pages/auth-pages/student/Room';
 import RoomDetail from './pages/auth-pages/student/_components/room/Rooms';
 import Contact from './pages/auth-pages/student/Contact';
+import About from './pages/auth-pages/student/About';
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
             <Route path='/student/rooms' element={<Room />} />
             <Route path='/student/rooms/:id' element={<RoomDetail />} />
             <Route path='/student/contact' element={<Contact/>} />
+            <Route path='/student/about' element={<About/>} />
           </Route>
         </Routes>
       </BrowserRouter>

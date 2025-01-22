@@ -4,7 +4,6 @@ import RoomList from "./_components/room/RoomList";
 
 
 export default  function Room() {
-
   return (
    <div className="w-full bg-[#141c24] ">
      <div className=" max-w-7xl mx-auto  px-8 py-12">
