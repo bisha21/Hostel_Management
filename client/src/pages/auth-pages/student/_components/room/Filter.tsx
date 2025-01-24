@@ -1,45 +1,60 @@
+import { useSearchParams } from 'react-router';
+
 function Filter() {
-  
+  const [searchParms, setSearchParams] = useSearchParams();
+
+  const currentFilter = searchParms.get('filter') || 'all';
+
   function handleFilter(filter) {
-    console.log(filter);
+    const validFilters = ['all', 'Occupied', 'Available'];
+    if (validFilters.includes(filter)) {
+      setSearchParams({ filter });
+    }
   }
+
   return (
-    <div className="flex justify-end gap-4  shadow-xl text-teal-300 px-4 border max-w-7xl mx-auto" >
+    <div className="flex justify-end gap-4 shadow-xl text-teal-300 px-4 border max-w-7xl mx-auto">
       <Button
         filter="all"
         handleFilter={handleFilter}
+        currentFilter={currentFilter}
       >
         All
       </Button>
       <Button
-        filter="small"
+        filter="Occupied"
         handleFilter={handleFilter}
+        currentFilter={currentFilter}
       >
-        Small
+        Occupied
       </Button>
       <Button
-        filter="large"
+        filter="Available"
         handleFilter={handleFilter}
+        currentFilter={currentFilter}
       >
-        Medium
-      </Button>
-      <Button
-        filter="medium"
-        handleFilter={handleFilter}
-      >
-        Large
+        Available
       </Button>
     </div>
   );
 }
-function Button({ filter, handleFilter,  children }) {
+
+function Button({ filter, handleFilter, currentFilter, children }) {
+  const isActive = currentFilter === filter;
+
   return (
     <button
-      className={`px-4 py-2 bg-primary-800 hover:bg-primary-400`}
+      aria-pressed={isActive}
+      className={`px-4 py-2 ${
+        isActive
+          ? 'bg-primary-400 text-white'
+          : 'bg-primary-800 hover:bg-primary-400'
+      }`}
       onClick={() => handleFilter(filter)}
     >
       {children}
     </button>
   );
 }
+
 export default Filter;
