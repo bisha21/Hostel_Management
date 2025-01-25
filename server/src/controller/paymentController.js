@@ -1,11 +1,12 @@
 import Booking from "../model/bookingModel.js";
-import Payment from "../model/paymentModel.js"; // Assuming a payment model exists
+import Payment from "../model/paymentModel.js";
 import AppError from "../utlis/appError.js";
 import asyncHandler from "../utlis/catchAsync.js";
-import { getEsewaPaymentHash, verifyEsewaPayment } from "../utlis/esewa.js";
+import { initializeKhaltiPayment, verifyKhaltiPayment } from "../utlis/khalti.js";
 
-// Initialize eSewa Payment
-export const initializeEsewaPayment = async (req, res, next) => {
+
+// Initialize Khalti Paymen
+export const initializeKhaltiPaymentHandler = async (req, res, next) => {
     const { bookingId } = req.params;
     const userId = req.user.userId;
 
@@ -26,71 +27,83 @@ export const initializeEsewaPayment = async (req, res, next) => {
             });
         }
 
-        // Generate payment hash for eSewa
-        const paymentInitiate = await getEsewaPaymentHash({
-            amount: booking.total_amount,
-            transaction_uuid: booking.id, // Use booking ID as transaction reference
+        // Generate payment details for Khalti
+        const paymentInitiate = await initializeKhaltiPayment({
+            amount: booking.total_amount * 100, // Amount in paisa (Rs * 100)
+            purchase_order_id: String(booking.id), // Use booking ID as transaction reference
+            purchase_order_name: `Booking #${bookingId}`,
+            return_url: "http://localhost:5173/",
+            website_url: "http://localhost:5173/",
         });
 
-        // Log the full response from eSewa payment initiation
-        console.log(paymentInitiate); // Ensure `signature`, `signed_field_names`, etc., are returned
+        console.log("Initiated payment:", paymentInitiate);
 
         // Check if the necessary fields are available
-        if (!paymentInitiate.signature || !paymentInitiate.signed_field_names) {
-            return next(new AppError("Failed to initiate payment. Missing payment signature or field names.", 400));
+        if (!paymentInitiate.pidx || !paymentInitiate.payment_url) {
+            return next(
+                new AppError(
+                    "Failed to initiate payment. Missing payment pidx or payment_url field.",
+                    400
+                )
+            );
         }
 
-        // Now, create the Payment record in the database
+        // Create the Payment record in the database
         const payment = await Payment.create({
-            transactionId: 'bishal' + paymentInitiate.transaction_uuid, // Using signature as transaction ID (or another relevant field)
-            pidx: paymentInitiate.transaction_uuid,
+            transactionId: paymentInitiate.pidx, 
+            pidx: paymentInitiate.pidx,
             amount: booking.total_amount,
-            paymentGateway: "esewa",
+            paymentGateway: "khalti",
             status: "pending",
             description: `Payment for booking #${bookingId}`,
             roomId: booking.roomId,
         });
-        console.log("Payment record created:", payment);
-        const redirectURL = `http://localhost:3000/api/payment/complete-payment/${payment.id}?txn_id=${encodeURIComponent(payment.transactionId)}&amt=${payment.amount}&pid=${payment.pidx}&product_code=${process.env.ESEWA_PRODUCT_CODE}`;
-        res.redirect(redirectURL);
-        // res.status(200).json({
-        //     status: "success",
-        //     message: "Payment initiated successfully. Please complete payment on eSewa.",
-        //     paymentInitiate,
-        //     payment
-        // })
 
-        // Return the payment initiation details along with payment data and booking info
-    }
-    catch (err) {
+        res.status(200).json({
+            status: "success",
+            message: "Payment initiated successfully. Redirect to Khalti for completion.",
+            payment_url: paymentInitiate.payment_url, // Send the payment URL to the frontend
+            payment,
+        });
+    } catch (err) {
         return res.status(500).json({
-            message: err
-        })
+            message: err.message || "Internal Server Error",
+        });
     }
 };
 
-export const completePayment = asyncHandler(async (req, res, next) => {
-    const { txn_id, amt, pid,product_code} = req.query;  // Get the `data` from query if it's present
-    console.log("reqQuery:", req.query);
 
-    const sanitizedTxnId = txn_id?.trim();
-    const sanitizedAmt = amt?.trim();
-    const sanitizedPid = pid?.trim();
+export const completeKhaltiPayment = asyncHandler(async (req, res, next) => {
+    const { token, amount } = req.query;
 
-
-    if (!sanitizedTxnId || !sanitizedAmt || !sanitizedPid) {
+    if (!token || !amount || isNaN(amount)) {
         return next(new AppError("Missing or invalid query parameters", 400));
     }
 
     try {
-        // Pass only the data (Base64 encoded string) to verifyEsewaPayment
-        const paymentInfo = await verifyEsewaPayment(req.query);
+        const paymentInfo = await verifyKhaltiPayment({ token: token.trim(), amount: amount.trim() });
 
-        if (!paymentInfo.response) {
+        if (!paymentInfo?.success) {
             return next(new AppError("Payment verification failed", 400));
         }
 
-        // Proceed with booking update logic...
+        const payment = await Payment.findOne({ where: { transactionId: token.trim() } });
+        if (!payment) {
+            return next(new AppError("Payment record not found", 404));
+        }
+
+        const transaction = await sequelize.transaction(async (t) => {
+            await payment.update({ status: "confirmed" }, { transaction: t });
+            await Booking.update(
+                { status: "confirmed" },
+                { where: { id: payment.roomId }, transaction: t }
+            );
+        });
+
+        res.status(200).json({
+            status: "success",
+            message: "Payment verified and booking confirmed.",
+        });
     } catch (error) {
         res.status(500).json({
             success: false,

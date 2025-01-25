@@ -26,7 +26,7 @@ const Payment = sequelize.define("Payment", {
     allowNull: false,
   },
   paymentGateway: {
-    type: DataTypes.ENUM("esewa"),
+    type: DataTypes.ENUM("khalti"),
     allowNull: false,
   },
   status: {

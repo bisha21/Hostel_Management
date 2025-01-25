@@ -20,19 +20,19 @@ dotenv.config();
 
 
 const app = express();
-(async () => {
-    try {
-        // Authenticate the database connection
-        await sequelize.authenticate();
-        console.log('Connection has been established successfully.');
+// (async () => {
+//     try {
+//         // Authenticate the database connection
+//         await sequelize.authenticate();
+//         console.log('Connection has been established successfully.');
 
-        // Sync all models to the database
-        await sequelize.sync({ alter: true }); // Use { force: true } to drop and recreate tables (use with caution!)
-        console.log('Database synced successfully.');
-    } catch (error) {
-        console.error('Unable to connect to the database or sync:', error);
-    }
-})();
+//         // Sync all models to the database
+//         await sequelize.sync({ alter: true }); // Use { force: true } to drop and recreate tables (use with caution!)
+//         console.log('Database synced successfully.');
+//     } catch (error) {
+//         console.error('Unable to connect to the database or sync:', error);
+//     }
+// })();
 // (
 //     async () => {
 //         try {
