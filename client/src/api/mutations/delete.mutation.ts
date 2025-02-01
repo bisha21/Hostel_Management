@@ -29,6 +29,8 @@ export const useDeleteItem = (
       case "room":
         deleteRoom(initiatorName);
         break;
+        // case "bookings":
+        
       default:
         break;
     }

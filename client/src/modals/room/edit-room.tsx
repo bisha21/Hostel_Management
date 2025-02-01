@@ -12,6 +12,7 @@ import { ModalType } from "../../types/modal.types";
 
 export default function EditRoom({initiatorName, data}:ModalType<"EDIT_ROOM">) {
     const { closeModal } = useModalContext();
+    
     const form = useForm({
         resolver: zodResolver(roomValidationSchema),
         mode: "onChange",

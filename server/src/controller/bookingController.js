@@ -35,9 +35,8 @@ export const createBooking = asyncHandler(async (req, res, next) => {
         startDate,
         endDate
     });
-    if(!booking)
-    {
-        room.Status='Available';
+    if (!booking) {
+        room.Status = 'Available';
         await room.save(); // await
     }
     if (booking) {
@@ -51,12 +50,23 @@ export const createBooking = asyncHandler(async (req, res, next) => {
         data: booking,
     });
 });
+export const getBookings = asyncHandler(async (req, res, next) => {
 
-export const getAllBookings = asyncHandler(async (req, res,next) => {
+    const bookings = await Booking.findAll();
+    if (!bookings) {
+        return next(new AppError('No bookings found', 404));
+    }
+    res.status(200).json({
+        status: 'success',
+        data: bookings,
+    });
+
+})
+
+export const getAllBookings = asyncHandler(async (req, res, next) => {
     const bookings = await Booking.findByPk(req.params.id);
-    if(!bookings)
-    {
-        return next( new AppError('No bookings found', 404));
+    if (!bookings) {
+        return next(new AppError('No bookings found', 404));
     }
     res.status(200).json({
         status: 'success',
@@ -66,9 +76,8 @@ export const getAllBookings = asyncHandler(async (req, res,next) => {
 
 export const updateBooking = asyncHandler(async (req, res, next) => {
     const booking = await Booking.findByPk(req.params.id);
-    if(!booking && booking.userId !== req.user.userId)
-    {
-        return next( new AppError('No booking found', 404));
+    if (!booking && booking.userId !== req.user.userId) {
+        return next(new AppError('No booking found', 404));
     }
     booking.status = req.body.status;
     await booking.save();

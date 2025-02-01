@@ -13,6 +13,7 @@ import Room from './pages/auth-pages/student/Room';
 import RoomDetail from './pages/auth-pages/student/_components/room/Rooms';
 import Contact from './pages/auth-pages/student/Contact';
 import About from './pages/auth-pages/student/About';
+import BookingPage from './pages/bookings/page';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           >
             <Route index element={<Dashboard />} />
             <Route path="room" element={<RoomPage />} />
+            <Route path='bookings' element={<BookingPage />} />
           </Route>
           <Route
             path="/student"

@@ -1,4 +1,5 @@
 import { ModalType } from "../types/modal.types";
+import EditBooking from "./booking/edit-booking";
 import DeleteModal from "./delete-modal";
 import AddRoom from "./room/add-room";
 import EditRoom from "./room/edit-room";
@@ -10,7 +11,7 @@ type TModalData = {
   };
 };
 
-export type TModalKeys = "ADD_ROOM" | "EDIT_ROOM" | "DELETE_ITEM";
+export type TModalKeys = "ADD_ROOM" | "EDIT_ROOM" | "DELETE_ITEM"|"EDIT_BOOKING";
 
 export const ModalData: TModalData = {
   DELETE_ITEM: {
@@ -24,5 +25,9 @@ export const ModalData: TModalData = {
   EDIT_ROOM: {
     title: "Edit Room",
     component: EditRoom,
+  },
+  EDIT_BOOKING: {
+    title: "Edit Booking",
+    component: EditBooking,
   },
 };

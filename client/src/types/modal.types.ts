@@ -1,6 +1,6 @@
 import { TDeleteItem } from "../api/mutations/delete.mutation";
 import { TModalKeys } from "../modals/data";
-import { TRoomResponse } from "./response.types";
+import { TBookingsResponse, TRoomResponse } from "./response.types";
 
 export type ModalType<K extends TModalKeys> = {
   initiatorName?: string;
@@ -12,5 +12,7 @@ export interface TModalDataMap {
     type: TDeleteItem["type"];
   };
   EDIT_ROOM: TRoomResponse;
+  EDIT_BOOKING:TBookingsResponse
   [key: string]: any;
+
 }

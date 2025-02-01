@@ -1,9 +1,9 @@
-import { Pencil, Trash } from "lucide-react";
-import { Button } from "../ui/button";
-import useModalContext from "../../hooks/useModalContext";
-import { TDeleteItem } from "../../api/mutations/delete.mutation";
-import { TModalKeys } from "../../modals/data";
-import { useNavigate } from "react-router";
+import { Pencil, Trash } from 'lucide-react';
+import { Button } from '../ui/button';
+import useModalContext from '../../hooks/useModalContext';
+import { TDeleteItem } from '../../api/mutations/delete.mutation';
+import { TModalKeys } from '../../modals/data';
+import { useNavigate } from 'react-router';
 
 type TActionButton<T> = {
   row: T;
@@ -12,10 +12,53 @@ type TActionButton<T> = {
     onPageUrl?: string;
   };
   delete: {
-    type: TDeleteItem["type"];
+    type?: TDeleteItem['type'];
   };
 };
 
+// export function ActionButton<T extends { id: string }>({
+//   row,
+//   edit,
+//   delete: deleteProps,
+// }: TActionButton<T>) {
+//   const { openModal } = useModalContext();
+//   const navigate = useNavigate();
+//   return (
+//     <div className="flex gap-2">
+//       <Button
+//         size="sm"
+//         variant="secondary"
+//         className="text-white"
+//         onClick={() => {
+//           if (edit.onPageUrl) {
+//             navigate(`${edit.onPageUrl}/${row.id}`);
+//           } else {
+//             openModal({
+//               key: edit.key,
+//               initiatorName: row.id,
+//               data: row,
+//             });
+//           }
+//         }}
+//       >
+//         <Pencil />
+//       </Button>
+//       <Button
+//         size="sm"
+//         variant="destructive"
+//         onClick={() =>
+//           openModal({
+//             key: "DELETE_ITEM",
+//             initiatorName: row.id,
+//             data: { type: deleteProps.type },
+//           })
+//         }
+//       >
+//         <Trash />
+//       </Button>
+//     </div>
+//   );
+// }
 export function ActionButton<T extends { id: string }>({
   row,
   edit,
@@ -23,6 +66,7 @@ export function ActionButton<T extends { id: string }>({
 }: TActionButton<T>) {
   const { openModal } = useModalContext();
   const navigate = useNavigate();
+
   return (
     <div className="flex gap-2">
       <Button
@@ -43,19 +87,23 @@ export function ActionButton<T extends { id: string }>({
       >
         <Pencil />
       </Button>
-      <Button
-        size="sm"
-        variant="destructive"
-        onClick={() =>
-          openModal({
-            key: "DELETE_ITEM",
-            initiatorName: row.id,
-            data: { type: deleteProps.type },
-          })
-        }
-      >
-        <Trash />
-      </Button>
+
+      {/* ✅ Render Delete button only if deleteProps exists */}
+      {deleteProps && (
+        <Button
+          size="sm"
+          variant="destructive"
+          onClick={() =>
+            openModal({
+              key: 'DELETE_ITEM',
+              initiatorName: row.id,
+              data: { type: deleteProps.type },
+            })
+          }
+        >
+          <Trash />
+        </Button>
+      )}
     </div>
   );
 }

@@ -50,7 +50,7 @@ export const initializeKhaltiPaymentHandler = async (req, res, next) => {
 
         // Create the Payment record in the database
         const payment = await Payment.create({
-            transactionId: paymentInitiate.pidx, 
+            transactionId: paymentInitiate.pidx,
             pidx: paymentInitiate.pidx,
             amount: booking.total_amount,
             paymentGateway: "khalti",
@@ -92,13 +92,23 @@ export const completeKhaltiPayment = asyncHandler(async (req, res, next) => {
             return next(new AppError("Payment record not found", 404));
         }
 
+        // const transaction = await sequelize.transaction(async (t) => {
+        //     await payment.update({ status: "confirmed" }, { transaction: t });
+        //     await Booking.update(
+        //         { status: "confirmed" },
+        //         { where: { id: payment.roomId }, transaction: t }
+        //     );
+        // });
         const transaction = await sequelize.transaction(async (t) => {
             await payment.update({ status: "confirmed" }, { transaction: t });
+
+            // Update booking status using bookingId, not roomId
             await Booking.update(
                 { status: "confirmed" },
-                { where: { id: payment.roomId }, transaction: t }
+                { where: { id: payment.bookingId }, transaction: t }
             );
         });
+
 
         res.status(200).json({
             status: "success",
