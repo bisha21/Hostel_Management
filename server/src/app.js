@@ -2,7 +2,6 @@ import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
-import { sequelize } from './database.js'
 import userRoute from './routes/userRoutes.js'
 import roomRoute from './routes/roomRoutes.js'
 import maintainanceRoutes from './routes/maintainanceRoute.js'
@@ -11,39 +10,12 @@ import notificationRoute from './routes/notificationRoutes.js'
 import attendanceRoute from './routes/attendanceRoutes.js'
 import paymentRoute from './routes/paymentRoutes.js'
 import reportRoute from './routes/reportRoutes.js';
-// import reviewRoute from './routes/feedbackRoutes.js';
 import cors from 'cors';
 import complaintRoute from './routes/complaintRoutes.js';
-import Payment from "./model/paymentModel.js";
-import { Report } from "./model/reportModel.js";
 dotenv.config();
 
 
 const app = express();
-// (async () => {
-//     try {
-//         // Authenticate the database connection
-//         await sequelize.authenticate();
-//         console.log('Connection has been established successfully.');
-
-//         // Sync all models to the database
-//         await sequelize.sync({ alter: true }); // Use { force: true } to drop and recreate tables (use with caution!)
-//         console.log('Database synced successfully.');
-//     } catch (error) {
-//         console.error('Unable to connect to the database or sync:', error);
-//     }
-// })();
-// (
-//     async () => {
-//         try {
-//             await Report.sync({ force: true });
-//             console.log('User created successfully.');
-//         } catch (error) {
-//             console.error('Unable to create Admin table:', error);
-//         }
-//     }
-// )();
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
