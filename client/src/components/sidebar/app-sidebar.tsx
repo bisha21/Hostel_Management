@@ -1,4 +1,4 @@
-import { Codesandbox, Coffee, HandCoins, HandPlatter, Home, ScanEye, ShoppingBag, ShoppingBasket, Utensils, UtensilsCrossed } from "lucide-react"
+import { BookmarkCheck, Codesandbox, Coffee, HandCoins, HandPlatter, Home, LogOut, ScanEye, ShoppingBag, ShoppingBasket, Utensils, UtensilsCrossed } from "lucide-react"
 
 import {
   Sidebar,
@@ -17,6 +17,7 @@ import { cn } from "../../lib/utils.ts";
 import { Link } from "react-router";
 import { useContext } from "react";
 import { AuthContext } from "../../context/authContext.tsx";
+import useAuthContext from "../../hooks/useAuthContext.tsx";
 // Menu items.
 const items = [
   {
@@ -30,9 +31,14 @@ const items = [
     icon: ScanEye,
   },
   {
-    title: "Room Booking",
+    title: "Rooms",
     url: "/room",
     icon: Codesandbox,
+  },
+  {
+    title: "Bookings",
+    url: "/bookings",
+    icon: BookmarkCheck,
   },
   {
     title: "Payment",
@@ -47,9 +53,13 @@ const items = [
 ]
 
 export function AppSidebar() {
-  const user=useContext(AuthContext)
-  console.log("Hi i am from user",user);
   const {state} = useSidebar();
+  const {logout} = useAuthContext();
+  const handleLogout = () => {
+    if (logout) {
+      logout();
+    }
+  };
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader className={cn(state === "collapsed" ? "" : "flex items-center justify-center")}>
@@ -72,6 +82,16 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+        <div className="mt-auto mb-4 mx-3">
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton onClick={handleLogout}>
+                <LogOut />
+                <span>Logout</span>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </div>
       </SidebarContent>
     </Sidebar>
   )

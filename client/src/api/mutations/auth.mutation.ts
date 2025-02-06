@@ -4,17 +4,16 @@ import { toastTrigger } from '../../lib/utils';
 import { TLoginType } from '../../schemas/login';
 import { useNavigate } from 'react-router';
 import { TRegisterType } from '../../schemas/register';
-import { useContext } from 'react';
-import { AuthContext } from '../../context/authContext';
+
 
 export const useLoginMutation = () => {
   const navigate = useNavigate();
-  const authContext = useContext(AuthContext);
 
   const loginMutation = useMutation({
     mutationFn: (data: TLoginType) => api.post('/auth/login', data),
 
     onSuccess: (data) => {
+      console.log(data);
       localStorage.setItem('authToken', data.data.data.authToken);
       toastTrigger('Login successful', undefined, 'success');
       if (data.data.data.user_type === 'admin') {

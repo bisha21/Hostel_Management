@@ -3,7 +3,7 @@ import Layout from './pages/auth-pages/layout';
 import Dashboard from './pages/auth-pages/dashboard/page';
 import { Toaster } from 'sonner';
 import LoginPage from './pages/auth/page';
-import ProtectedRoute from './pages/auth/protected-route';
+import AdminProtectedRoute from './pages/auth/admin-protected-route';
 import RegisterPage from './pages/auth/register-page';
 import ModalX from './modals/modal';
 import Applayout from './pages/auth-pages/student/Applayout';
@@ -14,6 +14,7 @@ import RoomDetail from './pages/auth-pages/student/_components/room/Rooms';
 import Contact from './pages/auth-pages/student/Contact';
 import About from './pages/auth-pages/student/About';
 import BookingPage from './pages/bookings/page';
+import StudentProtectedRoute from './pages/auth/student-protected-route';
 
 function App() {
   return (
@@ -27,9 +28,9 @@ function App() {
           <Route
             path="/"
             element={
-              <ProtectedRoute>
+              <AdminProtectedRoute>
                 <Layout />
-              </ProtectedRoute>
+              </AdminProtectedRoute>
             }
           >
             <Route index element={<Dashboard />} />
@@ -39,9 +40,9 @@ function App() {
           <Route
             path="/student"
             element={
-              <ProtectedRoute>
+              <StudentProtectedRoute>
                 <Applayout />
-              </ProtectedRoute>
+              </StudentProtectedRoute>
             }
           >
             <Route index element={<Home />} />

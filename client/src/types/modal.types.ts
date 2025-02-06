@@ -4,7 +4,7 @@ import { TBookingsResponse, TRoomResponse } from "./response.types";
 
 export type ModalType<K extends TModalKeys> = {
   initiatorName?: string;
-  data?: TModalDataMap[K];
+  data?: Partial<TModalDataMap[K]>;
 };
 
 export interface TModalDataMap {

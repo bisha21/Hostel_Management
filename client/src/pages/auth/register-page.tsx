@@ -4,22 +4,19 @@ import { HORIZONTAL_LOGO, REGISTER_IMAGE } from '../../constants/images';
 import { registerSchema, TRegisterType } from '../../schemas/register';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
-  Form,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormMessage,
+  Form
 } from '../../components/ui/form';
 import RoleSelector from './_components/role-selector';
 import { useRegisterMutation } from '../../api/mutations/auth.mutation';
 import { useState } from 'react';
 import RegisterForm from './_components/register-form';
+import { UserType } from '../../context/authContext';
+import useAuthContext from '../../hooks/useAuthContext';
 
 export default function RegisterPage() {
   const [isRoleSelected, setIsRoleSelected] = useState(false);
   const { mutate, isLoading } = useRegisterMutation();
-
+  const {  setUser, setIsAuthenticated } = useAuthContext();
   const form = useForm<TRegisterType>({
     resolver: zodResolver(registerSchema),
     mode: 'onChange',
@@ -36,7 +33,27 @@ export default function RegisterPage() {
   });
 
   const onSubmit = (data: TRegisterType) => {
-    mutate(data);
+    mutate(data, {
+
+      onSuccess: (res) => {
+        const response = res.data.data;
+        const userData: UserType = {
+          id: response.id,
+          username: response.username,
+          user_type: response.user_type,
+          address: response.address,
+          phone_number: response.phone_number,
+          profile_picture: response.profile_picture,
+        };
+
+        setUser(userData);
+
+        localStorage.setItem('authToken', response.authToken);
+        localStorage.setItem('user', JSON.stringify(userData));
+
+        setIsAuthenticated(true);
+      },
+    });
   };
 
   return (
@@ -56,7 +73,7 @@ export default function RegisterPage() {
             {!isRoleSelected ? (
               <RoleSelector setIsRoleSelected={setIsRoleSelected} />
             ) : (
-              <RegisterForm/>
+              <RegisterForm />
             )}
           </form>
         </Form>
@@ -67,6 +84,7 @@ export default function RegisterPage() {
           variant="link"
           className="underline underline-offset-4 font-semibold text-xs"
           onClick={() => (window.location.href = '/login')}
+          disabled={isLoading}
         >
           Login
         </Button>
