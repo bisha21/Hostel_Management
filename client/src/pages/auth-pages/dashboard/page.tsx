@@ -4,8 +4,11 @@ import { Card, CardContent, CardHeader } from "../../../components/ui/card";
 import CalendarPreview from "./_components/calendar";
 import { DailyStats } from "./_components/daily-stats";
 import { Component } from "./_components/pie-chart";
+import useAuthContext from "../../../hooks/useAuthContext";
 
 export default function Dashboard() {
+  const {user} = useAuthContext();
+  console.log(user)
   return (
     <div>
       <PageHeader title="Dashboard" />
