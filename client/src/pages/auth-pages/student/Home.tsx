@@ -47,8 +47,8 @@ const Home = () => {
         <div className="max-w-full flex-shrink-0 px-4 text-center lg:mx-0 lg:max-w-3xl lg:pt-8">
           <h1 className="mt-10 text-5xl font-bold tracking-tight text-white sm:text-6xl">
             Welcome
-            <span className="text-sky-500">To</span> our
-            <span className="text-sky-500">Hostel</span>
+            <span className="text-sky-500">&nbsp;To</span> our
+            <span className="text-sky-500">&nbsp;Hostel</span>
           </h1>
           <p className="mt-6 text-lg leading-8 text-gray-300">
             Experience comfort and community in the heart of the city

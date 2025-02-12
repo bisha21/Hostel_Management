@@ -15,6 +15,7 @@ import Contact from './pages/auth-pages/student/Contact';
 import About from './pages/auth-pages/student/About';
 import BookingPage from './pages/bookings/page';
 import StudentProtectedRoute from './pages/auth/student-protected-route';
+import MarkAttendance from './pages/auth-pages/student/_components/attendance/MarkAttendance';
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
           >
             <Route index element={<Home />} />
             <Route path='/student/rooms' element={<Room />} />
+            <Route path='/student/attendance' element={<MarkAttendance />} />
             <Route path='/student/rooms/:id' element={<RoomDetail />} />
             <Route path='/student/contact' element={<Contact/>} />
             <Route path='/student/about' element={<About/>} />
