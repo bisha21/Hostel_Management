@@ -14,3 +14,16 @@ export const useFetchAttendanceDetail = () => {
         },
     });
 };
+
+export const useFetchAllAttendances = () => {
+    return useQuery({
+        queryKey: ['attendances'],
+        queryFn: async () => {
+            const response = await api.get('/attendance/');
+            return response.data;
+        },
+        onError: () => {
+            toastTrigger('Failed to fetch attendance details', undefined, 'error');
+        },
+    });
+};

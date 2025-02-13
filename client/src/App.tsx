@@ -16,6 +16,7 @@ import About from './pages/auth-pages/student/About';
 import BookingPage from './pages/bookings/page';
 import StudentProtectedRoute from './pages/auth/student-protected-route';
 import MarkAttendance from './pages/auth-pages/student/_components/attendance/MarkAttendance';
+import AttendancePage from './pages/auth-pages/attendance/page';
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
             <Route index element={<Dashboard />} />
             <Route path="room" element={<RoomPage />} />
             <Route path='bookings' element={<BookingPage />} />
+            <Route path='attendance' element={<AttendancePage />} />
           </Route>
           <Route
             path="/student"
