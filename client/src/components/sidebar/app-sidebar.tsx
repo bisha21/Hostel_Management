@@ -27,7 +27,7 @@ const items = [
   },
   {
     title: "Attendence",
-    url: "#",
+    url: "/attendance",
     icon: ScanEye,
   },
   {

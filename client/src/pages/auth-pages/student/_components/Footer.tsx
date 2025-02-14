@@ -2,7 +2,7 @@ import logo from '../../../../assets/image/logo3.png'
 
 const Footer = () => {
   return (
-    <div className="text-center pt-4 bg-[#141c24]">
+    <div className="text-center py-4 bg-[#141c24]">
       <a
         href="#"
         className="flex items-center justify-center mb-5 text-2xl font-semibold text-gray-900"
@@ -12,24 +12,9 @@ const Footer = () => {
           className="h-12 mr-3 sm:h-9"
           alt="Landwind Logo"
         />
-        Landwind
       </a>
       <span className="block text-sm text-center text-gray-500">
-        © 2021-2022 Landwind™. All Rights Reserved. Built with
-        <a
-          href="https://flowbite.com"
-          className="text-purple-600 hover:underline"
-        >
-          Hostel
-        </a>{' '}
-        and
-        <a
-          href="https://tailwindcss.com"
-          className="text-purple-600 hover:underline"
-        >
-          Tailwind CSS
-        </a>
-        .
+        © 2024-2025 HostelHive™. All Rights Reserved.
       </span>
       <ul className="flex justify-center mt-5 space-x-5">
         <li>

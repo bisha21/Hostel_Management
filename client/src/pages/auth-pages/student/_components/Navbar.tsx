@@ -30,15 +30,14 @@ const Navbar = () => {
     <nav className="bg-[#141c24] border-gray-200">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <NavLink
-          to="/"
+          to="/student"
           className="flex items-center space-x-3 rtl:space-x-reverse"
         >
           <img
             src={logo}
-            className="h-10 w-20"
-            alt="Flowbite Logo"
+            className="w-32"
+            alt="Logo"
           />
-          ]
         </NavLink>
         <div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
           <button
