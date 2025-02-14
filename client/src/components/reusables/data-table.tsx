@@ -13,7 +13,6 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from ".
 import { Button } from "../ui/button"
 import { useState } from "react"
 import { Input } from "../ui/input"
-import { Plus } from "lucide-react"
 
 
 interface DataTableProps<TData, TValue> {

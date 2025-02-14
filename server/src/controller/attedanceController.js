@@ -1,7 +1,6 @@
 import { Attendance } from "../model/attendanceModel.js";
 import User from "../model/userModal.js";
 import asyncHandler from "../utlis/catchAsync.js";
-import { Op } from "sequelize";
 
 const createAttendance = asyncHandler(async (req, res) => {
   try {

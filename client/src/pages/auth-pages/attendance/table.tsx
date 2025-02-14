@@ -1,34 +1,46 @@
-import { Plus } from "lucide-react";
 import { DataTable } from "../../../components/reusables/data-table";
-import { Button } from "../../../components/ui/button";
-import { columns } from "./column";
-import useModalContext from "../../../hooks/useModalContext";
+import { getColumns } from "./column";
 import { useFetchAllAttendances } from "../../../api/queries/attendance.query";
+import { DatePicker } from "../../../components/reusables/date-picker";
+import { useState } from "react";
+import { Skeleton } from "../../../components/ui/skeleton";
 
-export default function RoomTable() {
-  const { openModal } = useModalContext();
-  const { data } = useFetchAllAttendances();
-  console.log(data)
+export default function AttendanceTable() {
+  const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
+  const { data, isFetching } = useFetchAllAttendances(date);
   return (
     <div>
-      {/* <DataTable
-        columns={columns}
-        data={data?.data || []}
+      {isFetching ? (
+        <div className="gap-4">
+          <Skeleton className="h-8 w-full mb-4"/>
+          <Skeleton className="h-[calc(100vh-32px)] w-full"/>
+        </div>
+      ) : (
+        <DataTable
+        columns={getColumns()}
+        data={data?.attendanceRecords || []}
         functions={{
           search: {
-            name: "name",
+            name: "username",
             placeholder: "Search by name...",
           },
           add: {
             node: (
-              <Button onClick={()=>{openModal({key: "ADD_ROOM"})}}>
-                <Plus />
-                Add Room
-              </Button>
-            ),
-          },
+              <DatePicker 
+                onChange={(selectedDate) => { 
+                  setDate(
+                    selectedDate 
+                      ? selectedDate.toISOString().split("T")[0] 
+                      : new Date().toISOString().split("T")[0] 
+                  );
+                }} 
+              />
+            )
+          }
         }}
-      /> */}
+      />
+      )}
     </div>
   );
 }
+

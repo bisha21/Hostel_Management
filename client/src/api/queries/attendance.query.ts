@@ -15,11 +15,11 @@ export const useFetchAttendanceDetail = () => {
     });
 };
 
-export const useFetchAllAttendances = () => {
+export const useFetchAllAttendances = (date:string) => {
     return useQuery({
-        queryKey: ['attendances'],
+        queryKey: ['attendances',date],
         queryFn: async () => {
-            const response = await api.get('/attendance/');
+            const response = await api.get(`/attendance?date=${date}`);
             return response.data;
         },
         onError: () => {
