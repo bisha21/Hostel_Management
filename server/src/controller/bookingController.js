@@ -80,6 +80,11 @@ export const updateBooking = asyncHandler(async (req, res, next) => {
         return next(new AppError('No booking found', 404));
     }
     booking.status = req.body.status;
+    if (booking.status === 'cancelled') {
+        const room = await Room.findByPk(booking.roomId);
+        room.Status = 'Available';
+        await room.save();
+    }
     await booking.save();
     res.status(200).json({
         status: 'success',
