@@ -90,6 +90,14 @@ export const logOut = asyncHandler(async (req, res) => {
     });
   });
 
+  export const getStudent= asyncHandler(async (req, res) => {
+    const student = await User.findAll({ where: { user_type: 'student' } });
+    res.status(200).json({
+        status: 'success',
+        data: student
+    });
+  });
+
 
 
 
