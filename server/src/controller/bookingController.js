@@ -1,3 +1,4 @@
+import { where } from 'sequelize';
 import Booking from '../model/bookingModel.js';
 import Room from '../model/RoomModal.js';
 import AppError from '../utlis/appError.js';
@@ -81,8 +82,10 @@ export const updateBooking = asyncHandler(async (req, res, next) => {
     }
     booking.status = req.body.status;
     if (booking.status === 'cancelled') {
+
         const room = await Room.findByPk(booking.roomId);
         room.Status = 'Available';
+        await booking.destroy({where: { id: booking.id }});
         await room.save();
     }
     await booking.save();
