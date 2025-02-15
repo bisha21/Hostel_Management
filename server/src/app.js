@@ -10,6 +10,7 @@ import notificationRoute from './routes/notificationRoutes.js'
 import attendanceRoute from './routes/attendanceRoutes.js'
 import paymentRoute from './routes/paymentRoutes.js'
 import reportRoute from './routes/reportRoutes.js';
+import studentRoute from './routes/studentRoute.js';
 import cors from 'cors';
 import complaintRoute from './routes/complaintRoutes.js';
 dotenv.config();
@@ -37,6 +38,7 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api/auth', userRoute);
+app.use('/api/students',studentRoute );
 app.use('/api/room', roomRoute);
 app.use('/api/maintainance', maintainanceRoutes);
 app.use('/api/booking', bookingRoute);
