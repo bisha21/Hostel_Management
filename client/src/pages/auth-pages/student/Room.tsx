@@ -1,4 +1,3 @@
-import Booking from "./_components/booking/Booking";
 import Filter from "./_components/room/Filter";
 import RoomList from "./_components/room/RoomList";
 

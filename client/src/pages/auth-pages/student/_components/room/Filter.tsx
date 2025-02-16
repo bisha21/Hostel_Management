@@ -5,7 +5,7 @@ function Filter() {
 
   const currentFilter = searchParms.get('filter') || 'all';
 
-  function handleFilter(filter) {
+  function handleFilter(filter:any) {
     const validFilters = ['all', 'Occupied', 'Available'];
     if (validFilters.includes(filter)) {
       setSearchParams({ filter });
@@ -39,7 +39,7 @@ function Filter() {
   );
 }
 
-function Button({ filter, handleFilter, currentFilter, children }) {
+function Button({ filter, handleFilter, currentFilter, children }:any) {
   const isActive = currentFilter === filter;
 
   return (
