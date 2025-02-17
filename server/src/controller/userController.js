@@ -1,14 +1,16 @@
 import { createToken } from '../helper/createToken.js';
+import Booking from '../model/bookingModel.js';
+import Room from '../model/RoomModal.js';
 import User from "../model/userModal.js";
 import AppError from "../utlis/appError.js";
 import asyncHandler from "../utlis/catchAsync.js";
 import bcrypt from 'bcryptjs';
 
 export const registerUser = asyncHandler(async (req, res, next) => {
-    const { username, email,address,profile, password, user_type, confirmPassword,phoneNumber } = req.body;
+    const { username, email, address, profile, password, user_type, confirmPassword, phoneNumber } = req.body;
 
     // Check for missing fields
-    if (!username || !email || !password || !user_type || !confirmPassword||!address | !phoneNumber) {
+    if (!username || !email || !password || !user_type || !confirmPassword || !address | !phoneNumber) {
         return next(new AppError('All fields are required', 400));
     }
 
@@ -22,7 +24,7 @@ export const registerUser = asyncHandler(async (req, res, next) => {
     if (existingUser) {
         return next(new AppError('User already exists', 400));
     }
-    
+
 
 
     // Hash the password
@@ -35,13 +37,13 @@ export const registerUser = asyncHandler(async (req, res, next) => {
         password: hashedPassword,
         user_type,
         address,
-        phone_number:phoneNumber,
+        phone_number: phoneNumber,
         profile
     });
 
     // Generate authentication token
-    const authToken = await createToken({ userId: newUser.id ,email: newUser.email,user_type:newUser.user_type });
-    res.cookie("authToken",authToken);
+    const authToken = await createToken({ userId: newUser.id, email: newUser.email, user_type: newUser.user_type });
+    res.cookie("authToken", authToken);
     // Respond with the created user and token
     res.status(200).json({
         status: 'success',
@@ -52,51 +54,68 @@ export const registerUser = asyncHandler(async (req, res, next) => {
     });
 });
 
-export const login= asyncHandler(async (req, res,next) => {
+export const login = asyncHandler(async (req, res, next) => {
     const { email, password } = req.body;
 
     const user = await User.findOne({ where: { email } });
 
-    if(!user)
-    {
-       return next(new AppError('Invalid email or password', 400));
-    }
-    const isValidPassword = await bcrypt.compare(password, user.password);
-    if(!isValidPassword)
-    {
+    if (!user) {
         return next(new AppError('Invalid email or password', 400));
     }
-    const authToken = await createToken({ userId: user.id,email: user.email,user_type:user.user_type});
-    res.cookie("authToken",authToken);
-    
+    const isValidPassword = await bcrypt.compare(password, user.password);
+    if (!isValidPassword) {
+        return next(new AppError('Invalid email or password', 400));
+    }
+    const authToken = await createToken({ userId: user.id, email: user.email, user_type: user.user_type });
+    res.cookie("authToken", authToken);
+
     res.status(200).json({
         status: 'success',
         data: {
             ...user.dataValues,
             authToken,
-            },
-            });
+        },
+    });
 
 })
 
 export const logOut = asyncHandler(async (req, res) => {
     res.cookie("authToken", null, {
-      expires: new Date(Date.now()),
-      httpOnly: true,
+        expires: new Date(Date.now()),
+        httpOnly: true,
     });
-    res.status(200).json({
-      status: 'success',
-      data: null,
-    });
-  });
-
-  export const getStudent= asyncHandler(async (req, res) => {
-    const student = await User.findAll({ where: { user_type: 'student' } });
     res.status(200).json({
         status: 'success',
-        data: student
+        data: null,
     });
-  });
+});
+
+export const getUsersWithRooms = async (req, res) => {
+    try {
+        const users = await User.findAll({
+            where: {
+                user_type: 'student',
+            },
+            include: [
+                {
+                    model: Booking,
+                    attributes: ["id", "userId", "roomId", "total_amount", "status"],
+                    include: [
+                        {
+                            model: Room,
+                            attributes: ["id", "RoomNumber", "Type", "Price"],
+                        },
+                    ],
+                },
+            ],
+        });
+
+        res.json(users);
+    } catch (error) {
+        console.error("Error fetching users with room details:", error.message);
+        res.status(500).json({ error: "Error fetching data" });
+    }
+};
 
 
 

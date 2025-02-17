@@ -1,5 +1,7 @@
 import { sequelize } from '../database.js';
 import { DataTypes } from 'sequelize';
+import Booking from './bookingModel.js';
+import Room from './RoomModal.js';
 
 const User = sequelize.define('User', {
   id: {
@@ -51,5 +53,11 @@ const User = sequelize.define('User', {
 },{
   timestamps: true
 });
+
+User.hasMany(Booking, { foreignKey: "userId" });
+Booking.belongsTo(User, { foreignKey: "userId" });
+
+Booking.belongsTo(Room, { foreignKey: "roomId" });
+Room.hasMany(Booking, { foreignKey: "roomId" });
 
 export default User;

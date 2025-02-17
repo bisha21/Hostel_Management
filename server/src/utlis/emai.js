@@ -1,21 +1,29 @@
-import nodemailer from 'nodemailer'
+import nodemailer from "nodemailer";
+
 export const sendMail = async (options) => {
-    const transport = nodemailer.createTransport({
-        service: "Gmail",
-        auth: {
-            user: process.env.EMAIL,
-            pass: process.env.EMAIL_PASSWORD
-        }
-    })
-    const mailOptions = {
-        from: "Bishal Timilsina <timilsina@gmail.com> ",
-        to: options.email,
-        subject: options.subject,
-        text: options.message,
+  if (!options.email || (Array.isArray(options.email) && options.email.length === 0)) {
+    console.error("No recipients defined");
+    return; // Exit function early
+  }
 
-    }
+  const transport = nodemailer.createTransport({
+    service: "Gmail",
+    auth: {
+      user: process.env.EMAIL,
+      pass: process.env.EMAIL_PASSWORD,
+    },
+  });
 
+  // Convert emails to string if it's an array
+  const recipients = Array.isArray(options.email) ? options.email.join(", ") : options.email;
 
-    // send email with nodemailer
-    await transport.sendMail(mailOptions);
-}
+  const mailOptions = {
+    from: "Bishal Timilsina <timilsina@gmail.com>",
+    to: recipients,
+    subject: options.subject,
+    text: options.message,
+  };
+
+  // Send email with nodemailer
+  await transport.sendMail(mailOptions);
+};
