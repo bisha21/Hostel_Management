@@ -3,16 +3,16 @@ import Booking from '../model/bookingModel.js';
 import Room from '../model/RoomModal.js';
 import AppError from '../utlis/appError.js';
 import asyncHandler from '../utlis/catchAsync.js';
+import { senComplaintdMail } from '../utlis/complaintEmail.js';
 
 export const createBooking = asyncHandler(async (req, res, next) => {
     const roomId = req.params.roomId;
     const user = req.user;
-    // Assumes `req.user` is set after authentication middleware
-
-    // Fetch the room details
+    
+    
     const room = await Room.findByPk(roomId);
 
-    // Check if room exists
+   
     if (!room) {
         return res.status(404).json({ status: 'fail', message: 'Room not found' });
     }
@@ -45,7 +45,18 @@ export const createBooking = asyncHandler(async (req, res, next) => {
         await room.save();
     }
 
-
+const emailOptions = {
+    email: req.user.email, // Assuming you're sending the email from the user's email
+    subject: 'Room has been booked', 
+    message: `
+      A new room has been submitted by user .
+      Room ID: ${roomId}
+      message: Plese check your cms and manage the status of the room bookings.
+           Thank You
+    
+    `,
+  };
+   senComplaintdMail(emailOptions);
     res.status(201).json({
         status: 'success',
         data: booking,
