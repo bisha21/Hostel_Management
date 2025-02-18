@@ -42,7 +42,7 @@ export const registerUser = asyncHandler(async (req, res, next) => {
     });
 
     // Generate authentication token
-    const authToken = await createToken({ userId: newUser.id, email: newUser.email, user_type: newUser.user_type });
+    const authToken = await createToken({ userId: newUser.id, email: newUser.email, user_type: newUser.user_type,username: newUser.username});
     res.cookie("authToken", authToken);
     // Respond with the created user and token
     res.status(200).json({
@@ -66,7 +66,7 @@ export const login = asyncHandler(async (req, res, next) => {
     if (!isValidPassword) {
         return next(new AppError('Invalid email or password', 400));
     }
-    const authToken = await createToken({ userId: user.id, email: user.email, user_type: user.user_type });
+    const authToken = await createToken({ userId: user.id, email: user.email, user_type: user.user_type, username: user.username });
     res.cookie("authToken", authToken);
 
     res.status(200).json({
