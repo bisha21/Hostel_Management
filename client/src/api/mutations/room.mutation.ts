@@ -37,15 +37,15 @@ export const useEditRoomMutation = ({initiatorName}:{initiatorName:string}) => {
 
 export const useCreateBooking = () => {
     return useMutation({
-      mutationFn: async (roomId: number) => {
+      mutationFn: async (roomId: string) => {
         const response = await api.get(`/room/${roomId}/booking`);
         return response.data.data;
       },
       onSuccess: () => {
         toastTrigger('Booking created successfully', undefined, 'success');
       },
-      onError: () => {
-        toastTrigger('Failed to create booking', undefined, 'error');
+      onError: (data:any) => {
+        toastTrigger(data?.response.data.message || 'Failed to create booking', undefined, 'error');
       },
     });
   };

@@ -1,8 +1,7 @@
 import { BookMarked, UsersIcon } from 'lucide-react';
-import { TRoomResponse } from '../../../../../types/response.types';
 import { Link } from 'react-router';
 
-function RoomCard({ room }) {
+function RoomCard({ room } : {room:any}) {
   const {
     id,
     RoomNumber,
