@@ -93,3 +93,5 @@ export const createNotificationForAll = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+export const getAllNotification = getAll(Notification);

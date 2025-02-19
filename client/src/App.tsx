@@ -18,6 +18,7 @@ import StudentProtectedRoute from './pages/auth/student-protected-route';
 import MarkAttendance from './pages/auth-pages/student-route/_components/attendance/MarkAttendance';
 import AttendancePage from './pages/auth-pages/attendance/page';
 import StudentPage from './pages/auth-pages/student/page';
+import NotificationPage from './pages/auth-pages/notification/page';
 
 function App() {
   return (
@@ -41,6 +42,8 @@ function App() {
             <Route path='bookings' element={<BookingPage />} />
             <Route path='attendance' element={<AttendancePage />} />
             <Route path='students' element={<StudentPage />} />
+            <Route path='students' element={<StudentPage />} />
+            <Route path='notification' element={<NotificationPage />} />
           </Route>
           <Route
             path="/student"

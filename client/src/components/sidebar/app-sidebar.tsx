@@ -49,6 +49,11 @@ const items = [
     icon: HandCoins,
   },
   {
+    title: "Notification Panel",
+    url: "/notification",
+    icon: HandCoins,
+  },
+  {
     title: "Dining",
     url: "#",
     icon: UtensilsCrossed,
