@@ -64,7 +64,7 @@ export const useCreateBooking = () => {
           console.log('Response Data:', data);
           toastTrigger('Failed to retrieve payment URL', undefined, 'error');
         }
-      } catch (err) {
+      } catch (err:any) {
         console.error('Payment Error:', err.response?.data);
         toastTrigger(
           err.response?.data?.message || 'Error initiating payment',
