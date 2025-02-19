@@ -14,7 +14,7 @@ import { useCreateBooking } from '../../../../../api/mutations/room.mutation';
 
 export default function RoomDetail() {
   const params = useParams();
-  const id = params.id || '';
+  const id = params.id || ""; 
   const { data: room } = useFetchSingleRoom(id);
   const { mutate: createBooking, isLoading } = useCreateBooking();
 

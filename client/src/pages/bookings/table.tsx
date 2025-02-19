@@ -4,6 +4,7 @@ import { bookingColumns } from './column';
 
 export default function BookingTable() {
   const { data } = useFetchBookings();
+  console.log(data?.data)
   return (
     <div>
       <DataTable

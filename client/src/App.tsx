@@ -6,17 +6,18 @@ import LoginPage from './pages/auth/page';
 import AdminProtectedRoute from './pages/auth/admin-protected-route';
 import RegisterPage from './pages/auth/register-page';
 import ModalX from './modals/modal';
-import Applayout from './pages/auth-pages/student/Applayout';
+import Applayout from './pages/auth-pages/student-route/Applayout';
 import RoomPage from './pages/auth-pages/room/page';
-import Home from './pages/auth-pages/student/Home';
-import Room from './pages/auth-pages/student/Room';
-import RoomDetail from './pages/auth-pages/student/_components/room/Rooms';
-import Contact from './pages/auth-pages/student/Contact';
-import About from './pages/auth-pages/student/About';
+import Home from './pages/auth-pages/student-route/Home';
+import Room from './pages/auth-pages/student-route/Room';
+import RoomDetail from './pages/auth-pages/student-route/_components/room/Rooms';
+import Contact from './pages/auth-pages/student-route/Contact';
+import About from './pages/auth-pages/student-route/About';
 import BookingPage from './pages/bookings/page';
 import StudentProtectedRoute from './pages/auth/student-protected-route';
-import MarkAttendance from './pages/auth-pages/student/_components/attendance/MarkAttendance';
+import MarkAttendance from './pages/auth-pages/student-route/_components/attendance/MarkAttendance';
 import AttendancePage from './pages/auth-pages/attendance/page';
+import StudentPage from './pages/auth-pages/student/page';
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
             <Route path="room" element={<RoomPage />} />
             <Route path='bookings' element={<BookingPage />} />
             <Route path='attendance' element={<AttendancePage />} />
+            <Route path='students' element={<StudentPage />} />
           </Route>
           <Route
             path="/student"

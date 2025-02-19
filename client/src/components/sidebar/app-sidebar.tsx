@@ -1,4 +1,4 @@
-import { BookmarkCheck, Codesandbox, Coffee, HandCoins, HandPlatter, Home, LogOut, ScanEye, ShoppingBag, ShoppingBasket, Utensils, UtensilsCrossed } from "lucide-react"
+import { BookmarkCheck,Users, HandCoins, Home, LogOut, ScanEye, UtensilsCrossed, Vault } from "lucide-react"
 
 import {
   Sidebar,
@@ -15,8 +15,6 @@ import {
 import {HORIZONTAL_LOGO, LOGO } from "../../constants/images.ts"
 import { cn } from "../../lib/utils.ts";
 import { Link } from "react-router";
-import { useContext } from "react";
-import { AuthContext } from "../../context/authContext.tsx";
 import useAuthContext from "../../hooks/useAuthContext.tsx";
 // Menu items.
 const items = [
@@ -26,6 +24,11 @@ const items = [
     icon: Home,
   },
   {
+    title: "Students",
+    url: "/students",
+    icon: Users,
+  },
+  {
     title: "Attendence",
     url: "/attendance",
     icon: ScanEye,
@@ -33,7 +36,7 @@ const items = [
   {
     title: "Rooms",
     url: "/room",
-    icon: Codesandbox,
+    icon: Vault,
   },
   {
     title: "Bookings",
