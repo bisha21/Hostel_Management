@@ -1,4 +1,4 @@
-import { where } from 'sequelize';
+import { Op, where } from 'sequelize';
 import Booking from '../model/bookingModel.js';
 import Room from '../model/RoomModal.js';
 import AppError from '../utlis/appError.js';
@@ -8,26 +8,33 @@ import { senComplaintdMail } from '../utlis/complaintEmail.js';
 export const createBooking = asyncHandler(async (req, res, next) => {
     const roomId = req.params.roomId;
     const user = req.user;
-    
-    
+    console.log("Yout hiy")
+
     const room = await Room.findByPk(roomId);
 
-   
     if (!room) {
         return res.status(404).json({ status: 'fail', message: 'Room not found' });
     }
-    if (room.Status === 'Occupied') {
-        return res.status(400).json({ status: 'fail', message: 'Room is already occupied' });
-    }
 
-    // Check if user exists
     if (!user) {
         return res.status(401).json({ status: 'fail', message: 'User not authenticated' });
     }
+
+    // Count active bookings for this room
+    const activeBookings = await Booking.count({
+        where: { roomId: roomId, status: { [Op.not]: 'completed' } }
+    });
+    console.log(activeBookings);
+
+    if (activeBookings >= room.Capacity) {
+        return res.status(400).json({ status: 'fail', message: 'Room is fully booked' });
+    }
+
     const startDate = new Date();
     const endDate = new Date();
     endDate.setDate(startDate.getDate() + 5);
-    // Create the booking
+
+    // Create booking
     const booking = await Booking.create({
         userId: user.userId,
         roomId: roomId,
@@ -36,32 +43,34 @@ export const createBooking = asyncHandler(async (req, res, next) => {
         startDate,
         endDate
     });
-    if (!booking) {
-        room.Status = 'Available';
-        await room.save(); // await
-    }
+
     if (booking) {
-        room.Status = 'Occupied';
+        if (activeBookings + 1 >= room.capacity) {
+            room.Status = 'Occupied';
+        } else {
+            room.Status = 'Available';
+        }
         await room.save();
     }
 
-const emailOptions = {
-    email: req.user.email, 
-    subject: 'Room has been booked', 
-    message: `
-      A new room has been submitted by user .
-      Room ID: ${roomId}
-      message: Plese check your cms and manage the status of the room bookings.
-           Thank You
-    
-    `,
-  };
-   senComplaintdMail(emailOptions);
+    const emailOptions = {
+        email: req.user.email,
+        subject: 'Room has been booked',
+        message: `
+          A new room booking has been made by a user.
+          Room ID: ${roomId}
+          Please check your CMS and manage the booking status.
+          Thank You
+        `,
+    };
+    senComplaintdMail(emailOptions);
+
     res.status(201).json({
         status: 'success',
         data: booking,
     });
 });
+
 export const getBookings = asyncHandler(async (req, res, next) => {
 
     const bookings = await Booking.findAll();
@@ -96,7 +105,7 @@ export const updateBooking = asyncHandler(async (req, res, next) => {
 
         const room = await Room.findByPk(booking.roomId);
         room.Status = 'Available';
-        await booking.destroy({where: { id: booking.id }});
+        await booking.destroy({ where: { id: booking.id } });
         await room.save();
     }
     await booking.save();

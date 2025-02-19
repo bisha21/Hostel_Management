@@ -8,7 +8,7 @@ export const roomValidationSchema = z.object({
   Type: z.enum(["Single", "Double", "Triple"]),
   Price: z.coerce.number().int().positive("Price must be a positive integer"),
   Description: z.string().max(100, "Description must not exceed 100 characters").optional(),
-  FloorNumber: z.number().int().positive("FloorNumber must be a positive integer"),
+  FloorNumber: z.coerce.number().int().positive("FloorNumber must be a positive integer"),
 });
 
 export type TRoomValidationType = z.infer<typeof roomValidationSchema>;

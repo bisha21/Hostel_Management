@@ -44,8 +44,8 @@ export const useCreateBooking = () => {
       onSuccess: () => {
         toastTrigger('Booking created successfully', undefined, 'success');
       },
-      onError: () => {
-        toastTrigger('Failed to create booking', undefined, 'error');
+      onError: (data:any) => {
+        toastTrigger(data?.response.data.message || 'Failed to create booking', undefined, 'error');
       },
     });
   };

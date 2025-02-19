@@ -15,7 +15,7 @@ const Booking = ({ id }: BookingProps) => {
 
   return (
     <div className="flex flex-col gap-5 items-center justify-center">
-      <h2 className="text-5xl text-orange-400 font-semibold text-center">
+      <h2 className="text-lg text-orange-400 font-semibold text-center">
         Book today. Pay on arrival.
       </h2>
       <Button onClick={handleBooking} disabled={isLoading}>

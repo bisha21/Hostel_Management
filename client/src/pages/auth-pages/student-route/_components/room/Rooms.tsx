@@ -1,20 +1,26 @@
 import { useParams } from 'react-router';
 import { useFetchSingleRoom } from '../../../../../api/queries/room.query';
 import {
+  ArrowRight,
   BookMarkedIcon,
   EyeIcon,
-  IndianRupeeIcon,
-  MapPinIcon,
   StepForward,
   TypeIcon,
   UsersIcon,
 } from 'lucide-react';
 import Booking from '../booking/Booking';
+import { Button } from '../../../../../components/ui/button';
+import { useCreateBooking } from '../../../../../api/mutations/room.mutation';
 
 export default function RoomDetail() {
   const params = useParams();
   const id = params.id || ""; 
   const { data: room } = useFetchSingleRoom(id);
+  const { mutate: createBooking, isLoading } = useCreateBooking();
+
+  const handleBooking = () => {
+    createBooking(id);
+  };
 
   // Safely destructure only if room?.data exists
   const {
@@ -28,7 +34,7 @@ export default function RoomDetail() {
   } = room?.data || {};
 
   return (
-    <div className="bg-[#141c24]">
+    <div className="bg-[#141c24] pb-6">
       <div className="grid grid-cols-[3fr_4fr] gap-20 border border-teal-800 py-3 px-10 pt-20 max-w-7xl mx-auto ">
         <div className="relative scale-[1.15] -translate-x-3">
           <img
@@ -74,10 +80,10 @@ export default function RoomDetail() {
               </span>
             </li>
             <li className="flex gap-3 items-center">
-              <IndianRupeeIcon className="h-5 w-5 text-teal-600" />
-              <span className="text-lg">
+              <p className="text-teal-600 text-lg font-medium" >Rs. </p>
+              <p className="text-lg">
                 <span className="font-bold">{Price}</span>
-              </span>
+              </p>
             </li>
             <li className="flex gap-3 items-center">
               <EyeIcon className="h-5 w-5 text-teal-600" />
@@ -86,9 +92,17 @@ export default function RoomDetail() {
               </span>
             </li>
           </ul>
+        <div className="flex flex-col gap-5 justify-start">
+          <h2 className="text-lg text-orange-400 font-semibold text-left">
+            Book today. Pay on arrival.
+          </h2>
+          <Button onClick={handleBooking} disabled={isLoading}>
+            {isLoading ? "Booking..." : "Book Now"} <ArrowRight />
+          </Button>
+        </div>
         </div>
       </div>
-      <Booking id={id}/>
+      {/* <Booking id={id}/> */}
 
     </div>
   );
