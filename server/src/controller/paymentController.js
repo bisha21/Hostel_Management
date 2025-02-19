@@ -8,7 +8,6 @@ import { initializeKhaltiPayment, verifyKhaltiPayment } from "../utlis/khalti.js
 // Initialize Khalti Paymen
 export const initializeKhaltiPaymentHandler = async (req, res, next) => {
     const { bookingId } = req.params;
-    const userId = req.user.userId;
 
     try {
         // Fetch the booking details by bookingId
@@ -32,7 +31,7 @@ export const initializeKhaltiPaymentHandler = async (req, res, next) => {
             amount: booking.total_amount * 100, // Amount in paisa (Rs * 100)
             purchase_order_id: String(booking.id), // Use booking ID as transaction reference
             purchase_order_name: `Booking #${bookingId}`,
-            return_url: "http://localhost:5173/",
+            return_url: "https://khalti.com/api/v2/payment/verify/",
             website_url: "http://localhost:5173/",
         });
 
@@ -65,6 +64,7 @@ export const initializeKhaltiPaymentHandler = async (req, res, next) => {
             payment_url: paymentInitiate.payment_url, // Send the payment URL to the frontend
             payment,
         });
+
     } catch (err) {
         return res.status(500).json({
             message: err.message || "Internal Server Error",
@@ -74,47 +74,49 @@ export const initializeKhaltiPaymentHandler = async (req, res, next) => {
 
 
 export const completeKhaltiPayment = asyncHandler(async (req, res, next) => {
-    const { token, amount } = req.query;
+    const { token, amount, transaction_id, pidx } = req.query;
 
     if (!token || !amount || isNaN(amount)) {
         return next(new AppError("Missing or invalid query parameters", 400));
     }
 
     try {
+        // Log the query parameters for debugging
+        console.log("Payment details received:", req.query);
+
+        // Verify the Khalti payment
         const paymentInfo = await verifyKhaltiPayment({ token: token.trim(), amount: amount.trim() });
 
+        // Check if payment verification was successful
         if (!paymentInfo?.success) {
             return next(new AppError("Payment verification failed", 400));
         }
 
-        const payment = await Payment.findOne({ where: { transactionId: token.trim() } });
+        // Find the payment record in the database
+        const payment = await Payment.findOne({ where: { transactionId: pidx.trim() } });
         if (!payment) {
             return next(new AppError("Payment record not found", 404));
         }
 
-        // const transaction = await sequelize.transaction(async (t) => {
-        //     await payment.update({ status: "confirmed" }, { transaction: t });
-        //     await Booking.update(
-        //         { status: "confirmed" },
-        //         { where: { id: payment.roomId }, transaction: t }
-        //     );
-        // });
+        // Start a database transaction to update payment and booking statuses
         const transaction = await sequelize.transaction(async (t) => {
             await payment.update({ status: "confirmed" }, { transaction: t });
 
-            // Update booking status using bookingId, not roomId
+            // Update booking status using the bookingId from the payment record
             await Booking.update(
                 { status: "confirmed" },
                 { where: { id: payment.bookingId }, transaction: t }
             );
         });
 
-
+        // Return a success response after the payment is verified and booking is confirmed
         res.status(200).json({
             status: "success",
             message: "Payment verified and booking confirmed.",
         });
     } catch (error) {
+        // Log the error for debugging
+        console.error("Error during payment verification:", error);
         res.status(500).json({
             success: false,
             message: error.message || "Internal Server Error",

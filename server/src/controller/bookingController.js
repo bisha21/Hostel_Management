@@ -63,7 +63,7 @@ export const createBooking = asyncHandler(async (req, res, next) => {
           Thank You
         `,
     };
-    senComplaintdMail(emailOptions);
+    // senComplaintdMail(emailOptions);
 
     res.status(201).json({
         status: 'success',
