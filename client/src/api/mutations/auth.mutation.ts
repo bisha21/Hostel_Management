@@ -5,7 +5,6 @@ import { TLoginType } from '../../schemas/login';
 import { useNavigate } from 'react-router';
 import { TRegisterType } from '../../schemas/register';
 
-
 export const useLoginMutation = () => {
   const navigate = useNavigate();
 

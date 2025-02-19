@@ -3,12 +3,12 @@ import User from "../model/userModal.js";
 import { sendMail } from "../utlis/emai.js";
 
 export const createNotification = async (req, res) => {
-  const { message, type, priority, sentby } = req.body;
-  const { userId, email } = req.user;
+  const { message, type, priority, sentby,username,email } = req.body;
+  const { userId } = req.user;
 
   try {
     // Validate input
-    if (!message || !type || !priority) {
+    if (!message || !type || !priority || !email) {
       return res.status(400).json({ error: 'All fields are required' });
     }
 
