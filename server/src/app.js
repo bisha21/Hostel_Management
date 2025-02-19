@@ -26,8 +26,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
     cors({
         origin: "*", // Frontend origin
-        methods: ["GET", "POST" , "DELETE", "PATCH", "OPTIONS"], 
-    })
+        methods: ["GET", "POST", "DELETE", "PATCH", "OPTIONS"],
+        allowedHeaders: ['Authorization', 'Content-Type']
+
+    }
+    )
 );
 
 // (async () => {
@@ -44,7 +47,7 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api/auth', userRoute);
-app.use('/api/students',studentRoute );
+app.use('/api/students', studentRoute);
 app.use('/api/room', roomRoute);
 app.use('/api/maintainance', maintainanceRoutes);
 app.use('/api/booking', bookingRoute);
