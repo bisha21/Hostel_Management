@@ -61,21 +61,11 @@ export const bookingColumns: ColumnDef<TBookingsResponse>[] = [
     header: 'Booking Date',
     cell: ({ row }) => new Date(row.original.booking_date).toLocaleDateString(),
   },
-  {
-    accessorKey: 'check_in_completed',
-    header: 'Check-in Completed',
-    cell: ({ row }) => (row.original.check_in_completed ? 'Yes' : 'No'),
-  },
-  {
-    accessorKey: 'check_out_complete',
-    header: 'Check-out Completed',
-    cell: ({ row }) => (row.original.check_out_complete ? 'Yes' : 'No'),
-  },
-  {
-    accessorKey: 'cancellation_reason',
-    header: 'Cancellation Reason',
-    cell: ({ row }) => row.original.cancellation_reason || 'N/A',
-  },
+  // {
+  //   accessorKey: 'booking_date',
+  //   header: 'Booking Date',
+  //   cell: ({ row }) => new Date(row.original.booking_date).toLocaleDateString(),
+  // },
   {
     id: 'actions',
     enableHiding: false,

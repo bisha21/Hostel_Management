@@ -46,7 +46,7 @@ export const createBooking = asyncHandler(async (req, res, next) => {
     }
 
 const emailOptions = {
-    email: req.user.email, // Assuming you're sending the email from the user's email
+    email: req.user.email, 
     subject: 'Room has been booked', 
     message: `
       A new room has been submitted by user .

@@ -13,7 +13,7 @@ import Booking from '../booking/Booking';
 
 export default function RoomDetail() {
   const params = useParams();
-  const id = parseInt(params.id || '', 10); // Convert id to a number safely
+  const id = params.id || ""; 
   const { data: room } = useFetchSingleRoom(id);
 
   // Safely destructure only if room?.data exists

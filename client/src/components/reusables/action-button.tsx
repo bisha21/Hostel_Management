@@ -7,11 +7,11 @@ import { useNavigate } from 'react-router';
 
 type TActionButton<T> = {
   row: T;
-  edit: {
+  edit?: {
     key: TModalKeys;
     onPageUrl?: string;
   };
-  delete: {
+  delete?: {
     type?: TDeleteItem['type'];
   };
 };
@@ -69,24 +69,28 @@ export function ActionButton<T extends { id: string }>({
 
   return (
     <div className="flex gap-2">
-      <Button
-        size="sm"
-        variant="secondary"
-        className="text-white"
-        onClick={() => {
-          if (edit.onPageUrl) {
-            navigate(`${edit.onPageUrl}/${row.id}`);
-          } else {
-            openModal({
-              key: edit.key,
-              initiatorName: row.id,
-              data: row,
-            });
-          }
-        }}
-      >
-        <Pencil />
-      </Button>
+      {
+        edit && (
+          <Button
+            size="sm"
+            variant="secondary"
+            className="text-white"
+            onClick={() => {
+              if (edit.onPageUrl) {
+                navigate(`${edit.onPageUrl}/${row.id}`);
+              } else {
+                openModal({
+                  key: edit.key,
+                  initiatorName: row.id,
+                  data: row,
+                });
+              }
+            }}
+          >
+            <Pencil />
+          </Button>
+        )
+      }
 
       {/* ✅ Render Delete button only if deleteProps exists */}
       {deleteProps && (

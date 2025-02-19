@@ -3,7 +3,7 @@ import { Button } from "../../../../../components/ui/button";
 import { useCreateBooking } from "../../../../../api/mutations/room.mutation";
 
 type BookingProps = {
-  id: number;
+  id: string;
 };
 
 const Booking = ({ id }: BookingProps) => {

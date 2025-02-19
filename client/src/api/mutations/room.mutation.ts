@@ -37,7 +37,7 @@ export const useEditRoomMutation = ({initiatorName}:{initiatorName:string}) => {
 
 export const useCreateBooking = () => {
     return useMutation({
-      mutationFn: async (roomId: number) => {
+      mutationFn: async (roomId: string) => {
         const response = await api.get(`/room/${roomId}/booking`);
         return response.data.data;
       },

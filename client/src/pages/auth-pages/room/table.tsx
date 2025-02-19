@@ -4,7 +4,6 @@ import { Button } from "../../../components/ui/button";
 import { columns } from "./column";
 import useModalContext from "../../../hooks/useModalContext";
 import { useFetchRooms } from "../../../api/queries/room.query";
-// import { useFetchIngredients } from "../../../api/queries/ingredients.query";
 
 export default function RoomTable() {
   const { openModal } = useModalContext();
