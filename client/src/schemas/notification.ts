@@ -5,6 +5,7 @@ export const notificationSchema = z.object({
   type: z.enum(['Informational', 'Alert', 'Promotional']),
   priority: z.enum(['HighPriority', 'LowPriority']),
   sentby: z.string().min(1, 'Sender name is required'),
+  email: z.string().email().min(1, 'Email is required'),
   userId: z.string().optional()
 });
 
