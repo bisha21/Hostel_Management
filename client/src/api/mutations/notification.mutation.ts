@@ -5,7 +5,7 @@ import { TNotificationSchema } from "../../schemas/notification";
 
 export const useSingleNotificationMutation = () => {
     const sendNotificationMutation = useMutation({
-        mutationFn: (data: TNotificationSchema) => api.post('/sendnotification/', data),
+        mutationFn: (data: Omit<TNotificationSchema, 'isSendToAll'>) => api.post('/sendnotification/', data),
         onSuccess: () => {
             toastTrigger('Notification sent successfully',undefined,'success');
         },
@@ -17,10 +17,9 @@ export const useSingleNotificationMutation = () => {
     return sendNotificationMutation
 }
 
-
 export const useAllNotificationMutation = () => {
     const sendNotificationMutation = useMutation({
-        mutationFn: (data: TNotificationSchema) => api.post('/sendnotification/all', data),
+        mutationFn: (data: Omit<TNotificationSchema, 'email' | 'userId' | 'isSendToAll'>) => api.post('/sendnotification/all', data),
         onSuccess: () => {
             toastTrigger('Notification sent successfully',undefined,'success');
         },
