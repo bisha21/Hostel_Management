@@ -32,7 +32,7 @@ export default function EditBooking({
           : 'pending', // ✅ Ensure the status is valid
     },
   });
-  const { mutate } = useEditBookMutation({ initiatorName: initiatorName });
+  const { mutate } = useEditBookMutation({ initiatorName: initiatorName! });
 
   const onSubmit = (data: TBookingValidationType): void => {
     mutate(data, {

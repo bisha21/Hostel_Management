@@ -1,6 +1,7 @@
 import Notification from "../model/notificationModel.js";
 import User from "../model/userModal.js";
 import { sendMail } from "../utlis/emai.js";
+import { getAll } from "./handleFactoryController.js";
 
 export const createNotification = async (req, res) => {
   const { message, type, priority, sentby,username,email } = req.body;
@@ -93,3 +94,5 @@ export const createNotificationForAll = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+export const getAllNotification = getAll(Notification);
