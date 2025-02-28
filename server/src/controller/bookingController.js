@@ -8,8 +8,6 @@ import { senComplaintdMail } from '../utlis/complaintEmail.js';
 export const createBooking = asyncHandler(async (req, res, next) => {
     const roomId = req.params.roomId;
     const user = req.user;
-    console.log("Yout hiy")
-
     const room = await Room.findByPk(roomId);
 
     if (!room) {
@@ -27,6 +25,10 @@ export const createBooking = asyncHandler(async (req, res, next) => {
     console.log(activeBookings);
 
     if (activeBookings >= room.Capacity) {
+        // console.log("YOu hit complete route broo!!!!!!!!")
+        // room.Status = 'Occupied';
+
+        // await room.save();
         return res.status(400).json({ status: 'fail', message: 'Room is fully booked' });
     }
 
@@ -45,7 +47,7 @@ export const createBooking = asyncHandler(async (req, res, next) => {
     });
 
     if (booking) {
-        if (activeBookings + 1 >= room.capacity) {
+        if (activeBookings >= room.Capacity) {
             room.Status = 'Occupied';
         } else {
             room.Status = 'Available';

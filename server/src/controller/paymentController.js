@@ -31,11 +31,14 @@ export const initializeKhaltiPaymentHandler = async (req, res, next) => {
             amount: booking.total_amount * 100, // Amount in paisa (Rs * 100)
             purchase_order_id: String(booking.id), // Use booking ID as transaction reference
             purchase_order_name: `Booking #${bookingId}`,
-            return_url: "https://khalti.com/api/v2/payment/verify/",
-            website_url: "http://localhost:5173/",
+            return_url: "http://localhost:5173/student/rooms",
+            website_url: "https://dev.khalti.com/api/v2/",
         });
 
         console.log("Initiated payment:", paymentInitiate);
+        if(paymentInitiate){
+            Booking.paymentStatus="confirmed";
+        }
 
         // Check if the necessary fields are available
         if (!paymentInitiate.pidx || !paymentInitiate.payment_url) {
@@ -119,7 +122,33 @@ export const completeKhaltiPayment = asyncHandler(async (req, res, next) => {
         console.error("Error during payment verification:", error);
         res.status(500).json({
             success: false,
-            message: error.message || "Internal Server Error",
+            message: error,
         });
     }
 });
+
+
+export const getAllPayment = asyncHandler(async (req, res, next) => {
+    const payment = await Payment.findAll();
+    if (payment.length === 0) {
+        return next(new AppError(error.message, 404));
+    }
+    return res.status(200).json({
+        sucess: true,
+        data: payment,
+    });
+})
+export const deletePayment = asyncHandler(async (req, res, next) => {
+    const { id } = req.params;
+    const payment = await Payment.findByPk(id);
+    if (!payment) {
+        return next(new AppError("No payment found", 404));
+    }
+    await payment.destroy();
+    return res.status(200).json({
+        sucess: true,
+        message: "Payment deleted successfully"
+    })
+
+
+})

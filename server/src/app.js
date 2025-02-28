@@ -14,6 +14,7 @@ import studentRoute from './routes/studentRoute.js';
 import cors from 'cors';
 import complaintRoute from './routes/complaintRoutes.js';
 import { sequelize } from "./database.js";
+import Booking from "./model/bookingModel.js";
 dotenv.config();
 
 
@@ -34,7 +35,7 @@ app.use(
 );
 
 // (async () => {
-//     await sequelize.sync({ alter: true });
+//     await Booking.sync({ force: true });
 //     console.log('All models were synchronized successfully.');
 // })();
 
