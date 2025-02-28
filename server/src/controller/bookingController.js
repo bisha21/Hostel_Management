@@ -8,8 +8,6 @@ import { senComplaintdMail } from '../utlis/complaintEmail.js';
 export const createBooking = asyncHandler(async (req, res, next) => {
     const roomId = req.params.roomId;
     const user = req.user;
-    console.log("Yout hiy")
-
     const room = await Room.findByPk(roomId);
 
     if (!room) {

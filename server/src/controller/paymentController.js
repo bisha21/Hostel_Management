@@ -36,6 +36,9 @@ export const initializeKhaltiPaymentHandler = async (req, res, next) => {
         });
 
         console.log("Initiated payment:", paymentInitiate);
+        if(paymentInitiate){
+            Booking.paymentStatus="confirmed";
+        }
 
         // Check if the necessary fields are available
         if (!paymentInitiate.pidx || !paymentInitiate.payment_url) {
