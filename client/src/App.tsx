@@ -19,6 +19,7 @@ import MarkAttendance from './pages/auth-pages/student-route/_components/attenda
 import AttendancePage from './pages/auth-pages/attendance/page';
 import StudentPage from './pages/auth-pages/student/page';
 import NotificationPage from './pages/auth-pages/notification/page';
+import ComplaintPage from './pages/auth-pages/student-route/Complaint';
 
 function App() {
   return (
@@ -59,6 +60,7 @@ function App() {
             <Route path='/student/rooms/:id' element={<RoomDetail />} />
             <Route path='/student/contact' element={<Contact/>} />
             <Route path='/student/about' element={<About/>} />
+            <Route path='/student/complaint' element={<ComplaintPage />} />
           </Route>
         </Routes>
       </BrowserRouter>
