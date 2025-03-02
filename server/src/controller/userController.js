@@ -41,14 +41,30 @@ export const registerUser = asyncHandler(async (req, res, next) => {
         profile
     });
 
-    // Generate authentication token
-    const authToken = await createToken({ userId: newUser.id, email: newUser.email, user_type: newUser.user_type,username: newUser.username});
+    // Fetch the user with bookings and rooms
+    const userWithDetails = await User.findByPk(newUser.id, {
+        include: [
+            {
+                model: Booking,
+                attributes: ["id", "userId", "roomId", "total_amount", "status"],
+                include: [
+                    {
+                        model: Room,
+                        attributes: ["id", "RoomNumber", "Type", "Price"]
+                    }
+                ]
+            }
+        ]
+    });
+
+    // Generate token and respond
+    const authToken = await createToken({ userId: userWithDetails.id, email: userWithDetails.email, user_type: userWithDetails.user_type, username: userWithDetails.username });
     res.cookie("authToken", authToken);
-    // Respond with the created user and token
+
     res.status(200).json({
         status: 'success',
         data: {
-            ...newUser.dataValues,
+            ...userWithDetails.dataValues,
             authToken,
         },
     });
@@ -57,7 +73,21 @@ export const registerUser = asyncHandler(async (req, res, next) => {
 export const login = asyncHandler(async (req, res, next) => {
     const { email, password } = req.body;
 
-    const user = await User.findOne({ where: { email } });
+    const user = await User.findOne({
+        where: { email },
+        include: [
+            {
+                model: Booking,
+                attributes: ["id", "userId", "roomId", "total_amount", "status"],
+                include: [
+                    {
+                        model: Room,
+                        attributes: ["id", "RoomNumber", "Type", "Price"]
+                    }
+                ]
+            }
+        ]
+    });
 
     if (!user) {
         return next(new AppError('Invalid email or password', 400));
