@@ -1,27 +1,14 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
 import { useNavigate, useParams } from "react-router";
 import { toastTrigger } from "../../../lib/utils";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../../components/ui/card";
-import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "../../../components/ui/form";
+import { FormField, FormItem, FormLabel, FormControl, FormMessage, Form } from "../../../components/ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../../components/ui/select";
 import FormInput from "../../../components/reusables/form-input";
 import { Button } from "../../../components/ui/button";
 import { Textarea } from "../../../components/ui/textarea";
-
-
-
-// Define the schema for form validation
-const complaintSchema = z.object({
-  description: z.string().min(10, "Description must be at least 10 characters"),
-  category: z.enum(["Maintenance", "Housekeeping"], {
-    required_error: "Please select a category",
-  }),
-  feedback: z.string().min(5, "Feedback must be at least 5 characters"),
-});
-
-type ComplaintFormValues = z.infer<typeof complaintSchema>;
+import { ComplaintFormValues, complaintSchema } from "../../../schemas/complaint";
 
 const ComplaintPage = () => {
   const navigate = useNavigate();
@@ -69,6 +56,7 @@ const ComplaintPage = () => {
         </CardDescription>
       </CardHeader>
       <CardContent>
+        <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
             control={form.control}
@@ -140,6 +128,7 @@ const ComplaintPage = () => {
             <Button type="submit">Submit Complaint</Button>
           </div>
         </form>
+        </Form>
       </CardContent>
     </Card>
   );
