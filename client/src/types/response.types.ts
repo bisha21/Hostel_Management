@@ -9,6 +9,7 @@ export type TRoomResponse = {
   FloorNumber: number;
   updatedAt: string;
   createdAt: string;
+  bookings: any[];
 };
 
 export type TBookingsResponse = {

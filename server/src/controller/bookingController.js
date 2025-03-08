@@ -18,17 +18,27 @@ export const createBooking = asyncHandler(async (req, res, next) => {
         return res.status(401).json({ status: 'fail', message: 'User not authenticated' });
     }
 
+    // Check if the user already has an active booking in ANY room
+    const existingBooking = await Booking.findOne({
+        where: {
+            userId: user.userId,
+            status: { [Op.notIn]: ['cancelled', 'completed'] }, // Prevent booking if any active booking exists
+        },
+    });
+
+    if (existingBooking) {
+        return res.status(400).json({
+            status: 'fail',
+            message: 'You already have an active booking and cannot book another room.',
+        });
+    }
+
     // Count active bookings for this room
     const activeBookings = await Booking.count({
         where: { roomId: roomId, status: { [Op.not]: 'completed' } }
     });
-    console.log(activeBookings);
 
     if (activeBookings >= room.Capacity) {
-        // console.log("YOu hit complete route broo!!!!!!!!")
-        // room.Status = 'Occupied';
-
-        // await room.save();
         return res.status(400).json({ status: 'fail', message: 'Room is fully booked' });
     }
 
@@ -46,15 +56,15 @@ export const createBooking = asyncHandler(async (req, res, next) => {
         endDate
     });
 
-    if (booking) {
-        if (activeBookings >= room.Capacity) {
-            room.Status = 'Occupied';
-        } else {
-            room.Status = 'Available';
-        }
-        await room.save();
-    }
+    // Update room status based on bookings
+    const updatedBookingsCount = await Booking.count({
+        where: { roomId: roomId, status: { [Op.not]: 'completed' } }
+    });
 
+    room.Status = updatedBookingsCount >= room.Capacity ? 'Occupied' : 'Available';
+    await room.save();
+
+    // Send booking email notification
     const emailOptions = {
         email: req.user.email,
         subject: 'Room has been booked',
@@ -65,13 +75,14 @@ export const createBooking = asyncHandler(async (req, res, next) => {
           Thank You
         `,
     };
-    // senComplaintdMail(emailOptions);
+    senComplaintdMail(emailOptions);
 
     res.status(201).json({
         status: 'success',
         data: booking,
     });
 });
+
 
 export const getBookings = asyncHandler(async (req, res, next) => {
 
@@ -99,20 +110,65 @@ export const getAllBookings = asyncHandler(async (req, res, next) => {
 
 export const updateBooking = asyncHandler(async (req, res, next) => {
     const booking = await Booking.findByPk(req.params.id);
-    if (!booking && booking.userId !== req.user.userId) {
+
+    if (!booking) {
         return next(new AppError('No booking found', 404));
     }
-    booking.status = req.body.status;
-    if (booking.status === 'cancelled') {
-
-        const room = await Room.findByPk(booking.roomId);
-        room.Status = 'Available';
-        await booking.destroy({ where: { id: booking.id } });
-        await room.save();
+    console.log("user",req.user)
+    // Allow admin to cancel any booking, but users can only cancel their own
+    const isAdmin = req.user.user_type === 'admin'; // Assuming role is stored in req.user
+    const isUserBooking = booking.userId === req.user.userId;
+    if (!isAdmin && !isUserBooking) {
+        return next(new AppError('You are not authorized to modify this booking', 403));
     }
-    await booking.save();
+
+    // Handle cancellation
+    if (req.body.status === 'cancelled') {
+        booking.status = 'cancelled';
+        booking.cancellation_date = new Date();
+        booking.cancellation_reason = req.body.cancellation_reason || 'No reason provided';
+
+        // Free up the room if no active bookings remain
+        const room = await Room.findByPk(booking.roomId);
+        const activeBookings = await Booking.count({
+            where: { roomId: booking.roomId, status: { [Op.not]: 'cancelled' } }
+        });
+
+        if (activeBookings === 0) {
+            room.Status = 'Available';
+        }
+
+        await room.save();
+        await booking.save();
+    } else {
+        // Update other booking details if needed
+        booking.status = req.body.status;
+        await booking.save();
+    }
+
     res.status(200).json({
         status: 'success',
         data: booking,
     });
 });
+
+
+// export const updateBooking = asyncHandler(async (req, res, next) => {
+//     const booking = await Booking.findByPk(req.params.id);
+//     if (!booking && booking.userId !== req.user.userId) {
+//         return next(new AppError('No booking found', 404));
+//     }
+//     booking.status = req.body.status;
+//     if (booking.status === 'cancelled') {
+
+//         const room = await Room.findByPk(booking.roomId);
+//         room.Status = 'Available';
+//         await booking.destroy({ where: { id: booking.id } });
+//         await room.save();
+//     }
+//     await booking.save();
+//     res.status(200).json({
+//         status: 'success',
+//         data: booking,
+//     });
+// });

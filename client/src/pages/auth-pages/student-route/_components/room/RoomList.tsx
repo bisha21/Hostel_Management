@@ -3,11 +3,12 @@ import RoomCard from './RoomCard';
 import { TRoomResponse } from '../../../../../types/response.types';
 import Spinner from '../Spinner';
 import { useSearchParams } from 'react-router';
+import useAuthContext from '../../../../../hooks/useAuthContext';
 
 const RoomList = () => {
   const { data: room, isLoading, error } = useFetchRooms();
   const [searchParams] = useSearchParams();
-
+  const { user } = useAuthContext();
   // Get the 'filter' query parameter
   const filter = searchParams.get('filter') || 'all';
 
@@ -33,8 +34,9 @@ const RoomList = () => {
 
   // Filter rooms based on the 'filter' parameter
   const filteredRooms = room.data.filter((room: TRoomResponse) => {
-    if (filter === 'all') return true; 
-    return room.Status === filter; 
+    if (filter === 'all') return true;
+    if (filter === 'Your Bookings') return room.bookings.some((booking) => (booking.userId === user?.id && booking.status !== 'cancelled'));
+    return room.Status === filter;
   });
 
   // Check if there are no rooms after filtering

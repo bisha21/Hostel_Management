@@ -1,5 +1,8 @@
 import {Link}  from 'react-router';
+import useAuthContext from '../../../hooks/useAuthContext';
 const Home = () => {
+  const {user} = useAuthContext();
+  console.log(user)
   return (
     <div className="relative isolate overflow-hidden bg-gray-900">
       <svg

@@ -6,7 +6,7 @@ function Filter() {
   const currentFilter = searchParms.get('filter') || 'all';
 
   function handleFilter(filter:any) {
-    const validFilters = ['all', 'Occupied', 'Available'];
+    const validFilters = ['all', 'Occupied', 'Available', 'Your Bookings'];
     if (validFilters.includes(filter)) {
       setSearchParams({ filter });
     }
@@ -20,6 +20,13 @@ function Filter() {
         currentFilter={currentFilter}
       >
         All
+      </Button>
+      <Button
+        filter="Your Bookings"
+        handleFilter={handleFilter}
+        currentFilter={currentFilter}
+      >
+        Your Bookings
       </Button>
       <Button
         filter="Occupied"

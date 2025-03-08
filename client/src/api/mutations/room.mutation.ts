@@ -2,7 +2,7 @@ import { api } from '../api';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toastTrigger } from '../../lib/utils';
 import { TRoomValidationType } from '../../schemas/room';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 const authToken = localStorage.getItem('authToken');
 
 export const useAddRoomMutation = () => {
@@ -41,7 +41,7 @@ export const useEditRoomMutation = ({
 
 export const useCreateBooking = () => {
   return useMutation({
-    mutationFn: async (roomId: number) => {
+    mutationFn: async (roomId: string) => {
       const { data } = await api.get(`/room/${roomId}/booking`);
       return data.data; // Booking data returned
     },
@@ -73,8 +73,9 @@ export const useCreateBooking = () => {
         );
       }
     },
-    onError: () => {
-      toastTrigger('Failed to create booking', undefined, 'error');
+
+    onError: (err:any) => {
+      toastTrigger((err?.response?.data?.message || "Failed to create booking"), undefined, 'error');
     },
   });
 };

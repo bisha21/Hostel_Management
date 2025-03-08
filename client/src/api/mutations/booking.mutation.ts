@@ -10,9 +10,8 @@ export const useEditBookMutation = ({initiatorName}:{initiatorName:string}) => {
         onSuccess: () => {
             toastTrigger('Booking edited successfully',undefined,'success');
         },
-        onError: (data) => {
-            console.log(data);
-            toastTrigger('Room edit failed',undefined,'error');
+        onError: () => {
+            toastTrigger('Booking edit failed',undefined,'error');
         }
     }
     )
