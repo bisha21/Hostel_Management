@@ -148,14 +148,14 @@ const DiningScheduleAdmin: React.FC = () => {
     };
 
     return (
-        <Card className="w-full">
-            <CardHeader>
+        <div className="w-full">
+            <CardHeader className='px-0'>
                 <CardTitle className="text-2xl font-bold">Manage Dining Schedule</CardTitle>
                 <CardDescription>
                     Add, edit or remove meals for each day of the week
                 </CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className='px-0'>
                 <Tabs defaultValue={activeDay} value={activeDay} onValueChange={(value) => setActiveDay(value as DayOfWeek)}>
                     <TabsList className="grid grid-cols-7 mb-4">
                         {days.map(day => (
@@ -336,7 +336,7 @@ const DiningScheduleAdmin: React.FC = () => {
                     ))}
                 </Tabs>
             </CardContent>
-        </Card>
+        </div>
     );
 };
 
