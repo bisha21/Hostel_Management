@@ -43,8 +43,21 @@ export const createRoom = asyncHandler(async (req, res, next) => {
     });
 });
 
+export const deleteRoom = asyncHandler(async (req, res, next) => {
+    const room = await Room.findByPk(req.params.id);
+    console.log("You hit delete");
+    if (!room) {
+        return next(new AppError("Room not found", 404));
+    }
+    await room.destroy();
+    return res.status(204).json({
+        status: "success",
+        data: null,
+        message: "Room deleted successfully",
+    });
+});
+
 
 export const updateRoom = updateOne(Room);
 export const getRoomById = getOne(Room);
 export const getAllRoom = getAll(Room);
-export const deleteRoom= deleteOne(Room);

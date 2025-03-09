@@ -28,6 +28,7 @@ export const createBooking = asyncHandler(async (req, res, next) => {
         room.Status = 'Occupied';
         console.log(activeBookings);
         await room.save();
+        return res.status(400).json({ status: 'fail', message: 'Room is fully booked' });
     }
 
 
@@ -44,19 +45,6 @@ export const createBooking = asyncHandler(async (req, res, next) => {
         startDate,
         endDate
     });
-
-
-
-    if (activeBookings === room.Capacity) {
-
-
-        return res.status(400).json({ status: 'fail', message: 'Room is fully booked' });
-
-    } else {
-        room.Status = 'Available';
-    }
-    await room.save();
-
 
 
     const emailOptions = {
@@ -108,22 +96,26 @@ export const updateBooking = asyncHandler(async (req, res, next) => {
     if (!booking && booking.userId !== req.user.userId) {
         return next(new AppError('No booking found', 404));
     }
-    let activeBookings = await Booking.count({
-        where: { roomId: roomId, status: { [Op.not]: 'confirmed' } }
+    // let activeBookings = await Booking.count({
+    //     where: { roomId: roomId, status: { [Op.not]: 'confirmed' } }
+    // });
+    let confirmedBookings = await Booking.count({
+        where: { roomId: roomId, status: { [Op.eq]: 'confirmed' } }
     });
-    console.log( "",activeBookings);
 
     booking.status = req.body.status;
     if (booking.status === 'cancelled') {
-        room.Status = 'Available';
-        activeBookings = activeBookings - 1;
-        if(activeBookings<0){
-            activeBookings=0;
-        }
-        console.log("Cancelled", activeBookings);
+        confirmedBookings = confirmedBookings - 1;
         await room.save();
     }
-    
+
+    if (confirmedBookings === room.Capacity) {
+        room.Status = 'Occupied';
+        await room.save();
+        return res.status(400).json({ status: 'fail', message: 'Room is fully booked' });
+    }
+    console.log(confirmedBookings, "aaaaaaaaa");
+
 
     await booking.save();
     res.status(200).json({

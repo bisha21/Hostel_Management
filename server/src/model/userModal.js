@@ -37,7 +37,7 @@ const User = sequelize.define('User', {
     type: DataTypes.ENUM('student', 'admin'),
     allowNull: false,
   },
-  address:{
+  address: {
     type: DataTypes.STRING,
     allowNull: false,
   },
@@ -49,15 +49,15 @@ const User = sequelize.define('User', {
     type: DataTypes.STRING,
     allowNull: true,
   },
-  
-},{
+
+}, {
   timestamps: true
 });
 
-User.hasMany(Booking, { foreignKey: "userId" });
-Booking.belongsTo(User, { foreignKey: "userId" });
+Room.hasMany(Booking, { foreignKey: "roomId", onDelete: "CASCADE" });
+Booking.belongsTo(Room, { foreignKey: "roomId", onDelete: "CASCADE" });
 
-Booking.belongsTo(Room, { foreignKey: "roomId" });
-Room.hasMany(Booking, { foreignKey: "roomId" });
+User.hasMany(Booking, { foreignKey: "userId", onDelete: "CASCADE" });
+Booking.belongsTo(User, { foreignKey: "userId", onDelete: "CASCADE" });
 
 export default User;
