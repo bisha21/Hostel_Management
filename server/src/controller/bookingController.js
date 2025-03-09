@@ -110,7 +110,7 @@ export const getAllBookings = asyncHandler(async (req, res, next) => {
 
 export const updateBooking = asyncHandler(async (req, res, next) => {
     const booking = await Booking.findByPk(req.params.id);
-
+    console.log("booking",booking)
     if (!booking) {
         return next(new AppError('No booking found', 404));
     }

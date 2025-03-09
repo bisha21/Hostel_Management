@@ -1,5 +1,6 @@
-import { useFetchBookings } from '../../api/queries/booking.query';
-import { DataTable } from '../../components/reusables/data-table';
+
+import { useFetchBookings } from '../../../api/queries/booking.query';
+import { DataTable } from '../../../components/reusables/data-table';
 import { bookingColumns } from './column';
 
 export default function BookingTable() {
