@@ -23,3 +23,24 @@ export type TBookingsResponse = {
   check_out_complete: boolean;
   cancellation_reason: string | null; 
 };
+
+// src/types/dining.ts
+export type DayOfWeek = 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday';
+export type MealType = 'breakfast' | 'lunch' | 'snacks' | 'dinner';
+
+export interface MealItem {
+  id: number;
+  day: DayOfWeek;
+  mealType: MealType;
+  items: string[];
+  startTime: string;
+  endTime: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface WeeklySchedule {
+  [day: string]: {
+    [mealType: string]: MealItem | null;
+  };
+}

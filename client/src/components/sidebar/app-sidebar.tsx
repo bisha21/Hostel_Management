@@ -55,7 +55,7 @@ const items = [
   },
   {
     title: "Dining",
-    url: "#",
+    url: "/dining",
     icon: UtensilsCrossed,
   },
 ]
