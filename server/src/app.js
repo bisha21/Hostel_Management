@@ -16,6 +16,7 @@ import cors from 'cors';
 import complaintRoute from './routes/complaintRoutes.js';
 import { sequelize } from "./database.js";
 import Booking from "./model/bookingModel.js";
+import { DiningSchedule } from "./model/diningModel.js";
 dotenv.config();
 
 
@@ -35,10 +36,10 @@ app.use(
     )
 );
 
-// (async () => {
-//     await Booking.sync({ force: true });
-//     console.log('All models were synchronized successfully.');
-// })();
+(async () => {
+    await DiningSchedule.sync({ force: true });
+    console.log('All models were synchronized successfully.');
+})();
 
 
 app.get('/', (req, res) => {

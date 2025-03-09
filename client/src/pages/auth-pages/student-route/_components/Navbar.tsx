@@ -14,6 +14,10 @@ const items = [
     url: '/student/rooms', // Added forward slash to make it a valid route
   },
   {
+    title: 'Dining',
+    url: '/student/dining', // Added forward slash to make it a valid route
+  },
+  {
     title: 'Contact',
     url: '/student/contact',
   },

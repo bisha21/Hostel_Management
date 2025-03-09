@@ -12,14 +12,14 @@ import { restrictTo } from "../middleware/restriction.js";
 
 const router = express.Router({ mergeParams: true });
 
-router.route("/").get(getAllMeals);
-router.route("/weekly-schedule").get(getWeeklySchedule);
-router.route("/:day").get(getMealsByDay);
+router.route("/meals").get(getAllMeals);
+router.route("/meals/weekly-schedule").get(getWeeklySchedule);
+router.route("/meals/:day").get(getMealsByDay);
 
 router.use(protectedRoutes); 
 
-router.route("/").post(restrictTo("student"), createMeal);
-router.route("/:day/:mealType")
+router.route("/meals").post(restrictTo("student"), createMeal);
+router.route("/meals/:day/:mealType")
   .put(restrictTo("student"), updateMeal)
   .delete(restrictTo("student"), deleteMeal);
 

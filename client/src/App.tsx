@@ -19,6 +19,8 @@ import MarkAttendance from './pages/auth-pages/student-route/_components/attenda
 import AttendancePage from './pages/auth-pages/attendance/page';
 import StudentPage from './pages/auth-pages/student/page';
 import NotificationPage from './pages/auth-pages/notification/page';
+import DiningScheduleAdmin from './pages/auth-pages/dining/page';
+import DiningScheduleView from './pages/auth-pages/student-route/Dining';
 
 function App() {
   return (
@@ -42,7 +44,7 @@ function App() {
             <Route path='bookings' element={<BookingPage />} />
             <Route path='attendance' element={<AttendancePage />} />
             <Route path='students' element={<StudentPage />} />
-            <Route path='students' element={<StudentPage />} />
+            <Route path='dining' element={<DiningScheduleAdmin />} />
             <Route path='notification' element={<NotificationPage />} />
           </Route>
           <Route
@@ -58,6 +60,7 @@ function App() {
             <Route path='/student/attendance' element={<MarkAttendance />} />
             <Route path='/student/rooms/:id' element={<RoomDetail />} />
             <Route path='/student/contact' element={<Contact/>} />
+            <Route path='/student/dining' element={<DiningScheduleView/>} />
             <Route path='/student/about' element={<About/>} />
           </Route>
         </Routes>
