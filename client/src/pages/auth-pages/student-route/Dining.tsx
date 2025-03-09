@@ -82,13 +82,13 @@ const DiningScheduleView: React.FC = () => {
                 <div className="min-h-[calc(100vh-200px)] bg-[rgba(255,255,255,0.1)] backdrop-blur-sm">
                     <Card className="w-full bg-gray-900 border-0 rounded-none">
                         <CardHeader>
-                            <CardTitle className="text-2xl font-bold text-teal-600">Dining Schedule</CardTitle>
+                            <CardTitle className="text-2xl font-bold text-teal-500">Dining Schedule</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <Tabs defaultValue={activeDay} className="w-full">
-                                <TabsList className="grid grid-cols-7 mb-4">
+                                <TabsList className="grid grid-cols-7 mb-4 bg-teal-950">
                                     {days.map(day => (
-                                        <TabsTrigger key={day} value={day} className="text-sm">
+                                        <TabsTrigger key={day} value={day} className="text-sm data-[state=active]:bg-orange-500 text-teal-500">
                                             {dayNames[day].substring(0, 3)}
                                         </TabsTrigger>
                                     ))}
@@ -107,7 +107,7 @@ const DiningScheduleView: React.FC = () => {
                                                         <div className="bg-muted p-4 flex items-center justify-between bg-teal-950">
                                                             <h4 className="text-lg font-medium text-orange-500">{mealNames[mealType]}</h4>
                                                             {meal && (
-                                                                <Badge variant="outline" className="text-xs">
+                                                                <Badge variant="outline" className="text-xs text-teal-200">
                                                                     {meal.startTime.substring(0, 5)} - {meal.endTime.substring(0, 5)}
                                                                 </Badge>
                                                             )}
@@ -116,11 +116,11 @@ const DiningScheduleView: React.FC = () => {
                                                             {meal ? (
                                                                 <ul className="list-disc pl-5 space-y-1">
                                                                     {meal.items.map((item, index) => (
-                                                                        <li key={index}>{item}</li>
+                                                                        <li key={index} className='text-teal-200'>{item}</li>
                                                                     ))}
                                                                 </ul>
                                                             ) : (
-                                                                <p className="text-muted-foreground italic">No menu available</p>
+                                                                <p className="text-muted-foreground italic text-teal-500">No menu available</p>
                                                             )}
                                                         </CardContent>
                                                     </Card>
