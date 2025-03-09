@@ -11,6 +11,7 @@ import attendanceRoute from './routes/attendanceRoutes.js'
 import paymentRoute from './routes/paymentRoutes.js'
 import reportRoute from './routes/reportRoutes.js';
 import studentRoute from './routes/studentRoute.js';
+import diningRoute from './routes/diningRoutes.js';
 import cors from 'cors';
 import complaintRoute from './routes/complaintRoutes.js';
 import { sequelize } from "./database.js";
@@ -57,6 +58,7 @@ app.use('/api/sendnotification', notificationRoute);
 app.use('/api/attendance', attendanceRoute);
 app.use('/api/payment', paymentRoute);
 app.use('/api/report', reportRoute);
+app.use('/api/dining', diningRoute);
 // app.use('/api/review', reviewRoute);
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
