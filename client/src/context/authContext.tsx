@@ -1,4 +1,20 @@
 import React, { createContext, useEffect, useState } from 'react';
+
+export type Room = {
+  id: number;
+  RoomNumber: string;
+  Type: "Single" | "Double" | "Triple";
+  Price: number;
+};
+
+export type Booking = {
+  id: number;
+  userId: number;
+  roomId: number;
+  total_amount: string;
+  status: "pending" | "confirmed" | "cancelled";
+  Room: Room;
+};
 export type UserType = {
   id: number;
   username: string;
@@ -6,6 +22,7 @@ export type UserType = {
   address: string;
   phone_number: string;
   profile_picture: string | null;
+  bookings: Booking[];
 };
 
 type AuthContextType = {

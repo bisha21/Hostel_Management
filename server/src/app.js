@@ -14,6 +14,7 @@ import studentRoute from './routes/studentRoute.js';
 import diningRoute from './routes/diningRoutes.js';
 import cors from 'cors';
 import complaintRoute from './routes/complaintRoutes.js';
+import "./model/associations.js"
 import { sequelize } from "./database.js";
 import Booking from "./model/bookingModel.js";
 import { DiningSchedule } from "./model/diningModel.js";
@@ -36,6 +37,13 @@ app.use(
     )
 );
 
+sequelize.sync({ alter: true }) 
+    .then(() => console.log("Database synchronized"))
+    .catch(err => console.log("Error syncing database:", err));
+// (async () => {
+//     await Booking.sync({ force: true });
+//     console.log('All models were synchronized successfully.');
+// })();
 (async () => {
     await DiningSchedule.sync({ force: true });
     console.log('All models were synchronized successfully.');

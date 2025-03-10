@@ -1,5 +1,3 @@
-import React from 'react';
-
 const About = () => {
   return (
     <section className="bg-[#141c24] ">
@@ -50,22 +48,22 @@ const About = () => {
               <img
                 className="relative z-30 inline-block h-10 w-10 rounded-full ring-2 ring-white"
                 src="https://randomuser.me/api/portraits/men/34.jpg"
-                alt
+                alt="User 1"
               />
               <img
                 className="relative z-20 inline-block h-10 w-10 rounded-full ring-2 ring-white"
                 src="https://randomuser.me/api/portraits/women/2.jpg"
-                alt
+                alt="User 2"
               />
               <img
                 className="relative z-10 inline-block h-10 w-10 rounded-full ring-2 ring-white"
                 src="https://randomuser.me/api/portraits/women/3.jpg"
-                alt
+                alt="User 3"
               />
               <img
                 className="relative z-0 inline-block h-10 w-10 rounded-full ring-2 ring-white"
                 src="https://randomuser.me/api/portraits/men/4.jpg"
-                alt
+                alt="User 4"
               />
               <span className="!ml-2 font-bold italic text-teal-300">
                 Join these awesome members

@@ -6,12 +6,16 @@ const items = [
     url: '/student',
   },
   {
-    title: 'Attendance', // Fixed typo from "Attendence" to "Attendance"
+    title: 'Rooms',
+    url: '/student/rooms', 
+  },
+  {
+    title: 'Attendance',
     url: '/student/attendance',
   },
   {
-    title: 'Rooms',
-    url: '/student/rooms', // Added forward slash to make it a valid route
+    title: 'Complaints',
+    url: '/student/complaint',
   },
   {
     title: 'Dining',
@@ -25,6 +29,7 @@ const items = [
     title: 'About',
     url: '/student/about', // Added forward slash to make it a valid route
   },
+  
 ];
 
 const Navbar = () => {

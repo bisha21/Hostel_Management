@@ -1,10 +1,11 @@
 import { ColumnDef } from '@tanstack/react-table';
-import { Checkbox } from '../../components/ui/checkbox';
-import { Button } from '../../components/ui/button';
 import { ArrowUpDown } from 'lucide-react';
+import { TBookingsResponse } from '../../../types/response.types';
+import { Checkbox } from '../../../components/ui/checkbox';
+import { Button } from '../../../components/ui/button';
+import { ActionButton } from '../../../components/reusables/action-button';
 // import { ActionButton } from '../../components/reusables/action-button';
-import { TBookingsResponse } from '../../types/response.types';
-import { ActionButton } from '../../components/reusables/action-button';
+
 
 export const bookingColumns: ColumnDef<TBookingsResponse>[] = [
   {

@@ -17,16 +17,14 @@ const Payment = sequelize.define("Payment", {
   pidx: {
     type: DataTypes.STRING,
     unique: true,
-    allowNull: false,
-
-    
+    allowNull: false,    
   },
   amount: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
   paymentGateway: {
-    type: DataTypes.ENUM("khalti"),
+    type: DataTypes.ENUM("khalti",'cash'),
     allowNull: false,
   },
   status: {
