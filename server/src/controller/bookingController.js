@@ -41,7 +41,6 @@ export const createBooking = asyncHandler(async (req, res, next) => {
     if (activeBookings >= room.Capacity) {
         activeBookings = room.Capacity;
         room.Status = 'Occupied';
-        console.log(activeBookings);
         await room.save();
         return res.status(400).json({ status: 'fail', message: 'Room is fully booked' });
     }
@@ -146,23 +145,3 @@ export const updateBooking = asyncHandler(async (req, res, next) => {
     });
 });
 
-
-// export const updateBooking = asyncHandler(async (req, res, next) => {
-//     const booking = await Booking.findByPk(req.params.id);
-//     if (!booking && booking.userId !== req.user.userId) {
-//         return next(new AppError('No booking found', 404));
-//     }
-//     booking.status = req.body.status;
-//     if (booking.status === 'cancelled') {
-
-//         const room = await Room.findByPk(booking.roomId);
-//         room.Status = 'Available';
-//         await booking.destroy({ where: { id: booking.id } });
-//         await room.save();
-//     }
-//     await booking.save();
-//     res.status(200).json({
-//         status: 'success',
-//         data: booking,
-//     });
-// });
