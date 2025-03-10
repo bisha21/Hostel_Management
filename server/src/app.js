@@ -18,6 +18,7 @@ import "./model/associations.js"
 import { sequelize } from "./database.js";
 import Booking from "./model/bookingModel.js";
 import { DiningSchedule } from "./model/diningModel.js";
+import Payment from "./model/paymentModel.js";
 dotenv.config();
 
 
@@ -44,10 +45,10 @@ sequelize.sync({ alter: true })
 //     await Booking.sync({ force: true });
 //     console.log('All models were synchronized successfully.');
 // })();
-(async () => {
-    await DiningSchedule.sync({ force: true });
-    console.log('All models were synchronized successfully.');
-})();
+// (async () => {
+//     await Payment.sync({ force: true });
+//     console.log('All models were synchronized successfully.');
+// })();
 
 
 app.get('/', (req, res) => {

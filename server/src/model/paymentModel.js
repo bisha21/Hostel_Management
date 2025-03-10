@@ -17,16 +17,20 @@ const Payment = sequelize.define("Payment", {
   pidx: {
     type: DataTypes.STRING,
     unique: true,
-    allowNull: false,    
+    
   },
   amount: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
   paymentGateway: {
-    type: DataTypes.ENUM("khalti",'cash'),
+    type: DataTypes.ENUM("khalti", 'cash'),
     allowNull: false,
   },
+  purpose: {
+    type: DataTypes.STRING,
+  },
+
   status: {
     type: DataTypes.ENUM("success", "pending", "failed"),
     defaultValue: "pending",
@@ -46,10 +50,10 @@ const Payment = sequelize.define("Payment", {
 
 Payment.belongsTo(Room, {
   foreignKey: {
-    name: "roomId", 
+    name: "roomId",
     allowNull: false,
   },
-  onDelete: "CASCADE", 
+  onDelete: "CASCADE",
 });
 
 export default Payment;

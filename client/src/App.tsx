@@ -22,6 +22,7 @@ import DiningScheduleAdmin from './pages/auth-pages/dining/page';
 import DiningScheduleView from './pages/auth-pages/student-route/Dining';
 import ComplaintPage from './pages/auth-pages/student-route/Complaint';
 import BookingPage from './pages/auth-pages/bookings/page';
+import PaymentPage from './pages/auth-pages/payment/page';
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
             <Route path='students' element={<StudentPage />} />
             <Route path='dining' element={<DiningScheduleAdmin />} />
             <Route path='notification' element={<NotificationPage />} />
+            <Route path='payment' element={<PaymentPage />} />
           </Route>
           <Route
             path="/student"

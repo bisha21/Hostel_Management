@@ -1,5 +1,6 @@
 import Booking from "../model/bookingModel.js";
 import Payment from "../model/paymentModel.js";
+import Room from "../model/RoomModal.js";
 import AppError from "../utlis/appError.js";
 import asyncHandler from "../utlis/catchAsync.js";
 import { initializeKhaltiPayment, verifyKhaltiPayment } from "../utlis/khalti.js";
@@ -36,8 +37,8 @@ export const initializeKhaltiPaymentHandler = async (req, res, next) => {
         });
 
         console.log("Initiated payment:", paymentInitiate);
-        if(paymentInitiate){
-            Booking.paymentStatus="confirmed";
+        if (paymentInitiate) {
+            Booking.paymentStatus = "confirmed";
         }
 
         // Check if the necessary fields are available
@@ -128,10 +129,11 @@ export const completeKhaltiPayment = asyncHandler(async (req, res, next) => {
 });
 
 
+
 export const getAllPayment = asyncHandler(async (req, res, next) => {
     const payment = await Payment.findAll();
     if (payment.length === 0) {
-        return next(new AppError(error.message, 404));
+        return next(new AppError("Payment not found", 404));
     }
     return res.status(200).json({
         sucess: true,
@@ -152,3 +154,59 @@ export const deletePayment = asyncHandler(async (req, res, next) => {
 
 
 })
+
+
+export const processCashPayment = asyncHandler(async (req, res, next) => {
+    const { purpose, transactionId, amount, roomName } = req.body;
+    console.log(req.body);
+
+    try {
+        const room = await Room.findOne({ where: { RoomNumber: roomName } });
+        if (!room) {
+            return next(new AppError("Room not found", 404));
+        }
+
+        const booking = await Booking.findOne({
+            where: { id: room.id, status: "pending" },
+            order: [["createdAt", "DESC"]],
+        });
+
+        if (!booking) {
+            return next(new AppError("No active booking found for this room", 404));
+        }
+
+        if (!transactionId) {
+            return next(new AppError("Transaction ID is required", 400));
+        }
+
+        if (booking.status === "confirmed") {
+            return res.status(400).json({
+                status: "fail",
+                message: "Payment has already been completed for this booking.",
+            });
+        }
+
+        const payment = await Payment.create({
+            transactionId: `cash-${transactionId}`,
+            amount: amount || booking.total_amount,
+            paymentGateway: "cash",
+            status: "success",
+            description: `Cash payment for booking #${booking.id}`,
+            roomId: booking.roomId,
+            purpose: purpose,
+        });
+
+        if (payment) {
+            booking.status = "confirmed";
+            await booking.save();
+        }
+
+        res.status(200).json({
+            status: "success",
+            message: "Cash payment recorded successfully.",
+            payment,
+        });
+    } catch (error) {
+        return next(new AppError(error.message, 500));
+    }
+});
