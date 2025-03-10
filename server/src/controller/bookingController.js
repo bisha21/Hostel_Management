@@ -34,13 +34,17 @@ export const createBooking = asyncHandler(async (req, res, next) => {
     }
 
     // Count active bookings for this room
-    const activeBookings = await Booking.count({
-        where: { roomId: roomId, status: { [Op.not]: 'completed' } }
+    let activeBookings = await Booking.count({
+        where: { roomId: roomId, status: { [Op.not]: 'confirmed' } }
     });
 
     if (activeBookings >= room.Capacity) {
+        activeBookings = room.Capacity;
+        room.Status = 'Occupied';
+        await room.save();
         return res.status(400).json({ status: 'fail', message: 'Room is fully booked' });
     }
+
 
     const startDate = new Date();
     const endDate = new Date();
@@ -56,13 +60,6 @@ export const createBooking = asyncHandler(async (req, res, next) => {
         endDate
     });
 
-    // Update room status based on bookings
-    const updatedBookingsCount = await Booking.count({
-        where: { roomId: roomId, status: { [Op.not]: 'completed' } }
-    });
-
-    room.Status = updatedBookingsCount >= room.Capacity ? 'Occupied' : 'Available';
-    await room.save();
 
     // Send booking email notification
     const emailOptions = {
@@ -110,34 +107,21 @@ export const getAllBookings = asyncHandler(async (req, res, next) => {
 
 export const updateBooking = asyncHandler(async (req, res, next) => {
     const booking = await Booking.findByPk(req.params.id);
-    console.log("booking",booking)
-    if (!booking) {
+    const roomId = booking.roomId;
+    const room = await Room.findByPk(roomId);
+    if (!booking && booking.userId !== req.user.userId) {
         return next(new AppError('No booking found', 404));
     }
-    console.log("user",req.user)
-    // Allow admin to cancel any booking, but users can only cancel their own
-    const isAdmin = req.user.user_type === 'admin'; // Assuming role is stored in req.user
-    const isUserBooking = booking.userId === req.user.userId;
-    if (!isAdmin && !isUserBooking) {
-        return next(new AppError('You are not authorized to modify this booking', 403));
-    }
+    // let activeBookings = await Booking.count({
+    //     where: { roomId: roomId, status: { [Op.not]: 'confirmed' } }
+    // });
+    let confirmedBookings = await Booking.count({
+        where: { roomId: roomId, status: { [Op.eq]: 'confirmed' } }
+    });
 
-    // Handle cancellation
-    if (req.body.status === 'cancelled') {
-        booking.status = 'cancelled';
-        booking.cancellation_date = new Date();
-        booking.cancellation_reason = req.body.cancellation_reason || 'No reason provided';
-
-        // Free up the room if no active bookings remain
-        const room = await Room.findByPk(booking.roomId);
-        const activeBookings = await Booking.count({
-            where: { roomId: booking.roomId, status: { [Op.not]: 'cancelled' } }
-        });
-
-        if (activeBookings === 0) {
-            room.Status = 'Available';
-        }
-
+    booking.status = req.body.status;
+    if (booking.status === 'cancelled') {
+        confirmedBookings = confirmedBookings - 1;
         await room.save();
         await booking.save();
     } else {
@@ -146,29 +130,18 @@ export const updateBooking = asyncHandler(async (req, res, next) => {
         await booking.save();
     }
 
+    if (confirmedBookings === room.Capacity) {
+        room.Status = 'Occupied';
+        await room.save();
+        return res.status(400).json({ status: 'fail', message: 'Room is fully booked' });
+    }
+    console.log(confirmedBookings, "aaaaaaaaa");
+
+
+    await booking.save();
     res.status(200).json({
         status: 'success',
         data: booking,
     });
 });
 
-
-// export const updateBooking = asyncHandler(async (req, res, next) => {
-//     const booking = await Booking.findByPk(req.params.id);
-//     if (!booking && booking.userId !== req.user.userId) {
-//         return next(new AppError('No booking found', 404));
-//     }
-//     booking.status = req.body.status;
-//     if (booking.status === 'cancelled') {
-
-//         const room = await Room.findByPk(booking.roomId);
-//         room.Status = 'Available';
-//         await booking.destroy({ where: { id: booking.id } });
-//         await room.save();
-//     }
-//     await booking.save();
-//     res.status(200).json({
-//         status: 'success',
-//         data: booking,
-//     });
-// });

@@ -71,6 +71,7 @@ export const getAllRoom = asyncHandler(async (req, res, next) => {
             },
         ],
     });
+    
 
     if (!room) {
         return next(new AppError("Room not found", 404));
