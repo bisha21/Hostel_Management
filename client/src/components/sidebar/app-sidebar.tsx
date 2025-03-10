@@ -45,7 +45,7 @@ const items = [
   },
   {
     title: "Payment",
-    url: "#",
+    url: "/payment",
     icon: HandCoins,
   },
   {

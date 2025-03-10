@@ -2,6 +2,7 @@ import { ModalType } from "../types/modal.types";
 import EditBooking from "./booking/edit-booking";
 import DeleteModal from "./delete-modal";
 import AddNotification from "./notification/add-notification";
+import AddTransaction from "./payment/add-payment";
 import AddRoom from "./room/add-room";
 import EditRoom from "./room/edit-room";
 
@@ -12,7 +13,8 @@ type TModalData = {
   };
 };
 
-export type TModalKeys = "ADD_ROOM" | "EDIT_ROOM" | "DELETE_ITEM"|"EDIT_BOOKING"|"SEND_NOTIFICATION";
+export type TModalKeys = "ADD_ROOM" | "EDIT_ROOM" | "DELETE_ITEM"|"EDIT_BOOKING"|"SEND_NOTIFICATION" |"ADD_TRANSACTION"
+;
 
 export const ModalData: TModalData = {
   DELETE_ITEM: {
@@ -34,5 +36,9 @@ export const ModalData: TModalData = {
   SEND_NOTIFICATION: {
     title: "Send Notification",
     component: AddNotification,
+  },
+  ADD_TRANSACTION:{
+    title: "Add Transaction",
+    component: AddTransaction
   }
 };
