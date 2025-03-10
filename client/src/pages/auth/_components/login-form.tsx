@@ -25,7 +25,6 @@ export default function LoginForm() {
 
     const onSubmit = (data: TLoginType) => {
         mutate(data, {
-
             onSuccess: (res) => {
                 const response = res.data.data;
                 const userData: UserType = {
@@ -35,6 +34,7 @@ export default function LoginForm() {
                     address: response.address,
                     phone_number: response.phone_number,
                     profile_picture: response.profile_picture,
+                    bookings: response.Bookings,
                 };
 
                 setUser(userData);

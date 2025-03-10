@@ -73,4 +73,5 @@ const  Booking = sequelize.define('Booking',{
       },
      
 })
+
 export default Booking;

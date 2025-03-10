@@ -10,11 +10,9 @@ export const protectedRoutes = asyncHandler(async (req, res, next) => {
 
     if (authHeader && authHeader.startsWith("Bearer ")) {
       authToken = authHeader.split(" ")[1];
-      console.log("Bearer token:", authToken);
     } else if (req.headers.cookie) {
       const cookie = req.headers.cookie;
       authToken = cookie.split("=")[1];
-      console.log("Cookie token:", authToken);
     }
 
     if (!authToken) {

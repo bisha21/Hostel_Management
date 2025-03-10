@@ -18,6 +18,21 @@ export const createBooking = asyncHandler(async (req, res, next) => {
         return res.status(401).json({ status: 'fail', message: 'User not authenticated' });
     }
 
+    // Check if the user already has an active booking in ANY room
+    const existingBooking = await Booking.findOne({
+        where: {
+            userId: user.userId,
+            status: { [Op.notIn]: ['cancelled', 'completed'] }, // Prevent booking if any active booking exists
+        },
+    });
+
+    if (existingBooking) {
+        return res.status(400).json({
+            status: 'fail',
+            message: 'You already have an active booking and cannot book another room.',
+        });
+    }
+
     // Count active bookings for this room
     let activeBookings = await Booking.count({
         where: { roomId: roomId, status: { [Op.not]: 'confirmed' } }
@@ -47,6 +62,7 @@ export const createBooking = asyncHandler(async (req, res, next) => {
     });
 
 
+    // Send booking email notification
     const emailOptions = {
         email: req.user.email,
         subject: 'Room has been booked',
@@ -57,13 +73,14 @@ export const createBooking = asyncHandler(async (req, res, next) => {
           Thank You
         `,
     };
-    // senComplaintdMail(emailOptions);
+    senComplaintdMail(emailOptions);
 
     res.status(201).json({
         status: 'success',
         data: booking,
     });
 });
+
 
 export const getBookings = asyncHandler(async (req, res, next) => {
 
@@ -107,6 +124,11 @@ export const updateBooking = asyncHandler(async (req, res, next) => {
     if (booking.status === 'cancelled') {
         confirmedBookings = confirmedBookings - 1;
         await room.save();
+        await booking.save();
+    } else {
+        // Update other booking details if needed
+        booking.status = req.body.status;
+        await booking.save();
     }
 
     if (confirmedBookings === room.Capacity) {
@@ -123,3 +145,24 @@ export const updateBooking = asyncHandler(async (req, res, next) => {
         data: booking,
     });
 });
+
+
+// export const updateBooking = asyncHandler(async (req, res, next) => {
+//     const booking = await Booking.findByPk(req.params.id);
+//     if (!booking && booking.userId !== req.user.userId) {
+//         return next(new AppError('No booking found', 404));
+//     }
+//     booking.status = req.body.status;
+//     if (booking.status === 'cancelled') {
+
+//         const room = await Room.findByPk(booking.roomId);
+//         room.Status = 'Available';
+//         await booking.destroy({ where: { id: booking.id } });
+//         await room.save();
+//     }
+//     await booking.save();
+//     res.status(200).json({
+//         status: 'success',
+//         data: booking,
+//     });
+// });

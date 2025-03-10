@@ -1,5 +1,4 @@
 import { sequelize } from "../database.js";
-
 import { DataTypes } from 'sequelize';
 const Room = sequelize.define('Room', {
     id: {
@@ -39,7 +38,6 @@ const Room = sequelize.define('Room', {
     allowNull: false,
    },
 });
-
 
 
 export default Room;

@@ -1,5 +1,6 @@
 import {Link}  from 'react-router';
 const Home = () => {
+
   return (
     <div className="relative isolate overflow-hidden bg-gray-900">
       <svg
