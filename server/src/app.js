@@ -38,9 +38,9 @@ app.use(
     )
 );
 
-sequelize.sync({ alter: true }) 
-    .then(() => console.log("Database synchronized"))
-    .catch(err => console.log("Error syncing database:", err));
+// sequelize.sync({ alter: true }) 
+//     .then(() => console.log("Database synchronized"))
+//     .catch(err => console.log("Error syncing database:", err));
 // (async () => {
 //     await Booking.sync({ force: true });
 //     console.log('All models were synchronized successfully.');

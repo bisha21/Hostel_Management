@@ -7,6 +7,6 @@ router.post('/:bookingId', initializeKhaltiPaymentHandler);
 router.get("/complete-payment", completeKhaltiPayment);
 router.get('/', getAllPayment);
 router.delete('/:id', deletePayment);
-router.post('/cash',processCashPayment);
+router.post('/',processCashPayment);
 
 export default router;

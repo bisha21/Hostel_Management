@@ -157,21 +157,24 @@ export const deletePayment = asyncHandler(async (req, res, next) => {
 
 
 export const processCashPayment = asyncHandler(async (req, res, next) => {
+    console.log("hit that route")
     const { purpose, transactionId, amount, roomName } = req.body;
-    console.log(req.body);
+       console.log(req.body);
 
     try {
         const room = await Room.findOne({ where: { RoomNumber: roomName } });
+        console.log("Room",room.id);
         if (!room) {
             return next(new AppError("Room not found", 404));
-        }
+        } 
 
         const booking = await Booking.findOne({
-            where: { id: room.id, status: "pending" },
+            where: { roomId: room.id },
             order: [["createdAt", "DESC"]],
         });
 
         if (!booking) {
+            console.log("hehe")
             return next(new AppError("No active booking found for this room", 404));
         }
 
@@ -180,6 +183,7 @@ export const processCashPayment = asyncHandler(async (req, res, next) => {
         }
 
         if (booking.status === "confirmed") {
+            console.log("hahah")
             return res.status(400).json({
                 status: "fail",
                 message: "Payment has already been completed for this booking.",
@@ -207,6 +211,7 @@ export const processCashPayment = asyncHandler(async (req, res, next) => {
             payment,
         });
     } catch (error) {
+        console.log(error);
         return next(new AppError(error.message, 500));
     }
 });

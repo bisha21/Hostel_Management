@@ -4,7 +4,8 @@ import { Button } from '../../components/ui/button';
 import { Form } from '../../components/ui/form';
 import FormInput from '../../components/reusables/form-input';
 import useModalContext from '../../hooks/useModalContext';
-import { useCashPaymentMutation } from '../../api/mutations/payment.mutation';
+import {
+  useCashPaymentMutation} from '../../api/mutations/payment.mutation';
 import { paymnetSchema } from '../../schemas/payment';
 import { useFetchRooms } from '../../api/queries/room.query';
 import {
@@ -16,7 +17,8 @@ import {
 } from '../../components/ui/select';
 
 export default function AddTransaction() {
-  const { data} = useFetchRooms();
+  const { mutate } = useCashPaymentMutation();
+  const { data } = useFetchRooms();
   const { closeModal } = useModalContext();
   const form = useForm({
     resolver: zodResolver(paymnetSchema),
@@ -33,12 +35,12 @@ export default function AddTransaction() {
 
   const onSubmit = (data: any) => {
     console.log('Submitting Data:', data); // ✅ Debugging Step
-    // mutate(data, {
-    //   onSuccess: () => {
-    //     form.reset();
-    //     closeModal('ADD_TRANSACTION');
-    //   },
-    // });
+    mutate(data, {
+      onSuccess: () => {
+        form.reset();
+        closeModal('ADD_TRANSACTION');
+      },
+    });
   };
 
   return (
@@ -113,7 +115,7 @@ export default function AddTransaction() {
               <Button
                 className="w-full mt-4"
                 type="submit"
-                disabled={!form.formState.isValid}
+                // disabled={!form.formState.isValid}
               >
                 Submit
               </Button>
