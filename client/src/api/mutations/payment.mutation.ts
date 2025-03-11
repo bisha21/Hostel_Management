@@ -20,10 +20,10 @@ export const usePaymentMutation = ({ bookingId }: { bookingId: string }) => {
 export const useCashPaymentMutation = () => {
   const queryClient = useQueryClient();
   const cashPayment = useMutation({
-    mutationFn: (data) => api.post(`/payment/cash`, data), 
+    mutationFn: (data) => api.post(`/payment`, data),
     onSuccess: () => {
       toastTrigger('Payment sent successfully', undefined, 'success');
-      queryClient.invalidateQueries(['payments']); 
+      queryClient.invalidateQueries(['payments']);
     },
     onError: () => {
       toastTrigger('Unable to send payment.', undefined, 'error');
