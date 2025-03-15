@@ -1,28 +1,31 @@
 import axios from "axios";
 // Function to verify Khalti Payment
-export async function verifyKhaltiPayment(pidx) {
-  const headersList = {
-    "Authorization": `Key ${process.env.KHALTI_SECRET_KEY}`,
-    "Content-Type": "application/json",
-  };
 
-  const bodyContent = JSON.stringify({ pidx });
 
-  const reqOptions = {
-    url: `${process.env.KHALTI_GATEWAY_URL}/api/v2/epayment/lookup/`,
-    method: "POST",
-    headers: headersList,
-    data: bodyContent,
-  };
-
+export const verifyKhaltiPayment = async ({ token, amount, pidx }) => {
   try {
-    const response = await axios.request(reqOptions);
+    const response = await axios.post(
+      "https://dev.khalti.com/api/v2/epayment/lookup/", // ✅ Ensure correct URL
+      {
+        pidx: pidx.trim() // ✅ Use correct `pidx` format (as a string)
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Key ${process.env.KHALTI_SECRET_KEY}`,
+
+        },
+      }
+    );
+
+    console.log("✅ Khalti Response:", response.data); // ✅ Debug Response
     return response.data;
   } catch (error) {
-    console.error("Error verifying Khalti payment:", error);
+    console.error("❌ Khalti Verification Error:", error.response?.data || error.message);
     throw error;
   }
-}
+};
+
 
 // Function to initialize Khalti Payment
 export async function initializeKhaltiPayment(details) {
@@ -39,7 +42,7 @@ export async function initializeKhaltiPayment(details) {
     headers: headersList,
     data: bodyContent,
   };
-  console.log("reqOptions",reqOptions);
+  console.log("reqOptions", reqOptions);
 
   try {
     const response = await axios.request(reqOptions);

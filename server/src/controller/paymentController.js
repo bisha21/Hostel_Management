@@ -36,11 +36,6 @@ export const initializeKhaltiPaymentHandler = async (req, res, next) => {
             website_url: "https://dev.khalti.com/api/v2/",
         });
 
-        console.log("Initiated payment:", paymentInitiate);
-        if (paymentInitiate) {
-            Booking.paymentStatus = "confirmed";
-        }
-
         // Check if the necessary fields are available
         if (!paymentInitiate.pidx || !paymentInitiate.payment_url) {
             return next(
@@ -80,54 +75,60 @@ export const initializeKhaltiPaymentHandler = async (req, res, next) => {
 export const completeKhaltiPayment = asyncHandler(async (req, res, next) => {
     const { token, amount, transaction_id, pidx } = req.query;
 
-    if (!token || !amount || isNaN(amount)) {
-        return next(new AppError("Missing or invalid query parameters", 400));
+    if (!pidx) {
+        return next(new AppError("Missing pidx in request", 400));
     }
 
     try {
-        // Log the query parameters for debugging
-        console.log("Payment details received:", req.query);
+        console.log("🔍 Verifying Khalti payment for pidx:", pidx);
 
-        // Verify the Khalti payment
-        const paymentInfo = await verifyKhaltiPayment({ token: token.trim(), amount: amount.trim() });
+        // ✅ Request Verification from Khalti
+        const paymentInfo = await verifyKhaltiPayment({ pidx });
 
-        // Check if payment verification was successful
-        if (!paymentInfo?.success) {
+        // ✅ FIX: Check if Khalti's response indicates success
+        if (paymentInfo.status !== "Completed") {
+            console.error(" Payment verification failed from Khalti:", paymentInfo);
             return next(new AppError("Payment verification failed", 400));
         }
 
-        // Find the payment record in the database
-        const payment = await Payment.findOne({ where: { transactionId: pidx.trim() } });
+        // ✅ Find Payment Record in Database
+        const payment = await Payment.findOne({ where: { pidx } });
+
         if (!payment) {
+            console.error(" No matching payment record found for pidx:", pidx);
             return next(new AppError("Payment record not found", 404));
         }
 
-        // Start a database transaction to update payment and booking statuses
-        const transaction = await sequelize.transaction(async (t) => {
-            await payment.update({ status: "confirmed" }, { transaction: t });
+        // ✅ Get the Booking ID from the `roomId`
+        const booking = await Booking.findOne({ where: { roomId: payment.roomId } });
 
-            // Update booking status using the bookingId from the payment record
-            await Booking.update(
-                { status: "confirmed" },
-                { where: { id: payment.bookingId }, transaction: t }
-            );
-        });
+        if (!booking) {
+            console.error(" No active booking found for room ID:", payment.roomId);
+            return next(new AppError("No active booking found for this room", 404));
+        }
 
-        // Return a success response after the payment is verified and booking is confirmed
+        // ✅ Update Payment Status
+        await payment.update({ status: "success" , transactionId: transaction_id });
+        await payment.save();
+
+        // ✅ Update Booking Status
+        await booking.update({ status: "confirmed" });
+
+        console.log("✅ Payment verified and booking confirmed!");
+
         res.status(200).json({
             status: "success",
             message: "Payment verified and booking confirmed.",
         });
+
     } catch (error) {
-        // Log the error for debugging
-        console.error("Error during payment verification:", error);
-        res.status(500).json({
+        console.error("❌ Error during payment verification:", error);
+        return res.status(500).json({
             success: false,
-            message: error,
+            message: error.message || "Internal Server Error",
         });
     }
 });
-
 
 
 export const getAllPayment = asyncHandler(async (req, res, next) => {
@@ -157,16 +158,15 @@ export const deletePayment = asyncHandler(async (req, res, next) => {
 
 
 export const processCashPayment = asyncHandler(async (req, res, next) => {
-    console.log("hit that route")
     const { purpose, transactionId, amount, roomName } = req.body;
-       console.log(req.body);
+    console.log(req.body);
 
     try {
         const room = await Room.findOne({ where: { RoomNumber: roomName } });
-        console.log("Room",room.id);
+        console.log("Room", room.id);
         if (!room) {
             return next(new AppError("Room not found", 404));
-        } 
+        }
 
         const booking = await Booking.findOne({
             where: { roomId: room.id },
@@ -183,7 +183,6 @@ export const processCashPayment = asyncHandler(async (req, res, next) => {
         }
 
         if (booking.status === "confirmed") {
-            console.log("hahah")
             return res.status(400).json({
                 status: "fail",
                 message: "Payment has already been completed for this booking.",
