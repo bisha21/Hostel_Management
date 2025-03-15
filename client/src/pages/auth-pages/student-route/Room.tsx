@@ -47,14 +47,6 @@ export default function Room() {
     return diffDays;
   };
 
-  const handleOpenComplaintModal = () => {
-    console.log(true);
-  };
-
-  const handleOpenCancellationModal = () => {
-   console.log(true);
-  };
-
   return isRoomConfirmed && userBooked ? (
     <div className="w-full bg-[#141c24] min-h-screen">
       <div className="max-w-7xl mx-auto px-8 py-12">
@@ -74,7 +66,6 @@ export default function Room() {
               <span>Report an Issue</span>
             </button>
             <button 
-              onClick={handleOpenCancellationModal}
               className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 transition-colors"
             >
               <AlarmClock size={18} />
