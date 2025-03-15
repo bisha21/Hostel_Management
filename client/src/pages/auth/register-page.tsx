@@ -44,6 +44,7 @@ export default function RegisterPage() {
           address: response.address,
           phone_number: response.phone_number,
           profile_picture: response.profile_picture,
+          bookings: response.Bookings,
         };
 
         setUser(userData);

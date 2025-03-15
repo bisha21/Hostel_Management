@@ -24,6 +24,9 @@ import ComplaintPage from './pages/auth-pages/student-route/Complaint';
 import BookingPage from './pages/auth-pages/bookings/page';
 import PaymentPage from './pages/auth-pages/payment/page';
 import PaymentSuccess from './pages/auth-pages/student-route/_components/PaymentSuccess';
+import OTPPage from './pages/auth/otp-page';
+import VerifyEmailPage from './pages/auth/veriy-email-page';
+import ChangePasswordPage from './pages/auth/change-password-page';
 
 function App() {
   return (
@@ -33,6 +36,9 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/verify/otp" element={<OTPPage />} />
+          <Route path="/verify/email" element={<VerifyEmailPage />} />
+          <Route path="/change-password" element={<ChangePasswordPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route
             path="/"

@@ -8,10 +8,12 @@ import { useLoginMutation } from "../../../api/mutations/auth.mutation";
 import { LOGIN_IMAGE } from "../../../constants/images";
 import useAuthContext from "../../../hooks/useAuthContext";
 import { UserType } from "../../../context/authContext";
+import { useNavigate } from "react-router";
 
 
 export default function LoginForm() {
     const { setUser, setIsAuthenticated } = useAuthContext();
+    const navigate = useNavigate();
     const form = useForm<TLoginType>({
         resolver: zodResolver(loginSchema),
         mode: "onChange",
@@ -73,8 +75,7 @@ export default function LoginForm() {
                         placeholder="Password"
                         required
                     />
-
-
+                    <p className="text-xs z-40 cursor-pointer"><Button variant="link" onClick={() => navigate('/verify/email')} className="underline underline-offset-4 font-semibold text-xs p-0">Forgot Password?</Button></p>
                     <Button className="w-full mt-4" disabled={isLoading}>Login</Button>
                 </form>
             </Form>
