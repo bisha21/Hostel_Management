@@ -108,11 +108,13 @@ export const completeKhaltiPayment = asyncHandler(async (req, res, next) => {
         }
 
         // ✅ Update Payment Status
-        await payment.update({ status: "success" , transactionId: transaction_id });
+        await payment.update({ status: "success", transactionId: transaction_id });
         await payment.save();
 
         // ✅ Update Booking Status
-        await booking.update({ status: "confirmed" });
+        await booking.update({ status: "confirmed", paymentStatus: "confirmed" });
+
+        await booking.save();
 
         console.log("✅ Payment verified and booking confirmed!");
 
