@@ -9,8 +9,10 @@ import FormInput from "../../components/reusables/form-input";
 import { Button } from "../../components/ui/button";
 import { ModalType } from "../../types/modal.types";
 import { useComplaintMutation } from "../../api/mutations/complaint.mutation";
+import useModalContext from "../../hooks/useModalContext";
 
 const ComplaintPage = ({initiatorName}: ModalType<"COMPLAINT">) => {  
+  const {closeModal} = useModalContext();
   const form = useForm<ComplaintFormValues>({
     resolver: zodResolver(complaintSchema),
     defaultValues: {
@@ -21,11 +23,15 @@ const ComplaintPage = ({initiatorName}: ModalType<"COMPLAINT">) => {
   });
   const {mutate}= useComplaintMutation({initiatorName:initiatorName!});
   const onSubmit = async (data: ComplaintFormValues) => {
-    mutate(data)
+    mutate(data,{
+      onSuccess: () => {
+        closeModal("COMPLAINT");
+      }
+    })
   };
 
   return (
-    <Card className="w-full max-w-lg mx-auto">
+    <Card className="w-full border-none p-0">
       <CardHeader>
         <CardTitle>Register a Complaint</CardTitle>
         <CardDescription>
@@ -98,8 +104,9 @@ const ComplaintPage = ({initiatorName}: ModalType<"COMPLAINT">) => {
               type="button"
               variant="outline"
               className="mr-2"
+              onClick={() => form.reset()}
             >
-              Cancel
+              Reset
             </Button>
             <Button type="submit">Submit Complaint</Button>
           </div>
