@@ -23,6 +23,7 @@ import DiningScheduleView from './pages/auth-pages/student-route/Dining';
 import ComplaintPage from './pages/auth-pages/student-route/Complaint';
 import BookingPage from './pages/auth-pages/bookings/page';
 import PaymentPage from './pages/auth-pages/payment/page';
+import PaymentSuccess from './pages/auth-pages/student-route/_components/PaymentSuccess';
 
 function App() {
   return (
@@ -43,12 +44,12 @@ function App() {
           >
             <Route index element={<Dashboard />} />
             <Route path="room" element={<RoomPage />} />
-            <Route path='bookings' element={<BookingPage />} />
-            <Route path='attendance' element={<AttendancePage />} />
-            <Route path='students' element={<StudentPage />} />
-            <Route path='dining' element={<DiningScheduleAdmin />} />
-            <Route path='notification' element={<NotificationPage />} />
-            <Route path='payment' element={<PaymentPage />} />
+            <Route path="bookings" element={<BookingPage />} />
+            <Route path="attendance" element={<AttendancePage />} />
+            <Route path="students" element={<StudentPage />} />
+            <Route path="dining" element={<DiningScheduleAdmin />} />
+            <Route path="notification" element={<NotificationPage />} />
+            <Route path="payment" element={<PaymentPage />} />
           </Route>
           <Route
             path="/student"
@@ -59,13 +60,15 @@ function App() {
             }
           >
             <Route index element={<Home />} />
-            <Route path='/student/rooms' element={<Room />} />
-            <Route path='/student/attendance' element={<MarkAttendance />} />
-            <Route path='/student/rooms/:id' element={<RoomDetail />} />
-            <Route path='/student/contact' element={<Contact/>} />
-            <Route path='/student/dining' element={<DiningScheduleView/>} />
-            <Route path='/student/about' element={<About/>} />
-            <Route path='/student/complaint' element={<ComplaintPage />} />
+            <Route path="/student/rooms" element={<Room />} />
+            <Route path="/student/attendance" element={<MarkAttendance />} />
+            <Route path="/student/rooms/:id" element={<RoomDetail />} />
+            <Route path="/student/contact" element={<Contact />} />
+            <Route path="/student/dining" element={<DiningScheduleView />} />
+            <Route path="/student/about" element={<About />} />
+            <Route path="/student/complaint" element={<ComplaintPage />} />
+            <Route path="/student/payment-success" element={<PaymentSuccess />} />{' '}
+            {/* ✅ New Route */}
           </Route>
         </Routes>
       </BrowserRouter>
