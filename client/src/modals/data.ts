@@ -4,6 +4,7 @@ import DeleteModal from "./delete-modal";
 import AddNotification from "./notification/add-notification";
 import AddTransaction from "./payment/add-payment";
 import AddRoom from "./room/add-room";
+import ComplaintPage from "./room/complaint";
 import EditRoom from "./room/edit-room";
 
 type TModalData = {
@@ -13,7 +14,7 @@ type TModalData = {
   };
 };
 
-export type TModalKeys = "ADD_ROOM" | "EDIT_ROOM" | "DELETE_ITEM"|"EDIT_BOOKING"|"SEND_NOTIFICATION" |"ADD_TRANSACTION"
+export type TModalKeys = "ADD_ROOM" | "EDIT_ROOM" | "DELETE_ITEM"|"EDIT_BOOKING"|"SEND_NOTIFICATION" |"ADD_TRANSACTION"|"COMPLAINT"
 ;
 
 export const ModalData: TModalData = {
@@ -40,5 +41,9 @@ export const ModalData: TModalData = {
   ADD_TRANSACTION:{
     title: "Add Transaction",
     component: AddTransaction
-  }
+  },
+  COMPLAINT:{
+    title: "Complaint",
+    component: ComplaintPage
+  }  
 };

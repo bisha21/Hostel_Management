@@ -14,21 +14,17 @@ const items = [
     url: '/student/attendance',
   },
   {
-    title: 'Complaints',
-    url: '/student/complaint',
-  },
-  {
     title: 'Dining',
     url: '/student/dining', // Added forward slash to make it a valid route
   },
-  {
-    title: 'Contact',
-    url: '/student/contact',
-  },
-  {
-    title: 'About',
-    url: '/student/about', // Added forward slash to make it a valid route
-  },
+  // {
+  //   title: 'Contact',
+  //   url: '/student/contact',
+  // },
+  // {
+  //   title: 'About',
+  //   url: '/student/about', // Added forward slash to make it a valid route
+  // },
   
 ];
 

@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
 import { useCompletePaymentMutation } from '../../../../api/mutations/payment.mutation';
-
+import { Button } from '../../../../components/ui/button';
+import { useNavigate } from 'react-router';
 const PaymentSuccess = () => {
   const completePaymentMutation = useCompletePaymentMutation();
-
+  const navigate = useNavigate();
   useEffect(() => {
     completePaymentMutation.mutate(); // ✅ Trigger the mutation when component loads
   }, []);
@@ -34,6 +35,7 @@ const PaymentSuccess = () => {
         <p className="mb-8 text-xl text-gray-700">
           Thank you for your purchase.
         </p>
+        <Button onClick={() => navigate('/student/room')}>Go to your Room</Button>
         {/* Contact Information */}
         <div className="pt-8 mt-8 border-t border-gray-100">
           <p className="text-lg text-gray-700">
