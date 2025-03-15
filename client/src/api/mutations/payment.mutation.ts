@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toastTrigger } from '../../lib/utils';
 import { api } from '../api';
+import { useNavigate, useSearchParams } from 'react-router';
 
 export const usePaymentMutation = ({ bookingId }: { bookingId: string }) => {
   const sendPaymentMutation = useMutation({
@@ -32,3 +33,38 @@ export const useCashPaymentMutation = () => {
 
   return cashPayment;
 };
+
+
+export const useCompletePaymentMutation = () => {
+    const [searchParams] = useSearchParams();
+    const navigate = useNavigate();
+  
+    const completePaymentMutation = useMutation({
+      mutationFn: async () => {
+        const pidx = searchParams.get("pidx");
+        const token = searchParams.get("token");
+        const amount = searchParams.get("amount");
+  
+        if (!pidx || !token || !amount) {
+          throw new Error("Missing payment parameters.");
+        }
+  
+        return api.get(`/payment/complete-payment`, {
+          params: { pidx, token, amount },
+        });
+      },
+      onSuccess: (data) => {
+        toastTrigger("Payment Verified Successfully!", undefined, "success");
+        console.log("✅ Payment Verified:", data);
+  
+        // ✅ Redirect user after successful payment verification
+        navigate("/student");
+      },
+      onError: (error) => {
+        toastTrigger("Payment verification failed.", undefined, "error");
+        console.error("❌ Payment verification failed:", error);
+      },
+    });
+  
+    return completePaymentMutation;
+  };

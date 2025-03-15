@@ -32,7 +32,7 @@ export const initializeKhaltiPaymentHandler = async (req, res, next) => {
             amount: booking.total_amount * 100, // Amount in paisa (Rs * 100)
             purchase_order_id: String(booking.id), // Use booking ID as transaction reference
             purchase_order_name: `Booking #${bookingId}`,
-            return_url: "http://localhost:5173/student/rooms",
+            return_url: "http://localhost:5173/student/payment-success",
             website_url: "https://dev.khalti.com/api/v2/",
         });
 
