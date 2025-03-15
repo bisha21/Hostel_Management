@@ -48,7 +48,7 @@ export const createBooking = asyncHandler(async (req, res, next) => {
 
     const startDate = new Date();
     const endDate = new Date();
-    endDate.setDate(startDate.getDate() + 5);
+    endDate.setDate(startDate.getDate() + 30);
 
     // Create booking
     const booking = await Booking.create({

@@ -1,12 +1,10 @@
-import { useFetchRooms } from '../../../../../api/queries/room.query';
 import RoomCard from './RoomCard';
 import { TRoomResponse } from '../../../../../types/response.types';
 import Spinner from '../Spinner';
 import { useSearchParams } from 'react-router';
 import useAuthContext from '../../../../../hooks/useAuthContext';
 
-const RoomList = () => {
-  const { data: room, isLoading, error } = useFetchRooms();
+const RoomList = ({data:room,isLoading,error}:any) => {
   const [searchParams] = useSearchParams();
   const { user } = useAuthContext();
   // Get the 'filter' query parameter
