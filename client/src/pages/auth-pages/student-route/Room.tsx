@@ -27,8 +27,7 @@ export default function Room() {
       setUserBooked(userBookedRoom);
     }
   }, [data, user]);
-  console.log(userBooked);
-  // Format date function
+  
   const formatDate = (dateString:any) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', { 
@@ -74,14 +73,14 @@ export default function Room() {
           </div>
         </div>
 
-        {/* Allocation Status Banner */}
+        
         <div className="bg-green-800/30 border border-green-600 rounded-lg p-4 mb-8 flex items-center gap-3">
           <CheckCircle className="text-green-500" size={24} />
           <p className="text-green-400 text-lg">Your room has been confirmed and payment has been processed. Welcome to your new accommodation!</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Student Information Card */}
+          
           <div className="col-span-1 bg-[#1a2631] rounded-xl overflow-hidden shadow-xl h-fit">
             <div className="bg-[#c69963]/10 border-b border-[#c69963]/20 p-6">
               <h2 className="text-2xl text-[#c69963] font-medium flex items-center gap-2">
@@ -113,7 +112,7 @@ export default function Room() {
             </div>
           </div>
 
-          {/* Room Details Card */}
+          
           <div className="col-span-2 bg-[#1a2631] rounded-xl overflow-hidden shadow-xl">
             <div className="bg-[#c69963]/10 border-b border-[#c69963]/20 p-6">
               <h2 className="text-2xl text-[#c69963] font-medium flex items-center gap-2">
