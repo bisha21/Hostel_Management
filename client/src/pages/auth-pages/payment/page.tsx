@@ -5,7 +5,7 @@ import Paymenttable from "./table";
 export default function PaymentPage() {
   return (
     <>
-      <PageHeader title="Payment Pannel" />
+      <PageHeader title="Payment" />
       <Paymenttable/>
     </>
   )

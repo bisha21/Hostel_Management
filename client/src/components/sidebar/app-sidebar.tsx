@@ -1,4 +1,4 @@
-import { BookmarkCheck,Users, HandCoins, Home, LogOut, ScanEye, UtensilsCrossed, Vault } from "lucide-react"
+import { BookmarkCheck,Users, HandCoins, Home, LogOut, ScanEye, UtensilsCrossed, Vault, BellPlus, MessageSquareWarning } from "lucide-react"
 
 import {
   Sidebar,
@@ -51,7 +51,12 @@ const items = [
   {
     title: "Notification Panel",
     url: "/notification",
-    icon: HandCoins,
+    icon: BellPlus,
+  },
+  {
+    title: "Complaints",
+    url: "/complaints",
+    icon:MessageSquareWarning,
   },
   {
     title: "Dining",

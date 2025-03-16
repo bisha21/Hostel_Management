@@ -18,3 +18,19 @@ export const useComplaintMutation = ({initiatorName}:{initiatorName:string}) => 
     )
     return complaintMutation
 }
+
+export const useUpdateComplaintStatusMutation = ({initiatorName}:{initiatorName:string}) => {
+    const queryClient = useQueryClient();
+    const updateComplaintStatusMutation = useMutation({
+        mutationFn: (data:{status:"Completed" | "Pending"}) => api.patch(`/complaint/status/${initiatorName}`, data),
+        onSuccess: () => {
+            toastTrigger('Complaint status updated successfully',undefined,'success');
+            queryClient.invalidateQueries({queryKey:['complaints']})
+        },
+        onError: () => {
+            toastTrigger('Complaint status update failed',undefined,'error');
+        }
+    }
+    )
+    return updateComplaintStatusMutation
+}

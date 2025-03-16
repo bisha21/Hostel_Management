@@ -24,6 +24,18 @@ export type TBookingsResponse = {
   cancellation_reason: string | null; 
 };
 
+export type TComplaintResponse = {
+  id: number;
+  userId: number;
+  roomId: number;
+  description: string;
+  status: "Pending" | "Completed";
+  feedback: string;
+  category: "Maintenance" | "Housekeeping"; 
+  createdAt: string;
+  updatedAt: string; 
+};
+
 // src/types/dining.ts
 export type DayOfWeek = 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday';
 export type MealType = 'breakfast' | 'lunch' | 'snacks' | 'dinner';
