@@ -27,6 +27,7 @@ import PaymentSuccess from './pages/auth-pages/student-route/_components/Payment
 import OTPPage from './pages/auth/otp-page';
 import VerifyEmailPage from './pages/auth/veriy-email-page';
 import ChangePasswordPage from './pages/auth/change-password-page';
+import ComplaintsPage from './pages/auth-pages/complaints/page';
 
 function App() {
   return (
@@ -56,6 +57,7 @@ function App() {
             <Route path="dining" element={<DiningScheduleAdmin />} />
             <Route path="notification" element={<NotificationPage />} />
             <Route path="payment" element={<PaymentPage />} />
+            <Route path="complaints" element={<ComplaintsPage />} />
           </Route>
           <Route
             path="/student"
