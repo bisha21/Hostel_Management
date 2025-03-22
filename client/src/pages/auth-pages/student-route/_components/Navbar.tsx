@@ -1,7 +1,14 @@
-import { NavLink } from "react-router"; // Import useLocation for getting the current route
+import { Link, NavLink } from "react-router"; // Import useLocation for getting the current route
 import logo from "../../../../assets/image/logo3.png";
 import { Avatar } from "../../../../components/reusables/avatar";
 import useAuthContext from "../../../../hooks/useAuthContext";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../../../../components/ui/dropdown-menu";
 
 const items = [
   {
@@ -31,7 +38,8 @@ const items = [
 ];
 
 const Navbar = () => {
-  const { user } = useAuthContext();
+  const { user, logout } = useAuthContext();
+
   return (
     <nav className="bg-slate-50 border-slate-100">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -49,7 +57,23 @@ const Navbar = () => {
             data-dropdown-toggle="user-dropdown"
             data-dropdown-placement="bottom"
           >
-            <Avatar name={user.username} />
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <Avatar name={user.username} />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem className="focus:bg-emerald-400">
+                  <Link to={"/student/profile"}>My Profile</Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  className="focus:bg-emerald-400"
+                  onClick={logout}
+                >
+                  Logout
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
           <button
             data-collapse-toggle="navbar-user"
