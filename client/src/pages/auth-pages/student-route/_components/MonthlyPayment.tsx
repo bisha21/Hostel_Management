@@ -1,9 +1,22 @@
 import { AlarmClock, Calendar, CheckCircle } from "lucide-react";
 import { useState } from "react";
+import { usePaymentMutation } from "../../../../api/mutations/payment.mutation";
+import { Button } from "../../../../components/ui/button";
 
 const MonthlyPaymentSection = ({ booking }:{booking:any}) => {
     const [showPaymentAlert, setShowPaymentAlert] = useState(false);
+    const { mutate: paymentMutation,isLoading:isLoadingPayment} = usePaymentMutation({bookingId:(booking.id || "")});
+      
+      const handlePayment = async () => {
+        paymentMutation(undefined,{onSuccess: () => {
+            setShowPaymentAlert(true);
 
+            // Hide the alert after 5 seconds
+            setTimeout(() => {
+                setShowPaymentAlert(false);
+            }, 5000);
+        }});
+      }
     // Check if payment is due (30 days after start date)
     const isPaymentDue = () => {
         const startDate = new Date(booking.startDate);
@@ -32,21 +45,6 @@ const MonthlyPaymentSection = ({ booking }:{booking:any}) => {
         return formatDate(nextPaymentDate);
     };
 
-    // Handle Khalti payment
-    const handleKhaltiPayment = () => {
-        // Khalti payment integration would go here
-        // This is a placeholder for the actual implementation
-        console.log("Processing Khalti payment");
-
-        // After successful payment, you would update the payment status
-        // For now, we'll just show a success message
-        setShowPaymentAlert(true);
-
-        // Hide the alert after 5 seconds
-        setTimeout(() => {
-            setShowPaymentAlert(false);
-        }, 5000);
-    };
 
     return (
         <div className="mt-8 bg-[#1a2631] rounded-xl overflow-hidden">
@@ -91,12 +89,12 @@ const MonthlyPaymentSection = ({ booking }:{booking:any}) => {
                         <p className="text-slate-400 text-sm mt-1">Payment is due every 30 days from your check-in date.</p>
                     </div>
 
-                    <button
-                        onClick={handleKhaltiPayment}
+                    <Button
+                        disabled={isLoadingPayment} loading={isLoadingPayment} onClick={handlePayment}
                         className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg flex items-center gap-2 transition-colors"
                     >
                         Pay Now with Khalti
-                    </button>
+                    </Button>
                 </div>
 
                 <div className="mt-8 pt-6 border-t border-slate-700">
