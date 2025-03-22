@@ -1,21 +1,24 @@
-import { NavLink } from 'react-router'; // Import useLocation for getting the current route
-import logo from '../../../../assets/image/logo3.png'
+import { NavLink } from "react-router"; // Import useLocation for getting the current route
+import logo from "../../../../assets/image/logo3.png";
+import { Avatar } from "../../../../components/reusables/avatar";
+import useAuthContext from "../../../../hooks/useAuthContext";
+
 const items = [
   {
-    title: 'Home',
-    url: '/student',
+    title: "Home",
+    url: "/student",
   },
   {
-    title: 'Rooms',
-    url: '/student/rooms', 
+    title: "Rooms",
+    url: "/student/rooms",
   },
   {
-    title: 'Attendance',
-    url: '/student/attendance',
+    title: "Attendance",
+    url: "/student/attendance",
   },
   {
-    title: 'Dining',
-    url: '/student/dining', // Added forward slash to make it a valid route
+    title: "Dining",
+    url: "/student/dining", // Added forward slash to make it a valid route
   },
   // {
   //   title: 'Contact',
@@ -25,45 +28,33 @@ const items = [
   //   title: 'About',
   //   url: '/student/about', // Added forward slash to make it a valid route
   // },
-  
 ];
 
 const Navbar = () => {
-
-
+  const { user } = useAuthContext();
   return (
-    <nav className="bg-[#141c24] border-gray-200">
+    <nav className="bg-slate-50 border-slate-100">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <NavLink
           to="/student"
           className="flex items-center space-x-3 rtl:space-x-reverse"
         >
-          <img
-            src={logo}
-            className="w-32"
-            alt="Logo"
-          />
+          <img src={logo} className="w-32" alt="Logo" />
         </NavLink>
         <div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-          <button
-            type="button"
-            className="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+          <div
+            className="flex text-sm bg-slate-100 rounded-full md:me-0 focus:ring-4 focus:ring-emerald-500"
             id="user-menu-button"
             aria-expanded="false"
             data-dropdown-toggle="user-dropdown"
             data-dropdown-placement="bottom"
           >
-            <span className="sr-only">Open user menu</span>
-            <img
-              className="w-8 h-8 rounded-full"
-              src="/docs/images/people/profile-picture-3.jpg"
-              alt="user photo"
-            />
-          </button>
+            <Avatar name={user.username} />
+          </div>
           <button
             data-collapse-toggle="navbar-user"
             type="button"
-            className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+            className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-slate-600 rounded-lg md:hidden hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
             aria-controls="navbar-user"
             aria-expanded="false"
           >
@@ -89,13 +80,19 @@ const Navbar = () => {
           className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
           id="navbar-user"
         >
-          <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+          <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-slate-100 rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 bg-slate-50 md:bg-slate-50">
             {items.map((item, index) => (
               <li key={index}>
                 <NavLink
                   to={item.url}
-                  className={`block py-2 px-3 ${'text-gray-900 hover:bg-gray-100'}  md:text-teal-300  md:p-0 md:dark:text-blue-500 `}
-                  aria-current={item.title === 'Home' ? 'page' : undefined}
+                  className={({ isActive }) =>
+                    `block py-2 px-3 ${
+                      isActive
+                        ? "text-emerald-600 font-semibold"
+                        : "text-slate-800 hover:text-emerald-500"
+                    } md:p-0`
+                  }
+                  aria-current={item.title === "Home" ? "page" : undefined}
                 >
                   {item.title}
                 </NavLink>

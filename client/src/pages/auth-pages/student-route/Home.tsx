@@ -1,10 +1,10 @@
-import {Link}  from 'react-router';
-const Home = () => {
+import { Link } from "react-router";
 
+const Home = () => {
   return (
-    <div className="relative isolate overflow-hidden bg-gray-900">
+    <div className="relative isolate overflow-hidden bg-slate-50">
       <svg
-        className="absolute inset-0 -z-10 h-full w-full stroke-white/10 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
+        className="absolute inset-0 -z-10 h-full w-full stroke-slate-200 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
         aria-hidden="true"
       >
         <defs>
@@ -19,7 +19,7 @@ const Home = () => {
             <path d="M.5 200V.5H200" fill="none" />
           </pattern>
         </defs>
-        <svg x="50%" y={-1} className="overflow-visible fill-gray-800/20">
+        <svg x="50%" y={-1} className="overflow-visible fill-slate-100/20">
           <path
             d="M-200 0h201v201h-201Z M600 0h201v201h-201Z M-400 600h201v201h-201Z M200 800h201v201h-201Z"
             strokeWidth={0}
@@ -37,27 +37,27 @@ const Home = () => {
         aria-hidden="true"
       >
         <div
-          className="aspect-[1108/632] w-[69.25rem] bg-gradient-to-r from-[#80caff] to-[#4f46e5] opacity-20"
+          className="aspect-[1108/632] w-[69.25rem] bg-gradient-to-r from-emerald-200 to-sky-300 opacity-20"
           style={{
             clipPath:
-              'polygon(73.6% 51.7%, 91.7% 11.8%, 100% 46.4%, 97.4% 82.2%, 92.5% 84.9%, 75.7% 64%, 55.3% 47.5%, 46.5% 49.4%, 45% 62.9%, 50.3% 87.2%, 21.3% 64.1%, 0.1% 100%, 5.4% 51.1%, 21.4% 63.9%, 58.9% 0.2%, 73.6% 51.7%)',
+              "polygon(73.6% 51.7%, 91.7% 11.8%, 100% 46.4%, 97.4% 82.2%, 92.5% 84.9%, 75.7% 64%, 55.3% 47.5%, 46.5% 49.4%, 45% 62.9%, 50.3% 87.2%, 21.3% 64.1%, 0.1% 100%, 5.4% 51.1%, 21.4% 63.9%, 58.9% 0.2%, 73.6% 51.7%)",
           }}
         ></div>
       </div>
       <div className="mt-[-50px] flex h-screen items-center justify-center">
         <div className="max-w-full flex-shrink-0 px-4 text-center lg:mx-0 lg:max-w-3xl lg:pt-8">
-          <h1 className="mt-10 text-5xl font-bold tracking-tight text-white sm:text-6xl">
+          <h1 className="mt-10 text-5xl font-bold tracking-tight text-slate-800 sm:text-6xl">
             Welcome
-            <span className="text-sky-500">&nbsp;To</span> our
-            <span className="text-sky-500">&nbsp;Hostel</span>
+            <span className="text-emerald-600">&nbsp;To</span> our
+            <span className="text-emerald-600">&nbsp;Hostel</span>
           </h1>
-          <p className="mt-6 text-lg leading-8 text-gray-300">
+          <p className="mt-6 text-lg leading-8 text-slate-600">
             Experience comfort and community in the heart of the city
           </p>
           <div className="mt-5 flex items-center justify-center gap-x-6">
             <Link
               to="/student/rooms"
-              className="rounded-md bg-sky-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-sky-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400"
+              className="rounded-md bg-emerald-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-emerald-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400"
             >
               Explore Rooms
             </Link>
