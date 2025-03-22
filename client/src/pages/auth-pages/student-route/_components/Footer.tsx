@@ -1,17 +1,13 @@
-import logo from '../../../../assets/image/logo3.png'
+import logo from "../../../../assets/image/logo3.png";
 
 const Footer = () => {
   return (
-    <div className="text-center py-4 bg-[#141c24]">
+    <div className="text-center py-4 bg-slate-50">
       <a
         href="#"
         className="flex items-center justify-center mb-5 text-2xl font-semibold text-gray-900"
       >
-        <img
-          src={logo}
-          className="h-12 mr-3 sm:h-9"
-          alt="Landwind Logo"
-        />
+        <img src={logo} className="h-12 mr-3 sm:h-9" alt="Landwind Logo" />
       </a>
       <span className="block text-sm text-center text-gray-500">
         © 2024-2025 HostelHive™. All Rights Reserved.

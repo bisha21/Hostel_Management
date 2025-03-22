@@ -1,19 +1,19 @@
-import { useSearchParams } from 'react-router';
+import { useSearchParams } from "react-router";
 
 function Filter() {
   const [searchParms, setSearchParams] = useSearchParams();
 
-  const currentFilter = searchParms.get('filter') || 'all';
+  const currentFilter = searchParms.get("filter") || "all";
 
-  function handleFilter(filter:any) {
-    const validFilters = ['all', 'Occupied', 'Available', 'Your Bookings'];
+  function handleFilter(filter: any) {
+    const validFilters = ["all", "Occupied", "Available", "Your Bookings"];
     if (validFilters.includes(filter)) {
       setSearchParams({ filter });
     }
   }
 
   return (
-    <div className="flex justify-end gap-4 shadow-xl text-teal-300 px-4 border max-w-7xl mx-auto">
+    <div className="flex justify-end gap-4 shadow-sm text-slate-600 px-4 border border-slate-200 bg-slate-50 max-w-7xl mx-auto">
       <Button
         filter="all"
         handleFilter={handleFilter}
@@ -46,16 +46,16 @@ function Filter() {
   );
 }
 
-function Button({ filter, handleFilter, currentFilter, children }:any) {
+function Button({ filter, handleFilter, currentFilter, children }: any) {
   const isActive = currentFilter === filter;
 
   return (
     <button
       aria-pressed={isActive}
-      className={`px-4 py-2 ${
+      className={`px-4 py-2 rounded transition-colors ${
         isActive
-          ? 'bg-primary-400 text-white'
-          : 'bg-primary-800 hover:bg-primary-400'
+          ? "bg-emerald-500 text-white"
+          : "bg-slate-100 text-slate-600 hover:bg-sky-300 hover:text-slate-800"
       }`}
       onClick={() => handleFilter(filter)}
     >
