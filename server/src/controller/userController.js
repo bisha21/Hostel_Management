@@ -6,6 +6,7 @@ import AppError from "../utlis/appError.js";
 import asyncHandler from "../utlis/catchAsync.js";
 import bcrypt from 'bcryptjs';
 import { sendMail } from '../utlis/emai.js';
+import generateOtp from '../utlis/generateOtp.js';
 
 export const registerUser = asyncHandler(async (req, res, next) => {
     const { username, email, address, profile, password, user_type, confirmPassword, phoneNumber } = req.body;
@@ -156,12 +157,12 @@ export const handleForgotPassword = async (req, res) => {
         return res.status(400).json({ message: "Please provide email" });
     }
 
-    const user = await findData(User, email);
+    const user = await User.findOne({ where: { email } });
     if (!user) {
         return res.status(404).json({ email: "Email not registered" });
     }
 
-    const otp = generateOtp(); 
+    const otp = generateOtp();
     await sendMail({
         email: user.email,
         subject: "Reset Password OTP",
@@ -179,4 +180,65 @@ export const handleForgotPassword = async (req, res) => {
 
 
 
+export const verifyOtp = asyncHandler(async (req, res) => {
+    const { otp, email } = req.body;
 
+    if (!otp || !email) {
+        return res.status(400).json({ message: "Please provide OTP and email" });
+    }
+
+    const user = await User.findOne({
+        where: { email, otp },
+    });
+
+    if (!user) {
+        return res.status(404).json({ message: "Invalid OTP or email" });
+    }
+
+    const otpGeneratedTime = parseInt(user.otpGeneratedTime);
+    const currentTime = Date.now();
+
+    const otpExpiryTime = 2 * 60 * 1000; // 2 minutes
+
+    if (currentTime - otpGeneratedTime > otpExpiryTime) {
+        return res.status(400).json({ message: "OTP expired. Please request a new one." });
+    }
+
+    res.status(200).json({ message: "OTP verified successfully!" });
+});
+
+export const resetPassword = asyncHandler(async (req, res) => {
+    const { newPassword, confirmPassword, email, otp } = req.body;
+
+    if (!newPassword || !confirmPassword || !email || !otp) {
+        return res.status(400).json({ message: "Please provide email, OTP, newPassword, and confirmPassword" });
+    }
+
+    if (newPassword !== confirmPassword) {
+        return res.status(400).json({ message: "Passwords do not match" });
+    }
+
+    const user = await User.findOne({ where: { email, otp } });
+    if (!user) {
+        return res.status(404).json({ message: "Invalid email or OTP" });
+    }
+
+    // Check if OTP expired (2 minutes = 120000 ms)
+    const otpGeneratedTime = parseInt(user.otpGeneratedTime);
+    const currentTime = Date.now();
+
+    if (currentTime - otpGeneratedTime > 2 * 60 * 1000) {
+        return res.status(400).json({ message: "OTP expired. Please request a new one." });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 12);
+    user.password = hashedPassword;
+
+    // Clear OTP
+    user.otp = null;
+    user.otpGeneratedTime = null;
+
+    await user.save();
+
+    res.status(200).json({ message: "Password reset successfully!" });
+});
