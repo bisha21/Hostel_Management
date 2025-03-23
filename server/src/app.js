@@ -19,6 +19,7 @@ import { sequelize } from "./database.js";
 import Booking from "./model/bookingModel.js";
 import { DiningSchedule } from "./model/diningModel.js";
 import Payment from "./model/paymentModel.js";
+import User from "./model/userModal.js";
 dotenv.config();
 
 
@@ -46,7 +47,7 @@ app.use(
 //     console.log('All models were synchronized successfully.');
 // })();
 // (async () => {
-//     await Payment.sync({ force: true });
+//     await sequelize.sync({ force: true });
 //     console.log('All models were synchronized successfully.');
 // })();
 
