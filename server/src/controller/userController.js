@@ -5,6 +5,7 @@ import User from "../model/userModal.js";
 import AppError from "../utlis/appError.js";
 import asyncHandler from "../utlis/catchAsync.js";
 import bcrypt from 'bcryptjs';
+import { sendMail } from '../utlis/emai.js';
 
 export const registerUser = asyncHandler(async (req, res, next) => {
     const { username, email, address, profile, password, user_type, confirmPassword, phoneNumber } = req.body;
@@ -146,6 +147,34 @@ export const getUsersWithRooms = async (req, res) => {
         res.status(500).json({ error: "Error fetching data" });
     }
 };
+
+
+export const handleForgotPassword = async (req, res) => {
+    const { email } = req.body;
+
+    if (!email) {
+        return res.status(400).json({ message: "Please provide email" });
+    }
+
+    const user = await findData(User, email);
+    if (!user) {
+        return res.status(404).json({ email: "Email not registered" });
+    }
+
+    const otp = generateOtp(); 
+    await sendMail({
+        email: user.email,
+        subject: "Reset Password OTP",
+        message: `Your OTP is ${otp}`,
+    });
+
+    user.otp = otp;
+    user.otpGeneratedTime = Date.now().toString(); // Store as string or number
+    await user.save();
+
+    return res.status(200).json({ message: "OTP sent to email!" });
+};
+
 
 
 

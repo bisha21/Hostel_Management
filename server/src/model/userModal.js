@@ -49,6 +49,14 @@ const User = sequelize.define('User', {
     type: DataTypes.STRING,
     allowNull: true,
   },
+  otp: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  otpGeneratedTime: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
 
 }, {
   timestamps: true
@@ -59,5 +67,4 @@ Booking.belongsTo(Room, { foreignKey: "roomId", onDelete: "CASCADE" });
 
 User.hasMany(Booking, { foreignKey: "userId", onDelete: "CASCADE" });
 Booking.belongsTo(User, { foreignKey: "userId", onDelete: "CASCADE" });
-
 export default User;
