@@ -3,7 +3,7 @@ import { useMutation } from '@tanstack/react-query';
 import { toastTrigger } from '../../lib/utils';
 import { TLoginType } from '../../schemas/login';
 import { useNavigate } from 'react-router';
-import { TRegisterType } from '../../schemas/register';
+import { TRegisterType, TVerifyEmailSchema } from '../../schemas/register';
 
 export const useLoginMutation = () => {
   const navigate = useNavigate();
@@ -44,4 +44,48 @@ export const useRegisterMutation = () => {
     },
   });
   return registerMutation;
+};
+export const useVerifyEmail = () => {
+  const navigate = useNavigate();
+  const emailVerifyMutation = useMutation({
+    mutationFn: (data: TVerifyEmailSchema) =>
+      api.post('auth/forget-password', data),
+    onSuccess: () => {
+      toastTrigger('Email verification successful', undefined, 'success');
+      navigate('/verify/otp');
+    },
+    onError: () => {
+      toastTrigger('Registration failed', undefined, 'error');
+    },
+  });
+  return emailVerifyMutation;
+};
+export const useVerifyOtp = () => {
+  const navigate = useNavigate();
+  const verifyOtp = useMutation({
+    mutationFn: (data: TVerifyEmailSchema) => api.post('auth/verify-otp', data),
+    onSuccess: () => {
+      toastTrigger('OTP verification successful', undefined, 'success');
+      navigate('/change-password');
+    },
+    onError: () => {
+      toastTrigger('Registration failed', undefined, 'error');
+    },
+  });
+  return verifyOtp;
+};
+export const useResetPassword = () => {
+  const navigate = useNavigate();
+  const reserPassword = useMutation({
+    mutationFn: (data: TVerifyEmailSchema) =>
+      api.post('auth/reset-password', data),
+    onSuccess: () => {
+      toastTrigger('Password reset successful', undefined, 'success');
+      navigate('/');
+    },
+    onError: () => {
+      toastTrigger('Reset failed', undefined, 'error');
+    },
+  });
+  return reserPassword;
 };

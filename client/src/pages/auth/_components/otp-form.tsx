@@ -5,6 +5,7 @@ import { Form } from "../../../components/ui/form";
 import FormInput from "../../../components/reusables/form-input";
 // import { LOGIN_IMAGE } from "../../../constants/images";
 import { otpSchema, TOtpType } from "../../../schemas/register";
+import { useVerifyOtp } from "../../../api/mutations/auth.mutation";
 
 
 
@@ -16,10 +17,11 @@ export default function OTPForm() {
            otp:""
         }
     });
+    const{mutate}=useVerifyOtp();
 
 
-    const onSubmit = (data: TOtpType) => {
-            console.log(data);
+    const onSubmit = (data: TOtpType) => {  
+        mutate(data);   
         }
 
     return (
@@ -36,7 +38,7 @@ export default function OTPForm() {
                         form={form}
                         name="otp"
                         type="text"
-                        placeholder="email"
+                        placeholder="OTP"
                         required
                     />
                     <Button className="w-full mt-4">Verify OTP</Button>

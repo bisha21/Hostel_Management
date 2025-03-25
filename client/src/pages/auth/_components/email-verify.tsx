@@ -4,6 +4,7 @@ import { Button } from "../../../components/ui/button";
 import { Form } from "../../../components/ui/form";
 import FormInput from "../../../components/reusables/form-input";
 import { TVerifyEmailSchema, verifyEmailSchema } from "../../../schemas/register";
+import { useVerifyEmail } from "../../../api/mutations/auth.mutation";
 
 
 
@@ -15,10 +16,11 @@ export default function EmailVerifyForm() {
            email:""
         }
     });
+    const {mutate} = useVerifyEmail();
 
 
     const onSubmit = (data: TVerifyEmailSchema) => {
-            console.log(data);
+        mutate(data);
         }
 
     return (

@@ -152,7 +152,7 @@ export const getUsersWithRooms = async (req, res) => {
 
 export const handleForgotPassword = async (req, res) => {
     const { email } = req.body;
-
+    req.session.email = email;
     if (!email) {
         return res.status(400).json({ message: "Please provide email" });
     }
@@ -181,8 +181,10 @@ export const handleForgotPassword = async (req, res) => {
 
 
 export const verifyOtp = asyncHandler(async (req, res) => {
-    const { otp, email } = req.body;
-
+    const email = req.session.email;
+    const { otp } = req.body;
+    console.log(email);
+    req.session.otp = otp;
     if (!otp || !email) {
         return res.status(400).json({ message: "Please provide OTP and email" });
     }
@@ -208,13 +210,19 @@ export const verifyOtp = asyncHandler(async (req, res) => {
 });
 
 export const resetPassword = asyncHandler(async (req, res) => {
-    const { newPassword, confirmPassword, email, otp } = req.body;
+    const { password, confirmPassword } = req.body;
+    const email = req.session.email;
+    const otp = req.session.otp;
 
-    if (!newPassword || !confirmPassword || !email || !otp) {
-        return res.status(400).json({ message: "Please provide email, OTP, newPassword, and confirmPassword" });
+    if (!email || !otp) {
+        return res.status(400).json({ message: "Session expired or missing email/OTP." });
     }
 
-    if (newPassword !== confirmPassword) {
+    if (!password || !confirmPassword) {
+        return res.status(400).json({ message: "Please provide newPassword and confirmPassword" });
+    }
+
+    if (password !== confirmPassword) {
         return res.status(400).json({ message: "Passwords do not match" });
     }
 
@@ -223,7 +231,10 @@ export const resetPassword = asyncHandler(async (req, res) => {
         return res.status(404).json({ message: "Invalid email or OTP" });
     }
 
-    // Check if OTP expired (2 minutes = 120000 ms)
+    if (!user.otpGeneratedTime) {
+        return res.status(400).json({ message: "Invalid OTP timestamp" });
+    }
+
     const otpGeneratedTime = parseInt(user.otpGeneratedTime);
     const currentTime = Date.now();
 
@@ -231,14 +242,13 @@ export const resetPassword = asyncHandler(async (req, res) => {
         return res.status(400).json({ message: "OTP expired. Please request a new one." });
     }
 
-    const hashedPassword = await bcrypt.hash(newPassword, 12);
+    const hashedPassword = await bcrypt.hash(password, 12);
     user.password = hashedPassword;
-
-    // Clear OTP
     user.otp = null;
     user.otpGeneratedTime = null;
 
     await user.save();
+    req.session.destroy();
 
     res.status(200).json({ message: "Password reset successfully!" });
 });

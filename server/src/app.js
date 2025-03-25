@@ -14,7 +14,8 @@ import studentRoute from './routes/studentRoute.js';
 import diningRoute from './routes/diningRoutes.js';
 import cors from 'cors';
 import complaintRoute from './routes/complaintRoutes.js';
-import "./model/associations.js"
+import "./model/associations.js";
+import session from 'express-session';
 import { sequelize } from "./database.js";
 import Booking from "./model/bookingModel.js";
 import { DiningSchedule } from "./model/diningModel.js";
@@ -30,11 +31,21 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
+    session({
+        secret: 'qwertyuiop', // use a strong secret
+        resave: false,
+        saveUninitialized: true,
+        cookie: {
+            maxAge: 10 * 60 * 1000, // Optional: expires in 10 minutes
+        },
+    })
+);
+app.use(
     cors({
-        origin: "*", // Frontend origin
+        origin: "http://localhost:5173", 
         methods: ["GET", "POST", "DELETE", "PATCH", "OPTIONS"],
-        allowedHeaders: ['Authorization', 'Content-Type']
-
+        allowedHeaders: ['Authorization', 'Content-Type'],
+        credentials: true
     }
     )
 );
