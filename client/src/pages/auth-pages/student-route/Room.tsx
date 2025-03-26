@@ -15,6 +15,8 @@ import { useFetchRooms } from "../../../api/queries/room.query";
 import { TRoomResponse } from "../../../types/response.types";
 import MonthlyPaymentSection from "./_components/MonthlyPayment";
 import useModalContext from "../../../hooks/useModalContext";
+import { useComplaintMutation } from "../../../api/mutations/complaint.mutation";
+import { toastTrigger } from "../../../lib/utils";
 
 export default function Room() {
   const { user } = useAuthContext();
@@ -23,7 +25,6 @@ export default function Room() {
     {} as TRoomResponse,
   );
   const { openModal } = useModalContext();
-
   const { data, isLoading, error } = useFetchRooms();
 
   useEffect(() => {
@@ -42,7 +43,7 @@ export default function Room() {
       setUserBooked(userBookedRoom);
     }
   }, [data, user]);
-
+  const { mutate } = useComplaintMutation({ initiatorName: userBooked.id! });
   const formatDate = (dateString: any) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
@@ -81,7 +82,34 @@ export default function Room() {
               <FileWarning size={18} />
               <span>Report an Issue</span>
             </button>
-            <button className="bg-slate-600 hover:bg-slate-700 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 transition-colors">
+            <button
+              onClick={() =>
+                mutate(
+                  {
+                    description: "Room change request.",
+                    category: "Housekeeping",
+                    feedback: "Urgent",
+                  },
+                  {
+                    onSuccess: () => {
+                      toastTrigger(
+                        "Room request change submitted successfully.",
+                        undefined,
+                        "success",
+                      );
+                    },
+                    onError: () => {
+                      toastTrigger(
+                        "Room request change submission failed.",
+                        undefined,
+                        "error",
+                      );
+                    },
+                  },
+                )
+              }
+              className="bg-slate-600 hover:bg-slate-700 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 transition-colors"
+            >
               <AlarmClock size={18} />
               <span>Request Room Cancellation</span>
             </button>
