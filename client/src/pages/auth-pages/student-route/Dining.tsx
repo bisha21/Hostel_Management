@@ -16,11 +16,9 @@ import {
 } from "../../../components/ui/tabs";
 import { Badge } from "../../../components/ui/badge";
 import { useFetchWeeklySchedule } from "../../../api/queries/dining.query";
+import { BREAKFAST, LUNCH, SNACK } from "../../../constants/images";
 
 const DiningScheduleView: React.FC = () => {
-  // const [schedule, setSchedule] = useState<WeeklySchedule | null>(null);
-  // const [loading, setLoading] = useState<boolean>(true);
-  // const [error, setError] = useState<string | null>(null);
   const [activeDay, setActiveDay] = useState<DayOfWeek>("monday");
   const {
     data: schedule,
@@ -72,7 +70,12 @@ const DiningScheduleView: React.FC = () => {
 
     setActiveDay(dayMapping[currentDayIndex]);
   }, []);
-
+  const mealBackgroundImages = {
+    breakfast: BREAKFAST,
+    lunch: LUNCH,
+    snacks: SNACK,
+    dinner: LUNCH,
+  };
   if (loading) {
     return (
       <div className="space-y-4">
@@ -117,12 +120,16 @@ const DiningScheduleView: React.FC = () => {
                 </TabsList>
 
                 {days.map((day) => (
-                  <TabsContent key={day} value={day} className="mt-0">
+                  <TabsContent
+                    key={day}
+                    value={day}
+                    className="mt-0 min-h-[calc(100vh-200px)]"
+                  >
                     <h3 className="text-xl font-semibold mb-4 text-slate-800">
                       {dayNames[day]}
                     </h3>
 
-                    <div className="space-y-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {mealTypes.map((mealType) => {
                         const meal = schedule?.[day]?.[mealType];
 
@@ -131,19 +138,28 @@ const DiningScheduleView: React.FC = () => {
                             key={mealType}
                             className="border-slate-100 overflow-hidden bg-white"
                           >
-                            <div className="bg-slate-100 p-4 flex items-center justify-between">
-                              <h4 className="text-lg font-medium text-slate-800">
-                                {mealNames[mealType]}
-                              </h4>
-                              {meal && (
-                                <Badge
-                                  variant="outline"
-                                  className="text-xs text-emerald-600 border-emerald-500"
-                                >
-                                  {meal.startTime.substring(0, 5)} -{" "}
-                                  {meal.endTime.substring(0, 5)}
-                                </Badge>
-                              )}
+                            <div
+                              className="p-4 flex items-center justify-between relative bg-cover bg-center h-24"
+                              style={{
+                                backgroundImage: `url(${mealBackgroundImages[mealType]})`,
+                              }}
+                            >
+                              <div className="absolute inset-0 bg-slate-900/50"></div>
+
+                              <div className="relative z-10 flex items-center justify-between w-full">
+                                <h4 className="text-xl font-semibold text-white">
+                                  {mealNames[mealType]}
+                                </h4>
+                                {meal && (
+                                  <Badge
+                                    variant="outline"
+                                    className="text-sm text-white border-white"
+                                  >
+                                    {meal.startTime.substring(0, 5)} -{" "}
+                                    {meal.endTime.substring(0, 5)}
+                                  </Badge>
+                                )}
+                              </div>
                             </div>
                             <CardContent className="p-4">
                               {meal ? (
