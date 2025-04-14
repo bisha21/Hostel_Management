@@ -122,6 +122,40 @@ export const logOut = asyncHandler(async (req, res) => {
     });
 });
 
+export const updateMe = asyncHandler(async (req, res, next) => {
+    const updates = req.body;
+    const keys = Object.keys(updates);
+    console.log(req.body);
+    console.log("user", req.user);
+
+
+    // Check if no field is provided
+    if (keys.length === 0) {
+        return next(new AppError('Please provide a field to update', 400));
+    }
+
+    // Prevent updating password or user_type
+    if (keys.includes('password') || keys.includes('user_type')) {
+        return next(new AppError('You are not allowed to update password or role from this route', 400));
+    }
+    const user = await User.findByPk(req.user.userId);
+
+    if (!user) {
+        return next(new AppError('User not found', 404));
+    }
+
+    // Update all allowed fields
+    await user.update(updates);
+
+    res.status(200).json({
+        status: 'success',
+        message: 'Profile updated successfully',
+        data: {
+            updatedFields: updates,
+        },
+    });
+});
+
 export const getUsersWithRooms = async (req, res) => {
     try {
         const users = await User.findAll({
@@ -183,6 +217,7 @@ export const handleForgotPassword = async (req, res) => {
 export const verifyOtp = asyncHandler(async (req, res) => {
     const email = req.session.email;
     const { otp } = req.body;
+    console.log(otp);
     console.log(email);
     req.session.otp = otp;
     if (!otp || !email) {

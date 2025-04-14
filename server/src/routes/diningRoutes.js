@@ -18,7 +18,7 @@ router.route("/meals/:day").get(getMealsByDay);
 
 router.use(protectedRoutes); 
 
-router.route("/meals").post(restrictTo("student"), createMeal);
+router.route("/meals").post(createMeal);
 router.route("/meals/:day/:mealType")
   .put(restrictTo("student"), updateMeal)
   .delete(restrictTo("student"), deleteMeal);

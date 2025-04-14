@@ -5,32 +5,32 @@ import jwt from 'jsonwebtoken';
 
 export const protectedRoutes = asyncHandler(async (req, res, next) => {
   try {
+
     const authHeader = req.headers?.authorization;
     let authToken;
 
     if (authHeader && authHeader.startsWith("Bearer ")) {
       authToken = authHeader.split(" ")[1];
     } else if (req.headers.cookie) {
-      const cookie = req.headers.cookie;
-      authToken = cookie.split("=")[1];
+      const tokenCookie = req.headers.cookie
+        .split(";")
+        .find(c => c.trim().startsWith("authToken="));
+      if (tokenCookie) {
+        authToken = tokenCookie.split("=")[1];
+      }
     }
 
     if (!authToken) {
       return res.status(401).send("Unauthorized: No token provided.");
     }
 
-    // Verify the token
-    jwt.verify(authToken, process.env.JWT_SECRET, (err, decoded) => {
-      // if (err) {
-      //   console.error("JWT Verification Error:", err.message);
-      //   return next(new AppError("Invalid token.", 401));
-      // }
+    const decoded = jwt.verify(authToken, process.env.JWT_SECRET);
+    req.user = decoded;
+    console.log("✅ req.user", req.user);
 
-      req.user = decoded; // Attach the decoded payload (user information) to req.user
-
-      next();
-    });
+    next();
   } catch (error) {
+    console.error("JWT Error:", error.message);
     return next(new AppError("An error occurred during token verification.", 401));
   }
 });
