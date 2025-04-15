@@ -7,18 +7,32 @@ import asyncHandler from "../utlis/catchAsync.js";
 import bcrypt from 'bcryptjs';
 import { sendMail } from '../utlis/emai.js';
 import generateOtp from '../utlis/generateOtp.js';
+import cloudinary from '../utlis/cloudinary.js';
+import { getDataUri } from '../utlis/datauri.js';
 
 export const registerUser = asyncHandler(async (req, res, next) => {
-    const { username, email, address, profile, password, user_type, confirmPassword, phoneNumber } = req.body;
+    const { username, email, address,  password, user_type, confirmPassword, phoneNumber } = req.body;
 
     // Check for missing fields
-    if (!username || !email || !password || !user_type || !confirmPassword || !address | !phoneNumber) {
+    if (!username || !email || !password || !user_type || !confirmPassword || !address || !phoneNumber) {
         return next(new AppError('All fields are required', 400));
     }
 
     // Check if passwords match
     if (password !== confirmPassword) {
         return next(new AppError('Password and confirm password must match', 400));
+    }
+    let imageUrl=null;
+    if (req.file) {
+        try {
+            const fileUri = getDataUri(req.file);
+            const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+            imageUrl = cloudResponse.secure_url;
+        } catch (error) {
+            console.error("Cloudinary Upload Error:", error);
+            return res.status(500).json({ message: "Image upload failed", error: error.message });
+        }
+
     }
 
     // Check if the user already exists
@@ -40,7 +54,7 @@ export const registerUser = asyncHandler(async (req, res, next) => {
         user_type,
         address,
         phone_number: phoneNumber,
-        profile
+        profile_picture:imageUrl
     });
 
     // Fetch the user with bookings and rooms
