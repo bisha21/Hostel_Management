@@ -1,6 +1,5 @@
 import { Camera, Mail, MapPin, Phone, User } from "lucide-react";
 import useAuthContext from "../../../hooks/useAuthContext";
-import { Button } from "../../../components/ui/button";
 
 const ProfilePage = () => {
   const { user } = useAuthContext();
