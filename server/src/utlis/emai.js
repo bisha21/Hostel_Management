@@ -1,5 +1,4 @@
 import nodemailer from "nodemailer";
-
 export const sendMail = async (options) => {
   if (!options.email || (Array.isArray(options.email) && options.email.length === 0)) {
     console.error("No recipients defined");

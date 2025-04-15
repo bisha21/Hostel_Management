@@ -7,18 +7,32 @@ import asyncHandler from "../utlis/catchAsync.js";
 import bcrypt from 'bcryptjs';
 import { sendMail } from '../utlis/emai.js';
 import generateOtp from '../utlis/generateOtp.js';
+import cloudinary from '../utlis/cloudinary.js';
+import { getDataUri } from '../utlis/datauri.js';
 
 export const registerUser = asyncHandler(async (req, res, next) => {
-    const { username, email, address, profile, password, user_type, confirmPassword, phoneNumber } = req.body;
+    const { username, email, address,  password, user_type, confirmPassword, phoneNumber } = req.body;
 
     // Check for missing fields
-    if (!username || !email || !password || !user_type || !confirmPassword || !address | !phoneNumber) {
+    if (!username || !email || !password || !user_type || !confirmPassword || !address || !phoneNumber) {
         return next(new AppError('All fields are required', 400));
     }
 
     // Check if passwords match
     if (password !== confirmPassword) {
         return next(new AppError('Password and confirm password must match', 400));
+    }
+    let imageUrl=null;
+    if (req.file) {
+        try {
+            const fileUri = getDataUri(req.file);
+            const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+            imageUrl = cloudResponse.secure_url;
+        } catch (error) {
+            console.error("Cloudinary Upload Error:", error);
+            return res.status(500).json({ message: "Image upload failed", error: error.message });
+        }
+
     }
 
     // Check if the user already exists
@@ -40,7 +54,7 @@ export const registerUser = asyncHandler(async (req, res, next) => {
         user_type,
         address,
         phone_number: phoneNumber,
-        profile
+        profile_picture:imageUrl
     });
 
     // Fetch the user with bookings and rooms
@@ -122,6 +136,40 @@ export const logOut = asyncHandler(async (req, res) => {
     });
 });
 
+export const updateMe = asyncHandler(async (req, res, next) => {
+    const updates = req.body;
+    const keys = Object.keys(updates);
+    console.log(req.body);
+    console.log("user", req.user);
+
+
+    // Check if no field is provided
+    if (keys.length === 0) {
+        return next(new AppError('Please provide a field to update', 400));
+    }
+
+    // Prevent updating password or user_type
+    if (keys.includes('password') || keys.includes('user_type')) {
+        return next(new AppError('You are not allowed to update password or role from this route', 400));
+    }
+    const user = await User.findByPk(req.user.userId);
+
+    if (!user) {
+        return next(new AppError('User not found', 404));
+    }
+
+    // Update all allowed fields
+    await user.update(updates);
+
+    res.status(200).json({
+        status: 'success',
+        message: 'Profile updated successfully',
+        data: {
+            updatedFields: updates,
+        },
+    });
+});
+
 export const getUsersWithRooms = async (req, res) => {
     try {
         const users = await User.findAll({
@@ -183,6 +231,7 @@ export const handleForgotPassword = async (req, res) => {
 export const verifyOtp = asyncHandler(async (req, res) => {
     const email = req.session.email;
     const { otp } = req.body;
+    console.log(otp);
     console.log(email);
     req.session.otp = otp;
     if (!otp || !email) {
