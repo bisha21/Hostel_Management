@@ -346,8 +346,8 @@ export const userProfileDetails = asyncHandler(async (req, res) => {
           attributes: ["id", "userId", "roomId", "total_amount", "status"],
           include: [
             {
-              model: Room,
-              attributes: ["id", "RoomNumber", "Type", "Price"],
+                model: Room,
+                attributes: ["id", "RoomNumber", "Type", "Price"],
             },
           ],
         },
