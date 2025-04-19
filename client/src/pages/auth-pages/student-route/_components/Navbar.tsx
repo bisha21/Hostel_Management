@@ -27,14 +27,14 @@ const items = [
     title: "Dining",
     url: "/student/dining", // Added forward slash to make it a valid route
   },
-  // {
-  //   title: 'Contact',
-  //   url: '/student/contact',
-  // },
-  // {
-  //   title: 'About',
-  //   url: '/student/about', // Added forward slash to make it a valid route
-  // },
+  {
+    title: 'About',
+    url: '/student/about',
+  },
+  {
+    title: 'Contact',
+    url: '/student/contact',
+  },
 ];
 
 const Navbar = () => {
