@@ -8,7 +8,7 @@ export default function RegisterForm() {
     const form = useFormContext<TRegisterType>();
 
     return (
-        <div className="w-full p-4 border rounded-md z-40 bg-card-background">
+        <div className="min-w-96 p-4 border rounded-md z-40 bg-card-background">
             <p className="text-center font-medium text-lg underline underline-offset-4">Register</p>
             <FormInput
                 label="Email"
