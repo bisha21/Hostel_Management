@@ -1,9 +1,11 @@
 import { Camera, Mail, MapPin, Phone, User } from "lucide-react";
 import useAuthContext from "../../../hooks/useAuthContext";
+import { useFetchStudentProfile } from "../../../api/queries/profile.query";
 
 const ProfilePage = () => {
   const { user } = useAuthContext();
-
+  const {data } = useFetchStudentProfile();
+  console.log(data);
   return (
     <div className="min-h-screen bg-slate-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto">

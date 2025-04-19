@@ -57,7 +57,6 @@ const DiningScheduleView: React.FC = () => {
   // Get current day for highlighting
   useEffect(() => {
     const currentDayIndex = new Date().getDay();
-    // Convert to our day format (0 = Sunday in JS Date, but we want 0 = Monday)
     const dayMapping: Record<number, DayOfWeek> = {
       0: "sunday",
       1: "monday",
