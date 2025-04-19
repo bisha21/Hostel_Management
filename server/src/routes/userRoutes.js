@@ -10,5 +10,5 @@ router.patch('/update-profile',protectedRoutes,updateMe);
 router.post("/verify-otp",verifyOtp)
 router.post("/reset-password",resetPassword);
 router.get('/logout',logOut);
-router.get('/me',userProfileDetails);
+router.get('/me',protectedRoutes,userProfileDetails);
 export default router;

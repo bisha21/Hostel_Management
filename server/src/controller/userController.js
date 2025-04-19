@@ -335,8 +335,7 @@ export const resetPassword = asyncHandler(async (req, res) => {
 
 export const userProfileDetails = asyncHandler(async (req, res) => {
   try {
-    
-    console.log(req.session.userId)
+    const userId = req.user.userId;
     const users = await User.findOne({
       where: {
         userId: userId,
