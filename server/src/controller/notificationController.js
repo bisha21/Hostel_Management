@@ -12,7 +12,7 @@ export const createNotification = async (req, res) => {
   try {
     // Validate input
     if (!message || !type || !priority || !email) {
-      return res.status(400).json({ error: 'All fields are required' });
+      return res.status(400).json({ error: "All fields are required" });
     }
 
     // Save notification to the database
@@ -34,15 +34,14 @@ export const createNotification = async (req, res) => {
     await sendMail(emailOptions);
 
     res.status(201).json({
-      message: 'Notification created and email sent successfully',
-      notification
+      message: "Notification created and email sent successfully",
+      notification,
     });
   } catch (error) {
-    console.error('Error creating notification:', error.message);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error("Error creating notification:", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
-
 
 export const createNotificationForAll = async (req, res) => {
   const { message, type, priority, sentby } = req.body;
@@ -75,7 +74,7 @@ export const createNotificationForAll = async (req, res) => {
         type,
         priority,
         sentby,
-      }))
+      })),
     );
 
     // Send email to all users
@@ -102,20 +101,20 @@ export const getAllNotification = getAll(Notification);
 export const getMyNotifications = asyncHandler(async (req, res, next) => {
   const userId = req.user.userId;
   if (!userId) {
-    return next(new AppError('User not found', 404));
+    return next(new AppError("User not found", 404));
   }
   const notifications = await Notification.findAll({
     where: { userId },
-    order: [['createdAt', 'DESC']],
+    order: [["createdAt", "DESC"]],
   });
 
-  if(!notifications) {
+  if (!notifications) {
     return next(new AppError("No notifications found", 404));
   }
 
   res.status(200).json({
-    status: 'success',
+    status: "success",
     results: notifications.length,
     data: notifications,
   });
-})
+});
