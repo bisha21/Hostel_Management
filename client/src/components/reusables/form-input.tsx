@@ -10,9 +10,10 @@ type TFormInputProps<T extends FieldValues> = {
     type?: string;
     placeholder?: string;
     required?: boolean;
+
 }
 
-export default function FormInput<T extends FieldValues>({ label, form, render, name,type,placeholder,required }: TFormInputProps<T>) {
+export default function FormInput<T extends FieldValues>({ label, form, render, name, type, placeholder, required }: TFormInputProps<T>) {
     return (
         <div>
             {
@@ -26,11 +27,22 @@ export default function FormInput<T extends FieldValues>({ label, form, render, 
                         <FormControl>
                             {render ? (
                                 render(field)
-                            ) : (
+                            ) : (type === "file") ? (
+                                <Input
+                                    type="file"
+                                    placeholder={placeholder}
+                                    onChange={(e) => {
+                                        
+                                        if (e.target.files) {
+                                            field.onChange(e.target.files);
+                                        }
+                                    }}
+                                />) : (
                                 <Input
                                     type={type}
                                     placeholder={placeholder}
                                     {...field}
+
                                 />
                             )}
                         </FormControl>

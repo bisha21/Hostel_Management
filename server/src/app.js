@@ -21,6 +21,7 @@ import Booking from "./model/bookingModel.js";
 import { DiningSchedule } from "./model/diningModel.js";
 import Payment from "./model/paymentModel.js";
 import User from "./model/userModal.js";
+import Notification from "./model/notificationModel.js";
 dotenv.config();
 
 const app = express();
@@ -54,7 +55,7 @@ app.use(
 //   .then(() => console.log("Database synchronized"))
 //   .catch((err) => console.log("Error syncing database:", err));
 // (async () => {
-//     await Booking.sync({ force: true });
+//     await Notification.sync({ force: true });
 //     console.log('All models were synchronized successfully.');
 // })();
 // (async () => {

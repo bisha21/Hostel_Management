@@ -29,7 +29,7 @@ export default function EditBooking({
         data?.status &&
         ['pending', 'confirmed', 'cancelled'].includes(data.status)
           ? data.status
-          : 'pending', // ✅ Ensure the status is valid
+          : 'pending',
     },
   });
   const { mutate } = useEditBookMutation({ initiatorName: initiatorName! });
