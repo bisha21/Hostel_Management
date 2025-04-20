@@ -18,7 +18,6 @@ export const registerSchema = z
       .optional()
       .nullable()
       .superRefine((val, ctx) => {
-        // Skip validation if value is empty
         if (!val || (val instanceof FileList && val.length === 0)) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
@@ -26,8 +25,6 @@ export const registerSchema = z
           });
           return;
         }
-        
-        // Check file size
         const file = val instanceof FileList ? val[0] : val;
         if (file && file.size > 5000000) {
           ctx.addIssue({
@@ -35,8 +32,6 @@ export const registerSchema = z
             message: "File size should be less than 5MB",
           });
         }
-        
-        // Check file type
         if (file && !['image/jpeg', 'image/png', 'image/jpg'].includes(file.type)) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
