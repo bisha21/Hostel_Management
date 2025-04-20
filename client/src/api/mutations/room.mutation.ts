@@ -42,39 +42,20 @@ export const useEditRoomMutation = ({
 export const useCreateBooking = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (roomId: string) => {
-      const { data } = await api.get(`/room/${roomId}/booking`);
+    mutationFn: async ({
+      roomId,
+      startDate,
+    }: {
+      roomId: string;
+      startDate: string;
+    }) => {
+      const { data } = await api.post(`/room/${roomId}/booking`, { startDate });
       return data.data;
     },
     onSuccess: () => {
       toastTrigger("Booking created successfully", undefined, "success");
       queryClient.invalidateQueries({ queryKey: ["room"] });
-      // try {
-      //   const { data } = await axios.post(
-      //     `http://localhost:3000/api/payment/${booking.id}`,
-      //     {
-      //       headers: {
-      //         Authorization: `Bearer ${authToken}`,
-      //       },
-      //     }
-      //   );
-
-      //   if (data.payment_url) {
-      //     window.location.href = data.payment_url; // Redirect to Khalti
-      //   } else {
-      //     console.log('Response Data:', data);
-      //     toastTrigger('Failed to retrieve payment URL', undefined, 'error');
-      //   }
-      // } catch (err:any) {
-      //   console.error('Payment Error:', err.response?.data);
-      //   toastTrigger(
-      //     err.response?.data?.message || 'Error initiating payment',
-      //     undefined,
-      //     'error'
-      //   );
-      // }
     },
-
     onError: (err: any) => {
       toastTrigger(
         err?.response?.data?.message || "Failed to create booking",
