@@ -105,3 +105,18 @@ export const useResetPassword = () => {
   });
   return reserPassword;
 };
+
+export const useEditUser = () => {
+  const navigate = useNavigate();
+  const editUserMutation = useMutation({
+    mutationFn: (data: any) => api.post("auth/update-profile", data),
+    onSuccess: () => {
+      toastTrigger("User updated successfully", undefined, "success");
+      navigate("/");
+    },
+    onError: () => {
+      toastTrigger("Update failed", undefined, "error");
+    },
+  });
+  return editUserMutation;
+};
