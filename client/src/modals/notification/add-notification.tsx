@@ -22,10 +22,12 @@ import { Checkbox } from "../../components/ui/checkbox";
 import { ModalType } from "../../types/modal.types";
 import { useState } from "react";
 import useModalContext from "../../hooks/useModalContext";
+import { useQueryClient } from "@tanstack/react-query";
 
 const AddNotification = ({ data }: ModalType<"SEND_NOTIFICATION">) => {
   const [sendToAll, setSendToAll] = useState(false);
   const { closeModal } = useModalContext();
+  const queryClient = useQueryClient();
   const form = useForm<TNotificationSchema>({
     resolver: zodResolver(notificationSchema),
     mode: "onChange",
@@ -55,6 +57,7 @@ const AddNotification = ({ data }: ModalType<"SEND_NOTIFICATION">) => {
         {
           onSuccess: () => {
             closeModal("SEND_NOTIFICATION");
+            queryClient.invalidateQueries(["notifications"]);
           },
         },
       );
