@@ -12,11 +12,19 @@ import {
 } from "../../../../components/ui/dropdown-menu";
 
 import { Bell } from "lucide-react";
-import { useFetchNotification } from "../../../../api/queries/notification.query";
-import { Popover, PopoverContent, PopoverTrigger } from "../../../../components/ui/popover";
-import { Card, CardHeader, CardContent, CardFooter } from "../../../../components/ui/card";
+import { useFetchMyNotification } from "../../../../api/queries/notification.query";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "../../../../components/ui/popover";
+import {
+  Card,
+  CardHeader,
+  CardContent,
+  CardFooter,
+} from "../../../../components/ui/card";
 import { Badge } from "../../../../components/ui/badge";
-
 
 interface Notification {
   id: number;
@@ -64,7 +72,7 @@ const items: NavItem[] = [
 
 const Navbar = () => {
   const { user, logout } = useAuthContext();
-  const { data } = useFetchNotification();
+  const { data } = useFetchMyNotification();
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
   useEffect(() => {
@@ -75,16 +83,18 @@ const Navbar = () => {
 
   const formatNotificationTime = (timeString: string): string => {
     const date = new Date(timeString);
-    return date.toLocaleString('en-US', { 
-      hour: 'numeric', 
-      minute: 'numeric',
+    return date.toLocaleString("en-US", {
+      hour: "numeric",
+      minute: "numeric",
       hour12: true,
-      month: 'short',
-      day: 'numeric'
+      month: "short",
+      day: "numeric",
     });
   };
 
-  const getPriorityBadgeVariant = (priority: string): "default" | "destructive" | "secondary" | "outline" => {
+  const getPriorityBadgeVariant = (
+    priority: string,
+  ): "default" | "destructive" | "secondary" | "outline" => {
     switch (priority) {
       case "HighPriority":
         return "destructive";
@@ -111,9 +121,9 @@ const Navbar = () => {
               <button className="p-2 rounded-full hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 relative">
                 <Bell className="w-5 h-5 text-slate-700" />
                 {notifications.length > 0 && (
-                  <Badge 
-                    variant="destructive" 
-                    className="absolute -top-1 -right-1 w-5 h-5 flex items-center justify-center p-0 text-xs"
+                  <Badge
+                    variant="destructive"
+                    className="absolute -top-1 -right-1 w-5 h-5 flex items-center justify-center p-0 text-xs text-white"
                   >
                     {notifications.length}
                   </Badge>
@@ -124,22 +134,29 @@ const Navbar = () => {
               <Card className="border-0 shadow-none">
                 <CardHeader className="py-2 px-4 bg-emerald-500 text-white font-semibold rounded-t-md flex justify-between items-center">
                   <span>Notifications</span>
-                  <Badge variant="outline" className="bg-white text-emerald-800 hover:bg-white">
+                  <Badge
+                    variant="outline"
+                    className="bg-white text-emerald-800 hover:bg-white"
+                  >
                     {notifications.length}
                   </Badge>
                 </CardHeader>
                 <CardContent className="p-0 max-h-96 overflow-y-auto">
                   {notifications.length > 0 ? (
                     notifications.map((notification) => (
-                      <div 
-                        key={notification.id} 
+                      <div
+                        key={notification.id}
                         className="p-3 border-b hover:bg-slate-50 cursor-pointer"
                       >
                         <div className="flex justify-between items-start">
                           <div className="flex-1">
                             <div className="flex justify-between items-center">
                               <div className="flex items-center gap-2">
-                                <Badge variant={getPriorityBadgeVariant(notification.priority)}>
+                                <Badge
+                                  variant={getPriorityBadgeVariant(
+                                    notification.priority,
+                                  )}
+                                >
                                   {notification.type}
                                 </Badge>
                               </div>
@@ -147,18 +164,27 @@ const Navbar = () => {
                                 {formatNotificationTime(notification.time)}
                               </span>
                             </div>
-                            <p className="text-sm text-slate-700 mt-1">{notification.message}</p>
-                            <p className="text-xs text-slate-500 mt-1">From: {notification.sentby}</p>
+                            <p className="text-sm text-slate-700 mt-1">
+                              {notification.message}
+                            </p>
+                            <p className="text-xs text-slate-500 mt-1">
+                              From: {notification.sentby}
+                            </p>
                           </div>
                         </div>
                       </div>
                     ))
                   ) : (
-                    <div className="p-4 text-center text-slate-500">No notifications</div>
+                    <div className="p-4 text-center text-slate-500">
+                      No notifications
+                    </div>
                   )}
                 </CardContent>
                 <CardFooter className="py-2 px-4 bg-slate-50 rounded-b-md text-center">
-                  <Link to="/student/notifications" className="w-full text-sm text-emerald-600 hover:text-emerald-800">
+                  <Link
+                    to="/student/notifications"
+                    className="w-full text-sm text-emerald-600 hover:text-emerald-800"
+                  >
                     View all notifications
                   </Link>
                 </CardFooter>
@@ -192,7 +218,7 @@ const Navbar = () => {
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-          
+
           {/* Mobile menu button */}
           <button
             data-collapse-toggle="navbar-user"
@@ -219,7 +245,7 @@ const Navbar = () => {
             </svg>
           </button>
         </div>
-        
+
         {/* Navigation links */}
         <div
           className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
