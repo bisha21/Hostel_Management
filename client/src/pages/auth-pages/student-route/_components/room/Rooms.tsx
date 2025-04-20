@@ -7,12 +7,14 @@ import {
   StepForward,
   TypeIcon,
   UsersIcon,
+  CalendarIcon,
 } from "lucide-react";
 import { Button } from "../../../../../components/ui/button";
 import { useCreateBooking } from "../../../../../api/mutations/room.mutation";
 import { useEditBookMutation } from "../../../../../api/mutations/booking.mutation";
 import useAuthContext from "../../../../../hooks/useAuthContext";
 import { usePaymentMutation } from "../../../../../api/mutations/payment.mutation";
+import { useState } from "react";
 
 export default function RoomDetail() {
   const params = useParams();
@@ -20,9 +22,15 @@ export default function RoomDetail() {
   const { data: room } = useFetchSingleRoom(id);
   const { user } = useAuthContext(); // Get logged-in user
   const roomBookingId = room?.data.bookings.find(
-    (booking: any) =>
-      booking.userId === user?.id && booking.status !== "cancelled",
+    (booking) => booking.userId === user?.id && booking.status !== "cancelled",
   );
+
+  // State for start date selection
+  const [startDate, setStartDate] = useState(
+    new Date().toISOString().split("T")[0],
+  );
+  const [showDatePicker, setShowDatePicker] = useState(false);
+
   const { mutate: createBooking, isLoading: isBooking } = useCreateBooking();
   const { mutate: cancelBooking, isLoading: isCancelling } =
     useEditBookMutation({ initiatorName: roomBookingId?.id || "" });
@@ -30,7 +38,16 @@ export default function RoomDetail() {
     usePaymentMutation({ bookingId: roomBookingId?.id || "" });
 
   const handleBooking = () => {
-    createBooking(id);
+    // Send the selected start date along with the booking request
+    createBooking({
+      roomId: id,
+      startDate: startDate,
+    });
+    setShowDatePicker(false);
+  };
+
+  const toggleDatePicker = () => {
+    setShowDatePicker(!showDatePicker);
   };
 
   const handleCancel = () => {
@@ -40,6 +57,7 @@ export default function RoomDetail() {
   const handlePayment = async () => {
     paymentMutation();
   };
+
   // Safely destructure only if room?.data exists
   const {
     RoomNumber,
@@ -54,8 +72,7 @@ export default function RoomDetail() {
 
   // Find the user's active booking
   const userBooking = bookings.find(
-    (booking: any) =>
-      booking.userId === user?.id && booking.status !== "cancelled",
+    (booking) => booking.userId === user?.id && booking.status !== "cancelled",
   );
 
   return (
@@ -146,13 +163,43 @@ export default function RoomDetail() {
                 <h2 className="text-lg text-emerald-600 font-semibold text-left">
                   Book today. Pay on arrival.
                 </h2>
-                <Button
-                  onClick={handleBooking}
-                  className="bg-emerald-500 hover:bg-emerald-600"
-                  disabled={isBooking}
-                >
-                  {isBooking ? "Booking..." : "Book Now"} <ArrowRight />
-                </Button>
+
+                {showDatePicker ? (
+                  <div className="flex flex-col gap-3 p-3 border border-slate-200 rounded-md bg-white">
+                    <div className="flex items-center gap-2">
+                      <CalendarIcon className="h-5 w-5 text-emerald-500" />
+                      <label
+                        htmlFor="startDate"
+                        className="text-sm font-medium"
+                      >
+                        Select check-in date:
+                      </label>
+                    </div>
+                    <input
+                      type="date"
+                      id="startDate"
+                      className="p-2 border border-slate-200 rounded-md"
+                      value={startDate}
+                      onChange={(e) => setStartDate(e.target.value)}
+                      min={new Date().toISOString().split("T")[0]}
+                    />
+                    <Button
+                      onClick={handleBooking}
+                      className="bg-emerald-500 hover:bg-emerald-600 mt-2"
+                      disabled={isBooking}
+                    >
+                      {isBooking ? "Booking..." : "Confirm Booking"}{" "}
+                      <ArrowRight />
+                    </Button>
+                  </div>
+                ) : (
+                  <Button
+                    onClick={toggleDatePicker}
+                    className="bg-emerald-500 hover:bg-emerald-600"
+                  >
+                    Book Now <ArrowRight />
+                  </Button>
+                )}
               </>
             )}
           </div>
