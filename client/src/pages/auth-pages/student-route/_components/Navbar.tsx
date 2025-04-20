@@ -1,4 +1,5 @@
-import { Link, NavLink } from "react-router"; // Import useLocation for getting the current route
+import { Link, NavLink } from "react-router";
+import { useState, useEffect } from "react";
 import logo from "../../../../assets/image/logo3.png";
 import { Avatar } from "../../../../components/reusables/avatar";
 import useAuthContext from "../../../../hooks/useAuthContext";
@@ -10,7 +11,31 @@ import {
   DropdownMenuTrigger,
 } from "../../../../components/ui/dropdown-menu";
 
-const items = [
+import { Bell } from "lucide-react";
+import { useFetchNotification } from "../../../../api/queries/notification.query";
+import { Popover, PopoverContent, PopoverTrigger } from "../../../../components/ui/popover";
+import { Card, CardHeader, CardContent, CardFooter } from "../../../../components/ui/card";
+import { Badge } from "../../../../components/ui/badge";
+
+
+interface Notification {
+  id: number;
+  userId: number;
+  message: string;
+  time: string;
+  type: string;
+  priority: "HighPriority" | "MediumPriority" | "LowPriority";
+  sentby: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface NavItem {
+  title: string;
+  url: string;
+}
+
+const items: NavItem[] = [
   {
     title: "Home",
     url: "/student",
@@ -25,7 +50,7 @@ const items = [
   },
   {
     title: "Dining",
-    url: "/student/dining", // Added forward slash to make it a valid route
+    url: "/student/dining",
   },
   {
     title: 'About',
@@ -39,6 +64,36 @@ const items = [
 
 const Navbar = () => {
   const { user, logout } = useAuthContext();
+  const { data } = useFetchNotification();
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+
+  useEffect(() => {
+    if (data && data.data) {
+      setNotifications(data.data);
+    }
+  }, [data]);
+
+  const formatNotificationTime = (timeString: string): string => {
+    const date = new Date(timeString);
+    return date.toLocaleString('en-US', { 
+      hour: 'numeric', 
+      minute: 'numeric',
+      hour12: true,
+      month: 'short',
+      day: 'numeric'
+    });
+  };
+
+  const getPriorityBadgeVariant = (priority: string): "default" | "destructive" | "secondary" | "outline" => {
+    switch (priority) {
+      case "HighPriority":
+        return "destructive";
+      case "MediumPriority":
+        return "default";
+      default:
+        return "secondary";
+    }
+  };
 
   return (
     <nav className="bg-slate-50 border-slate-100">
@@ -49,7 +104,69 @@ const Navbar = () => {
         >
           <img src={logo} className="w-32" alt="Logo" />
         </NavLink>
-        <div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+        <div className="flex items-center md:order-2 space-x-3 md:space-x-3 rtl:space-x-reverse">
+          {/* Notification Bell with Popover */}
+          <Popover>
+            <PopoverTrigger asChild>
+              <button className="p-2 rounded-full hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 relative">
+                <Bell className="w-5 h-5 text-slate-700" />
+                {notifications.length > 0 && (
+                  <Badge 
+                    variant="destructive" 
+                    className="absolute -top-1 -right-1 w-5 h-5 flex items-center justify-center p-0 text-xs"
+                  >
+                    {notifications.length}
+                  </Badge>
+                )}
+              </button>
+            </PopoverTrigger>
+            <PopoverContent className="w-80 p-0" align="end">
+              <Card className="border-0 shadow-none">
+                <CardHeader className="py-2 px-4 bg-emerald-500 text-white font-semibold rounded-t-md flex justify-between items-center">
+                  <span>Notifications</span>
+                  <Badge variant="outline" className="bg-white text-emerald-800 hover:bg-white">
+                    {notifications.length}
+                  </Badge>
+                </CardHeader>
+                <CardContent className="p-0 max-h-96 overflow-y-auto">
+                  {notifications.length > 0 ? (
+                    notifications.map((notification) => (
+                      <div 
+                        key={notification.id} 
+                        className="p-3 border-b hover:bg-slate-50 cursor-pointer"
+                      >
+                        <div className="flex justify-between items-start">
+                          <div className="flex-1">
+                            <div className="flex justify-between items-center">
+                              <div className="flex items-center gap-2">
+                                <Badge variant={getPriorityBadgeVariant(notification.priority)}>
+                                  {notification.type}
+                                </Badge>
+                              </div>
+                              <span className="text-xs text-slate-500">
+                                {formatNotificationTime(notification.time)}
+                              </span>
+                            </div>
+                            <p className="text-sm text-slate-700 mt-1">{notification.message}</p>
+                            <p className="text-xs text-slate-500 mt-1">From: {notification.sentby}</p>
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="p-4 text-center text-slate-500">No notifications</div>
+                  )}
+                </CardContent>
+                <CardFooter className="py-2 px-4 bg-slate-50 rounded-b-md text-center">
+                  <Link to="/student/notifications" className="w-full text-sm text-emerald-600 hover:text-emerald-800">
+                    View all notifications
+                  </Link>
+                </CardFooter>
+              </Card>
+            </PopoverContent>
+          </Popover>
+
+          {/* User Avatar Dropdown */}
           <div
             className="flex text-sm bg-slate-100 rounded-full md:me-0 focus:ring-4 focus:ring-emerald-500"
             id="user-menu-button"
@@ -75,6 +192,8 @@ const Navbar = () => {
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
+          
+          {/* Mobile menu button */}
           <button
             data-collapse-toggle="navbar-user"
             type="button"
@@ -100,6 +219,8 @@ const Navbar = () => {
             </svg>
           </button>
         </div>
+        
+        {/* Navigation links */}
         <div
           className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
           id="navbar-user"
