@@ -29,6 +29,7 @@ import VerifyEmailPage from "./pages/auth/veriy-email-page";
 import ChangePasswordPage from "./pages/auth/change-password-page";
 import ComplaintsPage from "./pages/auth-pages/complaints/page";
 import ProfilePage from "./pages/auth-pages/student-route/Profie";
+import NotificationsPage from "./pages/auth-pages/student-route/Notification";
 
 function App() {
   return (
@@ -76,6 +77,10 @@ function App() {
             <Route path="/student/dining" element={<DiningScheduleView />} />
             <Route path="/student/about" element={<About />} />
             <Route path="/student/complaint" element={<ComplaintPage />} />
+            <Route
+              path="/student/notifications"
+              element={<NotificationsPage />}
+            />
             <Route
               path="/student/payment-success"
               element={<PaymentSuccess />}

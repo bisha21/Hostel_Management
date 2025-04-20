@@ -1,9 +1,11 @@
 import { Camera, Edit2, Mail, MapPin, Phone, User } from "lucide-react";
-import useAuthContext from "../../../hooks/useAuthContext";
+import { useFetchUser } from "../../../api/queries/user.query";
+import useModalContext from "../../../hooks/useModalContext";
 
 const ProfilePage = () => {
-  const { user } = useAuthContext();
-
+  const { data } = useFetchUser();
+  const { openModal } = useModalContext();
+  const user = data?.data;
   return (
     <div className="min-h-screen bg-slate-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto">
@@ -17,10 +19,10 @@ const ProfilePage = () => {
             {/* Profile Picture */}
             <div className="relative -mt-20 mb-6">
               <div className="w-24 h-24 rounded-full border-4 border-white bg-slate-100 flex items-center justify-center overflow-hidden">
-                {user.profile_picture ? (
+                {user?.profile_picture ? (
                   <img
-                    src={user.profile_picture}
-                    alt={user.username}
+                    src={user?.profile_picture || ""}
+                    alt={user?.username}
                     className="w-full h-full object-cover"
                   />
                 ) : (
@@ -36,6 +38,16 @@ const ProfilePage = () => {
               <button
                 title="Edit profile details"
                 className="absolute bottom-0 right-0 p-1.5 rounded-full bg-slate-100 border border-slate-200 text-slate-600 hover:bg-sky-300 transition-colors"
+                onClick={() =>
+                  openModal({
+                    key: "EDIT_PROFILE",
+                    data: {
+                      username: user?.username,
+                      address: user?.address,
+                      phone: user?.phone_number,
+                    },
+                  })
+                }
               >
                 <Edit2 className="w-4 h-4" />
               </button>
@@ -45,9 +57,11 @@ const ProfilePage = () => {
             <div className="space-y-6">
               <div>
                 <h1 className="text-2xl font-bold text-slate-800">
-                  {user.username}
+                  {user?.username}
                 </h1>
-                <p className="text-emerald-600 font-medium">{user.user_type}</p>
+                <p className="text-emerald-600 font-medium">
+                  {user?.user_type}
+                </p>
               </div>
 
               <div className="space-y-4">
@@ -57,11 +71,11 @@ const ProfilePage = () => {
                 </div>
                 <div className="flex items-center gap-3 text-slate-600">
                   <Phone className="w-5 h-5 text-emerald-500" />
-                  <span>{user.phone_number}</span>
+                  <span>{user?.phone_number}</span>
                 </div>
                 <div className="flex items-center gap-3 text-slate-600">
                   <MapPin className="w-5 h-5 text-emerald-500" />
-                  <span>{user.address}</span>
+                  <span>{user?.address}</span>
                 </div>
               </div>
             </div>
@@ -74,7 +88,7 @@ const ProfilePage = () => {
             Booking History
           </h2>
           <div className="space-y-4">
-            {user.bookings?.map((booking) => (
+            {user?.bookings?.map((booking: any) => (
               <div
                 key={booking.id}
                 className="border border-slate-200 rounded-lg p-4 hover:bg-slate-50 transition-colors"

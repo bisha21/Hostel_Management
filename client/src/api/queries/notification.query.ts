@@ -4,13 +4,25 @@ import { toastTrigger } from "../../lib/utils";
 
 export const useFetchNotification = () => {
   return useQuery({
-    queryKey: ['notifications'],
+    queryKey: ["notifications"],
     queryFn: async () => {
-      const response = await api.get('/sendnotification/');
+      const response = await api.get("/sendnotification/");
       return response.data;
     },
     onError: () => {
-      toastTrigger('Failed to fetch notification history.', undefined, 'error');
+      toastTrigger("Failed to fetch notification history.", undefined, "error");
+    },
+  });
+};
+export const useFetchMyNotification = () => {
+  return useQuery({
+    queryKey: ["notifications"],
+    queryFn: async () => {
+      const response = await api.get("sendnotification/own");
+      return response.data;
+    },
+    onError: () => {
+      toastTrigger("Failed to fetch notification", undefined, "error");
     },
   });
 };

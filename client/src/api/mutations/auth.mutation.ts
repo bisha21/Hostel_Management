@@ -1,5 +1,5 @@
 import { api, formdataApi } from "../api";
-import { useMutation } from "@tanstack/react-query";
+import { Query, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toastTrigger } from "../../lib/utils";
 import { TLoginType } from "../../schemas/login";
 import { useNavigate } from "react-router";
@@ -104,4 +104,23 @@ export const useResetPassword = () => {
     },
   });
   return reserPassword;
+};
+
+export const useEditUser = () => {
+  const queryClient = useQueryClient();
+  const editUserMutation = useMutation({
+    mutationFn: (data: {
+      username: string;
+      address: string;
+      phone_number: string;
+    }) => api.patch("auth/update-profile", data),
+    onSuccess: () => {
+      toastTrigger("User updated successfully", undefined, "success");
+      queryClient.invalidateQueries(["user"]);
+    },
+    onError: () => {
+      toastTrigger("Update failed", undefined, "error");
+    },
+  });
+  return editUserMutation;
 };
