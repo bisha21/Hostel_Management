@@ -301,3 +301,37 @@ export const resetPassword = asyncHandler(async (req, res) => {
 
     res.status(200).json({ message: "Password reset successfully!" });
 });
+
+
+export const OwnDetail = asyncHandler(async(req,res,next)=>
+{
+    const {userId}=req.user
+    const user= await User.findOne(
+        {
+            where:{id:userId},
+            include: [
+                {
+                    model: Booking,
+                    attributes: ["id", "userId", "roomId", "total_amount", "status"],
+                    include: [
+                        {
+                            model: Room,
+                            attributes: ["id", "RoomNumber", "Type", "Price"]
+                        }
+                    ]
+                }
+            ]
+        }
+        
+
+       
+    )
+    if(!user)
+        {
+            return next(new AppError('User not found', 404));
+        }
+    res.status(200).json({
+        status: 'success',
+        data:user
+    })
+})
