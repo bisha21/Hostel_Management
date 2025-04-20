@@ -53,12 +53,12 @@ const items: NavItem[] = [
     url: "/student/dining",
   },
   {
-    title: 'About',
-    url: '/student/about',
+    title: "About",
+    url: "/student/about",
   },
   {
-    title: 'Contact',
-    url: '/student/contact',
+    title: "Contact",
+    url: "/student/contact",
   },
 ];
 
@@ -176,7 +176,7 @@ const Navbar = () => {
           >
             <DropdownMenu>
               <DropdownMenuTrigger>
-                <Avatar name={user.username} />
+                <Avatar src={user.profile_picture || ""} name={user.username} />
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuItem className="focus:bg-emerald-400">
