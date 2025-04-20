@@ -1,4 +1,4 @@
-import { api } from '../api';
+import { api, formdataApi } from '../api';
 import { useMutation } from '@tanstack/react-query';
 import { toastTrigger } from '../../lib/utils';
 import { TLoginType } from '../../schemas/login';
@@ -34,7 +34,25 @@ export const useLoginMutation = () => {
 export const useRegisterMutation = () => {
   const navigate = useNavigate();
   const registerMutation = useMutation({
-    mutationFn: (data: TRegisterType) => api.post('auth/register', data),
+    mutationFn: (data: TRegisterType) => {
+     
+      const formData = new FormData();
+      
+      
+      formData.append("email", data.email);
+      formData.append("username", data.username);
+      formData.append("password", data.password);
+      formData.append("address", data.address);
+      formData.append("phoneNumber", data.phoneNumber);
+      formData.append("user_type", data.user_type);
+
+      
+      if (data.profile && data.profile.length > 0) {
+        formData.append("profile_picture", data.profile[0]);
+      }
+      
+      return formdataApi.post('auth/register', formData);
+    },
     onSuccess: () => {
       toastTrigger('Registration successful', undefined, 'success');
       navigate('/');

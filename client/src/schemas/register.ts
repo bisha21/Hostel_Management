@@ -13,18 +13,47 @@ export const registerSchema = z
     user_type: z.enum(['admin', 'student']),
     address: z.string(),
     phoneNumber: z.string(),
-    profile: z.string(),
+    profile: z
+      .any()
+      .optional()
+      .nullable()
+      .superRefine((val, ctx) => {
+        // Skip validation if value is empty
+        if (!val || (val instanceof FileList && val.length === 0)) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: "Profile image is required",
+          });
+          return;
+        }
+        
+        // Check file size
+        const file = val instanceof FileList ? val[0] : val;
+        if (file && file.size > 5000000) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: "File size should be less than 5MB",
+          });
+        }
+        
+        // Check file type
+        if (file && !['image/jpeg', 'image/png', 'image/jpg'].includes(file.type)) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: "File type must be image/jpeg, image/png, or image/jpg",
+          });
+        }
+      })
   })
   .superRefine(({ confirmPassword, password }, ctx) => {
     if (confirmPassword !== password) {
       ctx.addIssue({
         code: 'custom',
         message: 'Passwords do not match',
-        path: ['password2'],
+        path: ['confirmPassword'],
       });
     }
   });
-
 export const otpSchema = z.object({
   otp: z.string().min(1, { message: 'OTP is required' }),
 });
