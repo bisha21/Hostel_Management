@@ -9,10 +9,11 @@ import { Button } from '../../components/ui/button';
 import { Checkbox } from '../../components/ui/checkbox';
 import { ModalType } from '../../types/modal.types';
 import { useState } from 'react';
+import useModalContext from '../../hooks/useModalContext';
 
 const AddNotification = ({ data }: ModalType<'SEND_NOTIFICATION'>) => {
     const [sendToAll, setSendToAll] = useState(false);
-
+    const { closeModal } = useModalContext();
     const form = useForm<TNotificationSchema>({
         resolver: zodResolver(notificationSchema),
         mode: "onChange",
@@ -37,13 +38,22 @@ const AddNotification = ({ data }: ModalType<'SEND_NOTIFICATION'>) => {
                 priority: formData.priority,
                 sentby: formData.sentby,
                 email: formData.email
-            });
+            },
+                {
+                    onSuccess: () => {
+                        closeModal('SEND_NOTIFICATION');
+                    }
+                },);
         } else {
             allNotification.mutate({
                 message: formData.message,
                 type: formData.type,
                 priority: formData.priority,
                 sentby: formData.sentby
+            }, {
+                onSuccess: () => {
+                    closeModal('SEND_NOTIFICATION');
+                }
             });
         }
     };
