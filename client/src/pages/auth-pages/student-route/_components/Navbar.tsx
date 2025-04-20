@@ -59,7 +59,7 @@ const Navbar = () => {
           >
             <DropdownMenu>
               <DropdownMenuTrigger>
-                <Avatar src={user.profile_picture} name={user.username} />
+                <Avatar src={user.profile_picture || ""} name={user.username} />
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuItem className="focus:bg-emerald-400">

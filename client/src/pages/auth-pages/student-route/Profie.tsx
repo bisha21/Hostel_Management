@@ -1,4 +1,4 @@
-import { Camera, Mail, MapPin, Phone, User } from "lucide-react";
+import { Camera, Edit2, Mail, MapPin, Phone, User } from "lucide-react";
 import useAuthContext from "../../../hooks/useAuthContext";
 
 const ProfilePage = () => {
@@ -27,8 +27,17 @@ const ProfilePage = () => {
                   <User className="w-12 h-12 text-slate-400" />
                 )}
               </div>
-              <button className="absolute bottom-0 right-0 p-1.5 rounded-full bg-slate-100 border border-slate-200 text-slate-600 hover:bg-sky-300 transition-colors">
+              <button
+                title="Edit profile picture"
+                className="absolute bottom-0 left-16 p-1.5 rounded-full bg-slate-100 border border-slate-200 text-slate-600 hover:bg-sky-300 transition-colors"
+              >
                 <Camera className="w-4 h-4" />
+              </button>
+              <button
+                title="Edit profile details"
+                className="absolute bottom-0 right-0 p-1.5 rounded-full bg-slate-100 border border-slate-200 text-slate-600 hover:bg-sky-300 transition-colors"
+              >
+                <Edit2 className="w-4 h-4" />
               </button>
             </div>
 
@@ -44,7 +53,7 @@ const ProfilePage = () => {
               <div className="space-y-4">
                 <div className="flex items-center gap-3 text-slate-600">
                   <Mail className="w-5 h-5 text-emerald-500" />
-                  <span>example@email.com</span>
+                  <span>{user?.email}</span>
                 </div>
                 <div className="flex items-center gap-3 text-slate-600">
                   <Phone className="w-5 h-5 text-emerald-500" />
