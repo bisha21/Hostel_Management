@@ -12,9 +12,12 @@ export interface TModalDataMap {
     type: TDeleteItem["type"];
   };
   EDIT_ROOM: TRoomResponse;
-  EDIT_BOOKING:TBookingsResponse;
+  EDIT_BOOKING: TBookingsResponse;
   ADD_NOTIFICATION: string[];
+  EDIT_PROFILE: {
+    username: string;
+    address: string;
+    phone: string;
+  };
   [key: string]: any;
-
 }
-

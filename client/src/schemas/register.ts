@@ -81,7 +81,7 @@ export const changePasswordSchema = z
 export const editUserSchema = z.object({
   username: z.string().min(1, { message: "Name is required" }),
   address: z.string().min(1, { message: "Address is required" }),
-  phoneNumber: z.string().min(1, { message: "Phone is required" }),
+  phone_number: z.string().min(1, { message: "Phone is required" }),
 });
 
 export type TChangePasswordSchema = z.infer<typeof changePasswordSchema>;
