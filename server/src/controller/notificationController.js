@@ -1,10 +1,12 @@
 import Notification from "../model/notificationModel.js";
 import User from "../model/userModal.js";
+import AppError from "../utlis/appError.js";
+import asyncHandler from "../utlis/catchAsync.js";
 import { sendMail } from "../utlis/emai.js";
 import { getAll } from "./handleFactoryController.js";
 
 export const createNotification = async (req, res) => {
-  const { message, type, priority, sentby,username,email } = req.body;
+  const { message, type, priority, sentby, username, email } = req.body;
   const { userId } = req.user;
 
   try {
@@ -96,3 +98,24 @@ export const createNotificationForAll = async (req, res) => {
 };
 
 export const getAllNotification = getAll(Notification);
+
+export const getMyNotifications = asyncHandler(async (req, res, next) => {
+  const userId = req.user.userId;
+  if (!userId) {
+    return next(new AppError('User not found', 404));
+  }
+  const notifications = await Notification.findAll({
+    where: { userId },
+    order: [['createdAt', 'DESC']],
+  });
+
+  if(!notifications) {
+    return next(new AppError("No notifications found", 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    results: notifications.length,
+    data: notifications,
+  });
+})
