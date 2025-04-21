@@ -1,5 +1,6 @@
 import { BookMarked, UsersIcon } from "lucide-react";
 import { Link } from "react-router";
+import { roomImage } from "../../../../../constants";
 
 function RoomCard({ room }: { room: any }) {
   const { id, RoomNumber, Capacity, Status, Price } = room;
@@ -8,7 +9,11 @@ function RoomCard({ room }: { room: any }) {
     <div className="flex border bg-slate-300">
       <div className="flex-1 relative">
         <img
-          src="https://www.thehivehostels.com/uploads/images/1658301040_7796f3aa4d7819a2f5d5.jpeg"
+          src={
+            Capacity >= 6
+              ? "https://th.bing.com/th/id/OIP.yJpF118ooANYAKlaSFmFzQHaE7?rs=1&pid=ImgDetMain"
+              : roomImage.find((room) => room.capacity === Capacity)?.src
+          }
           alt={`Cabin ${RoomNumber}`}
           className="flex-1 border-r border-slate-200 object-cover"
           style={{ width: "100%", height: "100%", objectFit: "cover" }}
