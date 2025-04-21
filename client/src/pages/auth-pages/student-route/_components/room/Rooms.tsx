@@ -15,6 +15,7 @@ import { useEditBookMutation } from "../../../../../api/mutations/booking.mutati
 import useAuthContext from "../../../../../hooks/useAuthContext";
 import { usePaymentMutation } from "../../../../../api/mutations/payment.mutation";
 import { useState } from "react";
+import { roomImage } from "../../../../../constants";
 
 export default function RoomDetail() {
   const params = useParams();
@@ -81,7 +82,11 @@ export default function RoomDetail() {
         <div className="relative scale-[1.15] -translate-x-3">
           <img
             className="object-cover"
-            src="https://www.thehivehostels.com/uploads/images/1658301040_7796f3aa4d7819a2f5d5.jpeg"
+            src={
+              Capacity >= 6
+                ? "https://th.bing.com/th/id/OIP.yJpF118ooANYAKlaSFmFzQHaE7?rs=1&pid=ImgDetMain"
+                : roomImage.find((room) => room.capacity === Capacity)?.src
+            }
             alt={`Room ${RoomNumber || "Details"}`}
           />
         </div>
