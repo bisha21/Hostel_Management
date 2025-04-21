@@ -88,7 +88,7 @@ const ProfilePage = () => {
             Booking History
           </h2>
           <div className="space-y-4">
-            {user?.bookings?.map((booking: any) => (
+            {user?.Bookings?.map((booking: any) => (
               <div
                 key={booking.id}
                 className="border border-slate-200 rounded-lg p-4 hover:bg-slate-50 transition-colors"
