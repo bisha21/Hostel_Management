@@ -6,8 +6,7 @@ import { sendMail } from "../utlis/emai.js";
 import { getAll } from "./handleFactoryController.js";
 
 export const createNotification = async (req, res) => {
-  const { message, type, priority, sentby, username, email } = req.body;
-  const { userId } = req.user;
+  const { message, type, priority, sentby, email } = req.body;
 
   try {
     // Validate input
@@ -15,7 +14,16 @@ export const createNotification = async (req, res) => {
       return res.status(400).json({ error: "All fields are required" });
     }
 
-    // Save notification to the database
+    // Get user by email
+    const user = await User.findOne({ where: { email } });
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const userId = user.id;
+    console.log("userId", userId);
+
+    // Save notification
     const notification = await Notification.create({
       userId,
       message,
@@ -24,7 +32,7 @@ export const createNotification = async (req, res) => {
       sentby,
     });
 
-    // Send email notification
+    // Send email
     const emailOptions = {
       email,
       subject: `New Notification: ${type}`,
@@ -42,6 +50,7 @@ export const createNotification = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
 
 export const createNotificationForAll = async (req, res) => {
   const { message, type, priority, sentby } = req.body;
