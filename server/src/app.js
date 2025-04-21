@@ -41,13 +41,12 @@ app.use(
   }),
 );
 app.use(
-    cors({
-        origin: "http://localhost:5173", 
-        methods: ["GET", "POST", "DELETE", "PATCH", "OPTIONS","PUT"],
-        allowedHeaders: ['Authorization', 'Content-Type'],
-        credentials: true
-    }
-    )
+  cors({
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST", "DELETE", "PATCH", "OPTIONS", "PUT"],
+    allowedHeaders: ["Authorization", "Content-Type"],
+    credentials: true,
+  }),
 );
 
 // sequelize
