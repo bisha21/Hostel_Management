@@ -87,7 +87,7 @@ export default function Room() {
                 mutate(
                   {
                     description: "Room change request.",
-                    category: "Housekeeping",
+                    category: "Room Change",
                     feedback: "Urgent",
                   },
                   {
