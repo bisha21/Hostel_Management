@@ -1,40 +1,37 @@
-import { useForm } from 'react-hook-form';
-import { Button } from '../../components/ui/button';
-import { HORIZONTAL_LOGO, REGISTER_IMAGE } from '../../constants/images';
-import { registerSchema, TRegisterType } from '../../schemas/register';
-import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  Form
-} from '../../components/ui/form';
-import RoleSelector from './_components/role-selector';
-import { useRegisterMutation } from '../../api/mutations/auth.mutation';
-import { useState } from 'react';
-import RegisterForm from './_components/register-form';
-import { UserType } from '../../context/authContext';
-import useAuthContext from '../../hooks/useAuthContext';
+import { useForm } from "react-hook-form";
+import { Button } from "../../components/ui/button";
+import { HORIZONTAL_LOGO, REGISTER_IMAGE } from "../../constants/images";
+import { registerSchema, TRegisterType } from "../../schemas/register";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Form } from "../../components/ui/form";
+import RoleSelector from "./_components/role-selector";
+import { useRegisterMutation } from "../../api/mutations/auth.mutation";
+import { useState } from "react";
+import RegisterForm from "./_components/register-form";
+import { UserType } from "../../context/authContext";
+import useAuthContext from "../../hooks/useAuthContext";
 
 export default function RegisterPage() {
   const [isRoleSelected, setIsRoleSelected] = useState(false);
   const { mutate, isLoading } = useRegisterMutation();
-  const {  setUser, setIsAuthenticated } = useAuthContext();
+  const { setUser, setIsAuthenticated } = useAuthContext();
   const form = useForm<TRegisterType>({
     resolver: zodResolver(registerSchema),
-    mode: 'onChange',
+    mode: "onChange",
     defaultValues: {
-      username: '',
-      password: '',
-      confirmPassword: '',
-      email: '',
-      user_type: 'student',
-      address: '',
-      phoneNumber: '',
-      profile: '',
+      username: "",
+      password: "",
+      confirmPassword: "",
+      email: "",
+      user_type: "student",
+      address: "",
+      phoneNumber: "",
+      profile: "",
     },
   });
 
   const onSubmit = (data: TRegisterType) => {
     mutate(data, {
-
       onSuccess: (res) => {
         const response = res.data.data;
         const userData: UserType = {
@@ -49,8 +46,8 @@ export default function RegisterPage() {
 
         setUser(userData);
 
-        localStorage.setItem('authToken', response.authToken);
-        localStorage.setItem('user', JSON.stringify(userData));
+        localStorage.setItem("authToken", response.authToken);
+        localStorage.setItem("user", JSON.stringify(userData));
 
         setIsAuthenticated(true);
       },
@@ -74,17 +71,17 @@ export default function RegisterPage() {
             {!isRoleSelected ? (
               <RoleSelector setIsRoleSelected={setIsRoleSelected} />
             ) : (
-              <RegisterForm />
+              <RegisterForm isLoading={isLoading} />
             )}
           </form>
         </Form>
       </div>
       <p className="text-xs z-40">
-        Go Back to{' '}
+        Go Back to{" "}
         <Button
           variant="link"
           className="underline underline-offset-4 font-semibold text-xs"
-          onClick={() => (window.location.href = '/login')}
+          onClick={() => (window.location.href = "/login")}
           disabled={isLoading}
         >
           Login

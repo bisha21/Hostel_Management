@@ -1,8 +1,9 @@
 import { useSearchParams } from "react-router";
+import useAuthContext from "../../../../../hooks/useAuthContext";
 
 function Filter() {
   const [searchParms, setSearchParams] = useSearchParams();
-
+  const { isAuthenticated } = useAuthContext();
   const currentFilter = searchParms.get("filter") || "all";
 
   function handleFilter(filter: any) {
@@ -21,27 +22,31 @@ function Filter() {
       >
         All
       </Button>
-      <Button
-        filter="Your Bookings"
-        handleFilter={handleFilter}
-        currentFilter={currentFilter}
-      >
-        Your Bookings
-      </Button>
-      <Button
-        filter="Occupied"
-        handleFilter={handleFilter}
-        currentFilter={currentFilter}
-      >
-        Occupied
-      </Button>
-      <Button
-        filter="Available"
-        handleFilter={handleFilter}
-        currentFilter={currentFilter}
-      >
-        Available
-      </Button>
+      {isAuthenticated && (
+        <>
+          <Button
+            filter="Your Bookings"
+            handleFilter={handleFilter}
+            currentFilter={currentFilter}
+          >
+            Your Bookings
+          </Button>
+          <Button
+            filter="Occupied"
+            handleFilter={handleFilter}
+            currentFilter={currentFilter}
+          >
+            Occupied
+          </Button>
+          <Button
+            filter="Available"
+            handleFilter={handleFilter}
+            currentFilter={currentFilter}
+          >
+            Available
+          </Button>
+        </>
+      )}
     </div>
   );
 }

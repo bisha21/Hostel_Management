@@ -1,4 +1,4 @@
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useFetchSingleRoom } from "../../../../../api/queries/room.query";
 import {
   ArrowRight,
@@ -21,7 +21,8 @@ export default function RoomDetail() {
   const params = useParams();
   const id = params.id || "";
   const { data: room } = useFetchSingleRoom(id);
-  const { user } = useAuthContext(); // Get logged-in user
+  const { user, isAuthenticated } = useAuthContext();
+  const navigate = useNavigate();
   const roomBookingId = room?.data.bookings.find(
     (booking) => booking.userId === user?.id && booking.status !== "cancelled",
   );
@@ -197,12 +198,19 @@ export default function RoomDetail() {
                       <ArrowRight />
                     </Button>
                   </div>
-                ) : (
+                ) : isAuthenticated ? (
                   <Button
                     onClick={toggleDatePicker}
                     className="bg-emerald-500 hover:bg-emerald-600"
                   >
                     Book Now <ArrowRight />
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={() => navigate("/login")}
+                    className="bg-emerald-500 hover:bg-emerald-600"
+                  >
+                    Log in to Book Room <ArrowRight />
                   </Button>
                 )}
               </>

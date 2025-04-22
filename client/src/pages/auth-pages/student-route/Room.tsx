@@ -19,7 +19,7 @@ import { useComplaintMutation } from "../../../api/mutations/complaint.mutation"
 import { toastTrigger } from "../../../lib/utils";
 
 export default function Room() {
-  const { user } = useAuthContext();
+  const { user, isAuthenticated } = useAuthContext();
   const [isRoomConfirmed, setIsRoomConfirmed] = useState(false);
   const [userBooked, setUserBooked] = useState<TRoomResponse>(
     {} as TRoomResponse,
@@ -62,7 +62,7 @@ export default function Room() {
     return diffDays;
   };
 
-  return isRoomConfirmed && userBooked ? (
+  return isRoomConfirmed && userBooked && isAuthenticated ? (
     <div className="w-full bg-slate-50 min-h-screen">
       <div className="max-w-7xl mx-auto px-8 py-12">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
@@ -344,15 +344,17 @@ export default function Room() {
     <div className="w-full bg-slate-50 min-h-screen">
       <div className="max-w-7xl mx-auto px-8 py-12">
         <h1 className="text-4xl mb-5 text-slate-800 font-medium">
-          Our Luxury Room!
+          Our Comfortable Room!
         </h1>
         <p className="text-slate-600 text-lg mb-10">
-          Cozy yet luxurious cabins, located right in the heart of the Italian
-          Dolomites. Imagine waking up to beautiful mountain views, spending
-          your days exploring the dark forests around, or just relaxing in your
-          private hot tub under the stars. Enjoy nature's beauty in your own
-          little home away from home. The perfect spot for a peaceful, calm
-          vacation. Welcome to paradise.
+          Cozy yet comfortable cabins, located right in the heart of the
+          Kathmandu Valley. Imagine waking up in a vibrant community of fellow
+          students, spending your days studying in our quiet common areas, or
+          unwinding in our recreational facilities after classes. Enjoy
+          convenient campus living with all essential amenities at your
+          fingertips. The perfect accommodation for your academic journey,
+          offering both privacy and community. Welcome to your home away from
+          home during your studies.
         </p>
       </div>
       <Filter />

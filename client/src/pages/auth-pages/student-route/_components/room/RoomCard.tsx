@@ -1,10 +1,11 @@
 import { BookMarked, UsersIcon } from "lucide-react";
 import { Link } from "react-router";
 import { roomImage } from "../../../../../constants";
+import useAuthContext from "../../../../../hooks/useAuthContext";
 
 function RoomCard({ room }: { room: any }) {
   const { id, RoomNumber, Capacity, Status, Price } = room;
-
+  const { isAuthenticated } = useAuthContext();
   return (
     <div className="flex border bg-slate-300">
       <div className="flex-1 relative">
@@ -44,7 +45,7 @@ function RoomCard({ room }: { room: any }) {
             <span>{Status}</span>
           </p>
           <Link
-            to={`/student/rooms/${id}`}
+            to={isAuthenticated ? `/student/rooms/${id}` : `/rooms/${id}`}
             className="border-l border-slate-200 py-4 px-6 inline-block hover:bg-sky-300 transition-all hover:text-slate-800"
           >
             Details & booking &rarr;

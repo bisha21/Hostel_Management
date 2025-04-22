@@ -1,4 +1,15 @@
-import { BookmarkCheck,Users, HandCoins, Home, LogOut, ScanEye, UtensilsCrossed, Vault, BellPlus, MessageSquareWarning } from "lucide-react"
+import {
+  BookmarkCheck,
+  Users,
+  HandCoins,
+  Home,
+  LogOut,
+  ScanEye,
+  UtensilsCrossed,
+  Vault,
+  BellPlus,
+  MessageSquareWarning,
+} from "lucide-react";
 
 import {
   Sidebar,
@@ -10,9 +21,9 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "../ui/sidebar.tsx"
+} from "../ui/sidebar.tsx";
 
-import {HORIZONTAL_LOGO, LOGO } from "../../constants/images.ts"
+import { HORIZONTAL_LOGO, LOGO } from "../../constants/images.ts";
 import { cn } from "../../lib/utils.ts";
 import { Link } from "react-router";
 import useAuthContext from "../../hooks/useAuthContext.tsx";
@@ -20,54 +31,54 @@ import useAuthContext from "../../hooks/useAuthContext.tsx";
 const items = [
   {
     title: "Dashboard",
-    url: "/",
+    url: "/admin",
     icon: Home,
   },
   {
     title: "Students",
-    url: "/students",
+    url: "/admin/students",
     icon: Users,
   },
   {
     title: "Attendence",
-    url: "/attendance",
+    url: "/admin/attendance",
     icon: ScanEye,
   },
   {
     title: "Rooms",
-    url: "/room",
+    url: "/admin/room",
     icon: Vault,
   },
   {
     title: "Bookings",
-    url: "/bookings",
+    url: "/admin/bookings",
     icon: BookmarkCheck,
   },
   {
     title: "Payment",
-    url: "/payment",
+    url: "/admin/payment",
     icon: HandCoins,
   },
   {
     title: "Notification Panel",
-    url: "/notification",
+    url: "/admin/notification",
     icon: BellPlus,
   },
   {
     title: "Complaints",
-    url: "/complaints",
-    icon:MessageSquareWarning,
+    url: "/admin/complaints",
+    icon: MessageSquareWarning,
   },
   {
     title: "Dining",
-    url: "/dining",
+    url: "/admin/dining",
     icon: UtensilsCrossed,
   },
-]
+];
 
 export function AppSidebar() {
-  const {state} = useSidebar();
-  const {logout} = useAuthContext();
+  const { state } = useSidebar();
+  const { logout } = useAuthContext();
   const handleLogout = () => {
     if (logout) {
       logout();
@@ -75,8 +86,16 @@ export function AppSidebar() {
   };
   return (
     <Sidebar collapsible="icon">
-      <SidebarHeader className={cn(state === "collapsed" ? "" : "flex items-center justify-center")}>
-        <img src={state === "collapsed" ? LOGO : HORIZONTAL_LOGO} alt="logo" className={cn(state === "collapsed" ? "w-16" : "w-8/12")}/>
+      <SidebarHeader
+        className={cn(
+          state === "collapsed" ? "" : "flex items-center justify-center",
+        )}
+      >
+        <img
+          src={state === "collapsed" ? LOGO : HORIZONTAL_LOGO}
+          alt="logo"
+          className={cn(state === "collapsed" ? "w-16" : "w-8/12")}
+        />
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
@@ -107,5 +126,5 @@ export function AppSidebar() {
         </div>
       </SidebarContent>
     </Sidebar>
-  )
+  );
 }
