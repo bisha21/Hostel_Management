@@ -55,7 +55,7 @@ const Navbar = () => {
       return [
         {
           title: "Rooms",
-          url: "/student/rooms",
+          url: "/student",
         },
         {
           title: "Attendance",

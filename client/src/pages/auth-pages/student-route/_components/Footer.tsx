@@ -1,32 +1,44 @@
 import logo from "../../../../assets/image/logo3.png";
+import useAuthContext from "../../../../hooks/useAuthContext";
 
 const Footer = () => {
-  const items = [
-    {
-      title: "Home",
-      url: "/student",
-    },
-    {
-      title: "Rooms",
-      url: "/student/rooms",
-    },
-    {
-      title: "Attendance",
-      url: "/student/attendance",
-    },
-    {
-      title: "Dining",
-      url: "/student/dining",
-    },
-    {
-      title: 'About',
-      url: '/student/about',
-    },
-    {
-      title: 'Contact',
-      url: '/student/contact',
-    },
-  ];
+  const { isAuthenticated, user } = useAuthContext();
+  const items = () => {
+    if (isAuthenticated && user.user_type === "student") {
+      return [
+        {
+          title: "Rooms",
+          url: "/student/rooms",
+        },
+        {
+          title: "Attendance",
+          url: "/student/attendance",
+        },
+        {
+          title: "Dining",
+          url: "/student/dining",
+        },
+      ];
+    }
+    return [
+      {
+        title: "Home",
+        url: "/",
+      },
+      {
+        title: "Rooms",
+        url: "/rooms",
+      },
+      {
+        title: "About",
+        url: "/about",
+      },
+      {
+        title: "Contact",
+        url: "/contact",
+      },
+    ];
+  };
 
   return (
     <footer className="bg-slate-50 pt-8 pb-6">
@@ -38,21 +50,25 @@ const Footer = () => {
               <img src={logo} className="h-12 mr-3" alt="HostelHive Logo" />
             </a>
             <p className="text-slate-600 text-sm">
-            Hostel Hive, where comfort meets community in the heart of Kathmandu. 
-              Since 2018, we've been providing travelers, students, and digital nomads with a home away from home. 
-              Our hostel was founded on the principle that quality accommodation shouldn't break the bank, 
-              and that the best travel experiences come from the connections you make along the way.
+              Hostel Hive, where comfort meets community in the heart of
+              Kathmandu. Since 2018, we've been providing travelers, students,
+              and digital nomads with a home away from home. Our hostel was
+              founded on the principle that quality accommodation shouldn't
+              break the bank, and that the best travel experiences come from the
+              connections you make along the way.
             </p>
           </div>
 
           {/* Links section */}
           <div className="w-full md:w-4/12 mb-8 md:mb-0">
-            <h4 className="text-slate-800 text-lg font-semibold mb-4 ml-4">Quick Links</h4>
+            <h4 className="text-slate-800 text-lg font-semibold mb-4 ml-4">
+              Quick Links
+            </h4>
             <ul className="space-y-2 ml-4">
-              {items.map((item, index) => (
+              {items().map((item, index) => (
                 <li key={index}>
-                  <a 
-                    href={item.url} 
+                  <a
+                    href={item.url}
                     className="text-slate-600 hover:text-emerald-600 transition-colors"
                   >
                     {item.title}
@@ -64,10 +80,15 @@ const Footer = () => {
 
           {/* Social links section */}
           <div className="w-full md:w-4/12">
-            <h4 className="text-slate-800 text-lg font-semibold mb-4">Connect With Us</h4>
+            <h4 className="text-slate-800 text-lg font-semibold mb-4">
+              Connect With Us
+            </h4>
             <ul className="flex space-x-4 mb-6">
               <li>
-                <a href="#" className="text-slate-600 hover:text-emerald-600 transition-colors">
+                <a
+                  href="#"
+                  className="text-slate-600 hover:text-emerald-600 transition-colors"
+                >
                   <svg
                     className="w-5 h-5"
                     fill="currentColor"
@@ -83,7 +104,10 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <a href="#" className="text-slate-600 hover:text-emerald-600 transition-colors">
+                <a
+                  href="#"
+                  className="text-slate-600 hover:text-emerald-600 transition-colors"
+                >
                   <svg
                     className="w-5 h-5"
                     fill="currentColor"
@@ -99,7 +123,10 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <a href="#" className="text-slate-600 hover:text-emerald-600 transition-colors">
+                <a
+                  href="#"
+                  className="text-slate-600 hover:text-emerald-600 transition-colors"
+                >
                   <svg
                     className="w-5 h-5"
                     fill="currentColor"
