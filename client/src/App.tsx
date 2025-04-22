@@ -20,7 +20,6 @@ import StudentPage from "./pages/auth-pages/student/page";
 import NotificationPage from "./pages/auth-pages/notification/page";
 import DiningScheduleAdmin from "./pages/auth-pages/dining/page";
 import DiningScheduleView from "./pages/auth-pages/student-route/Dining";
-import ComplaintPage from "./pages/auth-pages/student-route/Complaint";
 import BookingPage from "./pages/auth-pages/bookings/page";
 import PaymentPage from "./pages/auth-pages/payment/page";
 import PaymentSuccess from "./pages/auth-pages/student-route/_components/PaymentSuccess";
@@ -30,7 +29,7 @@ import ChangePasswordPage from "./pages/auth/change-password-page";
 import ComplaintsPage from "./pages/auth-pages/complaints/page";
 import ProfilePage from "./pages/auth-pages/student-route/Profie";
 import NotificationsPage from "./pages/auth-pages/student-route/Notification";
-
+import LandingLayout from "./pages/no-auth/layout";
 function App() {
   return (
     <>
@@ -43,6 +42,15 @@ function App() {
           <Route path="/verify/email" element={<VerifyEmailPage />} />
           <Route path="/change-password" element={<ChangePasswordPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          {/* Home Page routes */}
+          <Route path="/" element={<LandingLayout />}>
+            <Route index element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/rooms" element={<Room />} />
+            <Route path="/rooms/:id" element={<RoomDetail />} />
+            <Route path="/contact" element={<Contact />} />
+          </Route>
+          {/* Admin Routes */}
           <Route
             path="/admin"
             element={
@@ -61,6 +69,7 @@ function App() {
             <Route path="/admin/payment" element={<PaymentPage />} />
             <Route path="/admin/complaints" element={<ComplaintsPage />} />
           </Route>
+          {/* Student Routes */}
           <Route
             path="/student"
             element={
@@ -69,14 +78,12 @@ function App() {
               </StudentProtectedRoute>
             }
           >
-            <Route index element={<Home />} />
-            <Route path="/student/rooms" element={<Room />} />
+            {/* <Route index element={<Home />} /> */}
+            <Route index element={<Room />} />
             <Route path="/student/attendance" element={<MarkAttendance />} />
             <Route path="/student/rooms/:id" element={<RoomDetail />} />
             <Route path="/student/contact" element={<Contact />} />
             <Route path="/student/dining" element={<DiningScheduleView />} />
-            <Route path="/student/about" element={<About />} />
-            <Route path="/student/complaint" element={<ComplaintPage />} />
             <Route
               path="/student/notifications"
               element={<NotificationsPage />}

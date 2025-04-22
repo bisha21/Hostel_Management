@@ -14,7 +14,11 @@ export const useFetchNotification = () => {
     },
   });
 };
-export const useFetchMyNotification = () => {
+export const useFetchMyNotification = ({
+  isAuthenticated,
+}: {
+  isAuthenticated: boolean;
+}) => {
   return useQuery({
     queryKey: ["notifications"],
     queryFn: async () => {
@@ -24,5 +28,6 @@ export const useFetchMyNotification = () => {
     onError: () => {
       toastTrigger("Failed to fetch notification", undefined, "error");
     },
+    enabled: isAuthenticated,
   });
 };
