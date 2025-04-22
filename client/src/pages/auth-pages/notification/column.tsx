@@ -1,31 +1,13 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "../../../components/ui/button";
 import { ArrowUpDown } from "lucide-react";
-import { Checkbox } from "../../../components/ui/checkbox";
 
 export const columns: ColumnDef<any>[] = [
   {
-    id: "select",
-    accessorKey: "id",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
+    id: "sn",
+    accessorKey: "sn",
+    header: () => <p>S.No</p>,
+    cell: ({ row }) => row.index + 1,
   },
   {
     accessorKey: "message",
@@ -53,7 +35,7 @@ export const columns: ColumnDef<any>[] = [
     },
   },
   {
-    id:"type",
+    id: "type",
     accessorKey: "type",
     header: ({ column }) => (
       <Button
@@ -89,5 +71,5 @@ export const columns: ColumnDef<any>[] = [
         Sent By <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
-  }
+  },
 ];

@@ -1,29 +1,11 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { Checkbox } from "../../../components/ui/checkbox";
 
 export const columns: ColumnDef<any>[] = [
   {
-    id: "select",
-    accessorKey: "id",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
+    id: "sn",
+    accessorKey: "sn",
+    header: () => <p>S.No</p>,
+    cell: ({ row }) => row.index + 1,
   },
   {
     accessorKey: "username",
@@ -50,7 +32,8 @@ export const columns: ColumnDef<any>[] = [
         <ul>
           {bookings.map((booking: any) => (
             <li key={booking.id}>
-              Room: {booking.Room.RoomNumber} | Type: {booking.Room.Type} | Price: {booking.Room.Price} | Status: {booking.status}
+              Room: {booking.Room.RoomNumber} | Type: {booking.Room.Type} |
+              Price: {booking.Room.Price} | Status: {booking.status}
             </li>
           ))}
         </ul>
