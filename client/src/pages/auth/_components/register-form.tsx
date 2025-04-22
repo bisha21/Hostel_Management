@@ -25,7 +25,7 @@ export default function RegisterForm({ isLoading }: { isLoading: boolean }) {
     return () => subscription.unsubscribe();
   }, [form.watch]);
   return (
-    <div className="min-w-96 p-4 border rounded-md z-40 bg-card-background">
+    <div className="min-w-96 p-4 border rounded-md z-40 bg-white shadow-md">
       <p className="text-center font-medium text-lg underline underline-offset-4">
         Register
       </p>
