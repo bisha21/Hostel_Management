@@ -1,5 +1,5 @@
 import { api, formdataApi } from "../api";
-import { Query, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toastTrigger } from "../../lib/utils";
 import { TLoginType } from "../../schemas/login";
 import { useNavigate } from "react-router";
@@ -15,7 +15,7 @@ export const useLoginMutation = () => {
       localStorage.setItem("authToken", data.data.data.authToken);
       toastTrigger("Login successful", undefined, "success");
       if (data.data.data.user_type === "admin") {
-        navigate("/");
+        navigate("/admin");
       } else {
         navigate("/student");
       }
@@ -51,9 +51,11 @@ export const useRegisterMutation = () => {
 
       return formdataApi.post("auth/register", formData);
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      console.log(data);
       toastTrigger("Registration successful", undefined, "success");
-      navigate("/");
+      if (data.data.data.user_type === "admin") navigate("/admin");
+      else if (data.data.data.user_type === "student") navigate("/student");
     },
     onError: () => {
       toastTrigger("Registration failed", undefined, "error");

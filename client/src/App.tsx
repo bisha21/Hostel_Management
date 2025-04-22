@@ -44,7 +44,7 @@ function App() {
           <Route path="/change-password" element={<ChangePasswordPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route
-            path="/"
+            path="/admin"
             element={
               <AdminProtectedRoute>
                 <Layout />
@@ -52,14 +52,14 @@ function App() {
             }
           >
             <Route index element={<Dashboard />} />
-            <Route path="room" element={<RoomPage />} />
-            <Route path="bookings" element={<BookingPage />} />
-            <Route path="attendance" element={<AttendancePage />} />
-            <Route path="students" element={<StudentPage />} />
-            <Route path="dining" element={<DiningScheduleAdmin />} />
-            <Route path="notification" element={<NotificationPage />} />
-            <Route path="payment" element={<PaymentPage />} />
-            <Route path="complaints" element={<ComplaintsPage />} />
+            <Route path="/admin/room" element={<RoomPage />} />
+            <Route path="/admin/bookings" element={<BookingPage />} />
+            <Route path="/admin/attendance" element={<AttendancePage />} />
+            <Route path="/admin/students" element={<StudentPage />} />
+            <Route path="/admin/dining" element={<DiningScheduleAdmin />} />
+            <Route path="/admin/notification" element={<NotificationPage />} />
+            <Route path="/admin/payment" element={<PaymentPage />} />
+            <Route path="/admin/complaints" element={<ComplaintsPage />} />
           </Route>
           <Route
             path="/student"
@@ -86,7 +86,6 @@ function App() {
               element={<PaymentSuccess />}
             />
             <Route path="/student/profile" element={<ProfilePage />} />
-            {/* ✅ New Route */}
           </Route>
         </Routes>
       </BrowserRouter>
