@@ -1,34 +1,16 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 import { TBookingsResponse } from "../../../types/response.types";
-import { Checkbox } from "../../../components/ui/checkbox";
 import { Button } from "../../../components/ui/button";
 import { ActionButton } from "../../../components/reusables/action-button";
 // import { ActionButton } from '../../components/reusables/action-button';
 
 export const bookingColumns: ColumnDef<TBookingsResponse>[] = [
   {
-    id: "select",
-    accessorKey: "id",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
+    id: "sn",
+    accessorKey: "sn",
+    header: () => <p>S.No</p>,
+    cell: ({ row }) => row.index + 1,
   },
   {
     accessorKey: "roomId",

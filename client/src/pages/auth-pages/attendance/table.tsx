@@ -12,35 +12,34 @@ export default function AttendanceTable() {
     <div>
       {isFetching ? (
         <div className="gap-4">
-          <Skeleton className="h-8 w-full mb-4"/>
-          <Skeleton className="h-[calc(100vh-32px)] w-full"/>
+          <Skeleton className="h-8 w-full mb-4" />
+          <Skeleton className="h-[calc(100vh-32px)] w-full" />
         </div>
       ) : (
         <DataTable
-        columns={getColumns()}
-        data={data?.attendanceRecords || []}
-        functions={{
-          search: {
-            name: "username",
-            placeholder: "Search by name...",
-          },
-          add: {
-            node: (
-              <DatePicker 
-                onChange={(selectedDate) => { 
-                  setDate(
-                    selectedDate 
-                      ? selectedDate.toISOString().split("T")[0] 
-                      : new Date().toISOString().split("T")[0] 
-                  );
-                }} 
-              />
-            )
-          }
-        }}
-      />
+          columns={getColumns()}
+          data={data?.attendanceRecords || []}
+          functions={{
+            search: {
+              name: "username",
+              placeholder: "Search by name...",
+            },
+            add: {
+              node: (
+                <DatePicker
+                  onChange={(selectedDate) => {
+                    setDate(
+                      selectedDate
+                        ? selectedDate.toISOString().split("T")[0]
+                        : new Date().toISOString().split("T")[0],
+                    );
+                  }}
+                />
+              ),
+            },
+          }}
+        />
       )}
     </div>
   );
 }
-

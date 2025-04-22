@@ -1,13 +1,11 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "../../../components/ui/button";
 import { ArrowUpDown } from "lucide-react";
-import { Checkbox } from "../../../components/ui/checkbox";
 import { Switch } from "../../../components/ui/switch";
 import { cn, toastTrigger } from "../../../lib/utils";
 import { useApproveAttendance } from "../../../api/mutations/attendance.mutation";
 import { useQueryClient } from "@tanstack/react-query";
 
-// Type for attendance data
 type TAttendanceResponse = {
   userId: number;
   username: string;
@@ -18,29 +16,12 @@ type TAttendanceResponse = {
 };
 
 export function getColumns(): ColumnDef<TAttendanceResponse>[] {
-
   return [
     {
-      id: "select",
-      header: ({ table }) => (
-        <Checkbox
-          checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && "indeterminate")
-          }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="Select all"
-        />
-      ),
-      cell: ({ row }) => (
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-        />
-      ),
-      enableSorting: false,
-      enableHiding: false,
+      id: "sn",
+      accessorKey: "sn",
+      header: () => <p>S.No</p>,
+      cell: ({ row }) => row.index + 1,
     },
     {
       id: "username",
@@ -87,7 +68,14 @@ export function getColumns(): ColumnDef<TAttendanceResponse>[] {
         </Button>
       ),
       cell: ({ row }) => (
-        <span className={cn(row.original.status === "present" ? "text-green-600" : "text-red-600", "capitalize")}>
+        <span
+          className={cn(
+            row.original.status === "present"
+              ? "text-green-600"
+              : "text-red-600",
+            "capitalize",
+          )}
+        >
           {row.original.status}
         </span>
       ),
@@ -96,12 +84,7 @@ export function getColumns(): ColumnDef<TAttendanceResponse>[] {
       accessorKey: "is_approved",
       header: "Approval Status",
       cell: ({ row }) => {
-
-        return (
-          <StatusSwitch<TAttendanceResponse>
-            row={row.original}
-          />
-        );
+        return <StatusSwitch<TAttendanceResponse> row={row.original} />;
       },
     },
   ];
@@ -124,10 +107,10 @@ function StatusSwitch<T extends TAttendanceResponse>({ row }: { row: T }) {
           toastTrigger(
             data?.data?.message || "Approval status updated successfully",
             undefined,
-            "success"
+            "success",
           );
         },
-      }
+      },
     );
   };
 
