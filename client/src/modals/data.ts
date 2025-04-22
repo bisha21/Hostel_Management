@@ -3,6 +3,7 @@ import EditBooking from "./booking/edit-booking";
 import DeleteModal from "./delete-modal";
 import AddNotification from "./notification/add-notification";
 import AddTransaction from "./payment/add-payment";
+import PopLogin from "./pop-login";
 import AddRoom from "./room/add-room";
 import ComplaintPage from "./room/complaint";
 import EditRoom from "./room/edit-room";
@@ -23,7 +24,8 @@ export type TModalKeys =
   | "SEND_NOTIFICATION"
   | "ADD_TRANSACTION"
   | "COMPLAINT"
-  | "EDIT_PROFILE";
+  | "EDIT_PROFILE"
+  | "POP_LOGIN";
 
 export const ModalData: TModalData = {
   DELETE_ITEM: {
@@ -57,5 +59,9 @@ export const ModalData: TModalData = {
   EDIT_PROFILE: {
     title: "Edit Profile",
     component: EditUser,
+  },
+  POP_LOGIN: {
+    title: "Login",
+    component: PopLogin,
   },
 };

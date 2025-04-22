@@ -16,13 +16,13 @@ import useAuthContext from "../../../../../hooks/useAuthContext";
 import { usePaymentMutation } from "../../../../../api/mutations/payment.mutation";
 import { useState } from "react";
 import { roomImage } from "../../../../../constants";
+import useModalContext from "../../../../../hooks/useModalContext";
 
 export default function RoomDetail() {
   const params = useParams();
   const id = params.id || "";
   const { data: room } = useFetchSingleRoom(id);
   const { user, isAuthenticated } = useAuthContext();
-  const navigate = useNavigate();
   const roomBookingId = room?.data.bookings.find(
     (booking) => booking.userId === user?.id && booking.status !== "cancelled",
   );
@@ -76,7 +76,7 @@ export default function RoomDetail() {
   const userBooking = bookings.find(
     (booking) => booking.userId === user?.id && booking.status !== "cancelled",
   );
-
+  const { openModal } = useModalContext();
   return (
     <div className="bg-slate-50 pb-6">
       <div className="grid grid-cols-[3fr_4fr] gap-20 border border-slate-200 py-3 px-10 pt-20 max-w-7xl mx-auto">
@@ -207,10 +207,17 @@ export default function RoomDetail() {
                   </Button>
                 ) : (
                   <Button
-                    onClick={() => navigate("/login")}
+                    onClick={() =>
+                      openModal({
+                        key: "POP_LOGIN",
+                        data: {
+                          featureName: "Book Room",
+                        },
+                      })
+                    }
                     className="bg-emerald-500 hover:bg-emerald-600"
                   >
-                    Log in to Book Room <ArrowRight />
+                    Book Room <ArrowRight />
                   </Button>
                 )}
               </>

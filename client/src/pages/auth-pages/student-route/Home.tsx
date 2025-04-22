@@ -1,7 +1,8 @@
 import { Link } from "react-router";
-import { Button } from "@/components/ui/button";
-
+import { Button } from "../../../components/ui/button";
+import useModalContext from "../../../hooks/useModalContext";
 const Home = () => {
+  const { openModal } = useModalContext();
   return (
     <div className="relative isolate overflow-hidden bg-slate-50">
       {/* Background SVG pattern */}
@@ -355,12 +356,18 @@ const Home = () => {
                 </li>
               </ul>
               <div className="mt-8">
-                <Link
-                  to="/dining"
-                  className="text-emerald-600 hover:text-emerald-700"
+                <Button
+                  className="text-emerald-600 hover:text-emerald-700 hover:bg-transparent"
+                  variant={"ghost"}
+                  onClick={() =>
+                    openModal({
+                      key: "POP_LOGIN",
+                      data: { featureName: "Dining Facilities" },
+                    })
+                  }
                 >
                   View full menu →
-                </Link>
+                </Button>
               </div>
             </div>
             <div className="rounded-lg bg-white p-8 shadow-md">

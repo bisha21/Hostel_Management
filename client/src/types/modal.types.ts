@@ -19,5 +19,8 @@ export interface TModalDataMap {
     address: string;
     phone: string;
   };
+  POP_LOGIN: {
+    featureName: string;
+  };
   [key: string]: any;
 }
