@@ -38,7 +38,7 @@ const PaymentSuccess = () => {
         </p>
 
         <Button
-          onClick={() => navigate("/student/rooms")}
+          onClick={() => navigate("/student")}
           className="bg-emerald-500 hover:bg-emerald-600 text-white"
         >
           Go to your Room
