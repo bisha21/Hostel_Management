@@ -24,7 +24,7 @@ export default function RoomDetail() {
   const { data: room } = useFetchSingleRoom(id);
   const { user, isAuthenticated } = useAuthContext();
   const roomBookingId = room?.data.bookings.find(
-    (booking) => booking.userId === user?.id && booking.status !== "cancelled",
+    (booking:any) => booking.userId === user?.id && booking.status !== "cancelled",
   );
 
   // State for start date selection
@@ -74,7 +74,7 @@ export default function RoomDetail() {
 
   // Find the user's active booking
   const userBooking = bookings.find(
-    (booking) => booking.userId === user?.id && booking.status !== "cancelled",
+    (booking:any) => booking.userId === user?.id && booking.status !== "cancelled",
   );
   const { openModal } = useModalContext();
   return (
@@ -202,8 +202,9 @@ export default function RoomDetail() {
                   <Button
                     onClick={toggleDatePicker}
                     className="bg-emerald-500 hover:bg-emerald-600"
+                    disabled={Status === "Occupied"}
                   >
-                    Book Now <ArrowRight />
+                    {Status === "Occupied" ? "Room Unavailable" : `Book Room ${<ArrowRight />}`}
                   </Button>
                 ) : (
                   <Button
