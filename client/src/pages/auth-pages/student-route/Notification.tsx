@@ -32,6 +32,7 @@ import {
   TabsTrigger,
 } from "../../../components/ui/tabs";
 import { Badge } from "../../../components/ui/badge";
+import useAuthContext from "../../../hooks/useAuthContext";
 
 // Define types
 interface Notification {
@@ -56,7 +57,8 @@ const markAsRead = async (id: number): Promise<void> => {
 };
 
 const NotificationsPage = () => {
-  const { data } = useFetchMyNotification();
+  const {isAuthenticated} = useAuthContext();
+  const { data } = useFetchMyNotification({isAuthenticated});
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [filteredNotifications, setFilteredNotifications] = useState<
     Notification[]
