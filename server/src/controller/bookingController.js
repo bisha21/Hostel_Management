@@ -10,6 +10,7 @@ export const createBooking = asyncHandler(async (req, res, next) => {
   const user = req.user;
   // Get the start date from request body
   const { startDate } = req.body;
+  console.log(req.body);
 
   const room = await Room.findByPk(roomId);
   if (!room) {
