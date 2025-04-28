@@ -1,8 +1,11 @@
+import { Home } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import { HORIZONTAL_LOGO } from "../../constants/images";
 import LoginForm from "./_components/login-form";
+import { useNavigate } from "react-router";
 
 export default function LoginPage() {
+  const navigate = useNavigate();
   return (
     <div className="relative isolate overflow-hidden bg-slate-50 h-screen">
       <svg
@@ -49,8 +52,20 @@ export default function LoginPage() {
       <div className="relative z-10 w-full h-full flex flex-col justify-center items-center">
         <div className="bg-white/80 backdrop-blur-sm p-8 px-2 rounded-lg shadow-lg max-w-md w-full">
           <div className="flex flex-col gap-8">
-            <div className="flex justify-center items-center">
-              <img src={HORIZONTAL_LOGO} alt="LOGO" width={250} />
+            <div className="relative flex justify-center items-center ">
+              <Button
+                variant="link"
+                className="absolute left-6 rounded-full size-9 border-2 border-emerald-600 text-emerald-600 hover:text-white hover:bg-emerald-600 p-0"
+                onClick={() => navigate("/")}
+              >
+                <Home />
+              </Button>
+              <img
+                src={HORIZONTAL_LOGO}
+                alt="LOGO"
+                width={250}
+                onClick={() => navigate("/")}
+              />
             </div>
             <LoginForm />
           </div>

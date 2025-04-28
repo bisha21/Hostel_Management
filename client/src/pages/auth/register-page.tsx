@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { Button } from "../../components/ui/button";
-import { HORIZONTAL_LOGO, REGISTER_IMAGE } from "../../constants/images";
+import { HORIZONTAL_LOGO } from "../../constants/images";
 import { registerSchema, TRegisterType } from "../../schemas/register";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "../../components/ui/form";
@@ -10,6 +10,8 @@ import { useState } from "react";
 import RegisterForm from "./_components/register-form";
 import { UserType } from "../../context/authContext";
 import useAuthContext from "../../hooks/useAuthContext";
+import { useNavigate } from "react-router";
+import { Home } from "lucide-react";
 
 export default function RegisterPage() {
   const [isRoleSelected, setIsRoleSelected] = useState(false);
@@ -53,7 +55,7 @@ export default function RegisterPage() {
       },
     });
   };
-
+  const navigate = useNavigate();
   return (
     <div className="relative isolate overflow-hidden bg-slate-50 h-screen">
       <svg
@@ -97,10 +99,22 @@ export default function RegisterPage() {
           }}
         ></div>
       </div>
-      <div className="relative z-10 w-full h-full flex flex-col justify-center items-center">
+      <div className="z-10 w-full h-full flex flex-col justify-center items-center">
         <div className="flex flex-col gap-8">
-          <div className="flex justify-center items-center">
-            <img src={HORIZONTAL_LOGO} alt="LOGO" width={250} />
+          <div className="relative flex justify-center items-center">
+            <Button
+              variant="link"
+              className="absolute left-12 rounded-full size-9 border-2 border-emerald-600 text-emerald-600 hover:text-white hover:bg-emerald-600 p-0"
+              onClick={() => navigate("/")}
+            >
+              <Home />
+            </Button>
+            <img
+              src={HORIZONTAL_LOGO}
+              alt="LOGO"
+              width={250}
+              onClick={() => navigate("/")}
+            />
           </div>
           <Form {...form}>
             <form
