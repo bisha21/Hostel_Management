@@ -37,11 +37,13 @@ function App() {
       <ModalX />
       <BrowserRouter>
         <Routes>
+          {/* Login Routes  */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/verify/otp" element={<OTPPage />} />
           <Route path="/verify/email" element={<VerifyEmailPage />} />
           <Route path="/change-password" element={<ChangePasswordPage />} />
           <Route path="/register" element={<RegisterPage />} />
+
           {/* Home Page routes */}
           <Route path="/" element={<LandingLayout />}>
             <Route index element={<Home />} />
@@ -50,6 +52,7 @@ function App() {
             <Route path="/rooms/:id" element={<RoomDetail />} />
             <Route path="/contact" element={<Contact />} />
           </Route>
+
           {/* Admin Routes */}
           <Route
             path="/admin"
@@ -69,6 +72,7 @@ function App() {
             <Route path="/admin/payment" element={<PaymentPage />} />
             <Route path="/admin/complaints" element={<ComplaintsPage />} />
           </Route>
+
           {/* Student Routes */}
           <Route
             path="/student"
