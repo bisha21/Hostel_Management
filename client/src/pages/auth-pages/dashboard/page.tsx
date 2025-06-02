@@ -14,19 +14,8 @@ import {
   Pie,
   Label,
 } from "recharts";
-import {
-  Users,
-  Home,
-  Calendar,
-  CreditCard,
-  MoreHorizontal,
-  Search,
-  PlusCircle,
-  ArrowUpRight,
-  Filter,
-  Download,
-  Check,
-} from "lucide-react";
+import { Users, Home, Calendar, CreditCard, Check } from "lucide-react";
+
 import {
   Tabs,
   TabsContent,
@@ -36,7 +25,6 @@ import {
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "../../../components/ui/card";
@@ -49,15 +37,9 @@ import {
   TableRow,
 } from "../../../components/ui/table";
 import { Badge } from "../../../components/ui/badge";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "../../../components/ui/dropdown-menu";
+
 import { Button } from "../../../components/ui/button";
-import { Input } from "../../../components/ui/input";
-import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar";
+
 import {
   Dialog,
   DialogContent,
@@ -71,7 +53,6 @@ import { useFetchBookings } from "../../../api/queries/booking.query";
 import { useFetchPayments } from "../../../api/queries/payment";
 import { useFetchComplaints } from "../../../api/queries/complaints.query";
 import { format } from "date-fns";
-import { totalmem } from "node:os";
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
@@ -97,9 +78,9 @@ export default function Dashboard() {
   ];
 
   const payments = paymentsData?.data;
-
+  const bookings = bookingsData?.data;
   const revenueMap: Record<string, number> = {};
-
+  console.log(bookings);
   payments?.forEach((payment) => {
     if (payment.status === "success") {
       const date = new Date(payment.paymentDate);
@@ -112,7 +93,18 @@ export default function Dashboard() {
       revenueMap[month] += payment.amount;
     }
   });
+  bookings?.forEach((booking) => {
+    if (booking.status === "confirmed" && booking.paymentStatus === "pending") {
+      const date = new Date(booking.booking_date);
+      const month = format(date, "MMM"); // "Mar", "Apr", etc.
 
+      if (!revenueMap[month]) {
+        revenueMap[month] = 0;
+      }
+      const amount = booking.total_amount;
+      revenueMap[month] += Number(amount);
+    }
+  });
   const revenueData = Object.entries(revenueMap).map(([month, amount]) => ({
     month,
     amount,

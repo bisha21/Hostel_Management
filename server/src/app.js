@@ -49,18 +49,7 @@ app.use(
   }),
 );
 
-// sequelize
-//   .sync({ alter: true })
-//   .then(() => console.log("Database synchronized"))
-//   .catch((err) => console.log("Error syncing database:", err));
-// (async () => {
-//     await Notification.sync({ force: true });
-//     console.log('All models were synchronized successfully.');
-// })();
-// (async () => {
-//     await sequelize.sync({ force: true });
-//     console.log('All models were synchronized successfully.');
-// })();
+// sequelize.sync({ force: true });
 
 app.get("/", (req, res) => {
   res.status(200).json({
