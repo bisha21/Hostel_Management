@@ -15,9 +15,6 @@ export class DiningSchedule extends Model<
   declare items: string[];
   declare startTime: string;
   declare endTime: string;
-
-  declare readonly createdAt: CreationOptional<Date>;
-  declare readonly updatedAt: CreationOptional<Date>;
 }
 
 DiningSchedule.init(

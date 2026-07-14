@@ -4,7 +4,7 @@ import type { AuthUser } from "../types/common.js";
 
 export type TokenPayload = Omit<AuthUser, "iat" | "exp">;
 
-export const createToken = async (data: TokenPayload): Promise<string> => {
+export const createToken = (data: TokenPayload): string => {
   try {
     return jwt.sign(data, env.JWT_SECRET, { expiresIn: "1h" });
   } catch {

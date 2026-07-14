@@ -17,9 +17,6 @@ export class Attendance extends Model<InferAttributes<Attendance>, InferCreation
   declare date: string;
   declare status: AttendanceStatus;
   declare is_approved: CreationOptional<boolean | null>;
-
-  declare readonly createdAt: CreationOptional<Date>;
-  declare readonly updatedAt: CreationOptional<Date>;
 }
 
 Attendance.init(

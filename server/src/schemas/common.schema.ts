@@ -20,6 +20,11 @@ export const bookingIdParamSchema = z.object({
 });
 export type BookingIdParam = z.infer<typeof bookingIdParamSchema>;
 
+export const paymentBookingIdParamSchema = z.object({
+  bookingId: z.coerce.number().int().positive("bookingId must be a positive integer"),
+});
+export type PaymentBookingIdParam = z.infer<typeof paymentBookingIdParamSchema>;
+
 /** Loose passthrough for the generic getAll() filter query (handleFactoryController). */
 export const genericFilterQuerySchema = z.record(z.string(), z.string());
 export type GenericFilterQuery = z.infer<typeof genericFilterQuerySchema>;

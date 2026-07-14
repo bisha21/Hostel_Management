@@ -21,9 +21,6 @@ export class Complaint extends Model<InferAttributes<Complaint>, InferCreationAt
   declare status: CreationOptional<ComplaintStatus>;
   declare feedback: string;
   declare category: ComplaintCategory;
-
-  declare readonly createdAt: CreationOptional<Date>;
-  declare readonly updatedAt: CreationOptional<Date>;
 }
 
 Complaint.init(

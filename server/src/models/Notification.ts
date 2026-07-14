@@ -20,9 +20,6 @@ export class Notification extends Model<InferAttributes<Notification>, InferCrea
   declare type: NotificationType;
   declare priority: NotificationPriority;
   declare sentby: CreationOptional<string | null>;
-
-  declare readonly createdAt: CreationOptional<Date>;
-  declare readonly updatedAt: CreationOptional<Date>;
 }
 
 Notification.init(

@@ -23,9 +23,6 @@ export class Payment extends Model<InferAttributes<Payment>, InferCreationAttrib
   declare paymentDate: CreationOptional<Date>;
   declare description: CreationOptional<string | null>;
   declare roomId: ForeignKey<Room["id"]>;
-
-  declare readonly createdAt: CreationOptional<Date>;
-  declare readonly updatedAt: CreationOptional<Date>;
 }
 
 Payment.init(

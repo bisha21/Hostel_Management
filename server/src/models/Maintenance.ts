@@ -17,9 +17,6 @@ export class Maintenance extends Model<InferAttributes<Maintenance>, InferCreati
   declare description: string;
   declare status: CreationOptional<MaintenanceStatus>;
   declare maintenance_type: string;
-
-  declare readonly createdAt: CreationOptional<Date>;
-  declare readonly updatedAt: CreationOptional<Date>;
 }
 
 Maintenance.init(

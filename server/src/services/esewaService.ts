@@ -13,10 +13,10 @@ export interface EsewaPaymentHashResult {
   transaction_uuid: string;
 }
 
-export async function getEsewaPaymentHash({
+export function getEsewaPaymentHash({
   amount,
   transaction_uuid,
-}: EsewaPaymentHashParams): Promise<EsewaPaymentHashResult> {
+}: EsewaPaymentHashParams): EsewaPaymentHashResult {
   try {
     if (!amount || !transaction_uuid) {
       throw new Error("Amount and transaction_uuid are required.");
@@ -43,7 +43,7 @@ export async function getEsewaPaymentHash({
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     console.error("Error generating eSewa payment hash:", message);
-    throw new Error("Failed to generate eSewa payment hash.");
+    throw new Error("Failed to generate eSewa payment hash.", { cause: error });
   }
 }
 
@@ -104,6 +104,6 @@ export async function verifyEsewaPayment(
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     console.error("Error verifying eSewa payment:", error);
-    throw new Error(message || "Payment verification failed");
+    throw new Error(message || "Payment verification failed", { cause: error });
   }
 }

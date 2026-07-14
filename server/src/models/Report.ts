@@ -18,9 +18,6 @@ export class Report extends Model<InferAttributes<Report>, InferCreationAttribut
   declare type: string;
   declare report_status: CreationOptional<ReportStatus>;
   declare generated_details: string;
-
-  declare readonly createdAt: CreationOptional<Date>;
-  declare readonly updatedAt: CreationOptional<Date>;
 }
 
 Report.init(

@@ -36,7 +36,7 @@ export const verifyKhaltiPayment = async ({ pidx }: { pidx: string }): Promise<K
     console.log("✅ Khalti Response:", response.data);
     return response.data;
   } catch (error) {
-    const details = axios.isAxiosError(error) ? (error.response?.data ?? error.message) : error;
+    const details: unknown = axios.isAxiosError(error) ? (error.response?.data ?? error.message) : error;
     console.error("❌ Khalti Verification Error:", details);
     throw error;
   }

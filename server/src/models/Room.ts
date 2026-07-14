@@ -13,9 +13,6 @@ export class Room extends Model<InferAttributes<Room>, InferCreationAttributes<R
   declare Price: number;
   declare Description: CreationOptional<string | null>;
   declare FloorNumber: number;
-
-  declare readonly createdAt: CreationOptional<Date>;
-  declare readonly updatedAt: CreationOptional<Date>;
 }
 
 Room.init(

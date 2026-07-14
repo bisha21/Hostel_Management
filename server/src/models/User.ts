@@ -16,9 +16,6 @@ export class User extends Model<InferAttributes<User>, InferCreationAttributes<U
   declare profile_picture: CreationOptional<string | null>;
   declare otp: CreationOptional<string | null>;
   declare otpGeneratedTime: CreationOptional<string | null>;
-
-  declare readonly createdAt: CreationOptional<Date>;
-  declare readonly updatedAt: CreationOptional<Date>;
 }
 
 User.init(

@@ -26,9 +26,6 @@ export class Booking extends Model<InferAttributes<Booking>, InferCreationAttrib
   declare check_out_complete: CreationOptional<boolean>;
   declare cancellation_date: CreationOptional<Date | null>;
   declare cancellation_reason: CreationOptional<string | null>;
-
-  declare readonly createdAt: CreationOptional<Date>;
-  declare readonly updatedAt: CreationOptional<Date>;
 }
 
 Booking.init(
