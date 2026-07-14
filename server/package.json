@@ -1,11 +1,16 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/app.js",
-    "dev": "nodemon src/app.js"
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/app.js",
+    "dev": "tsx watch src/app.ts",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint \"src/**/*.ts\"",
+    "lint:fix": "eslint \"src/**/*.ts\" --fix",
+    "format": "prettier --write \"src/**/*.ts\""
   },
   "type": "module",
   "keywords": [],
@@ -27,9 +32,27 @@
     "mysql": "^2.18.1",
     "mysql2": "^3.12.0",
     "nodemailer": "^6.9.16",
-    "sequelize": "^6.37.5"
+    "sequelize": "^6.37.5",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
-    "nodemon": "^3.1.9"
+    "@eslint/js": "^10.0.1",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/cookie-parser": "^1.4.10",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^4.17.25",
+    "@types/express-session": "^1.19.0",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/multer": "^2.2.0",
+    "@types/node": "^26.1.1",
+    "@types/nodemailer": "^8.0.1",
+    "eslint": "^10.7.0",
+    "eslint-config-prettier": "^10.1.8",
+    "nodemon": "^3.1.9",
+    "prettier": "^3.9.5",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.23.1",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.64.0"
   }
 }
