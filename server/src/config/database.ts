@@ -1,5 +1,6 @@
 // db/sequelize.ts
 import { Sequelize } from "sequelize";
+import pg from "pg";
 import "dotenv/config";
 
 const databaseUrl = process.env.DATABASE_URL;
@@ -9,6 +10,8 @@ if (!databaseUrl) {
 
 export const sequelize = new Sequelize(databaseUrl, {
   dialect: "postgres",
+  dialectModule: pg, // pass the driver explicitly: Sequelize otherwise `require`s "pg" dynamically,
+  // which Vercel's build tracer can't see, so it drops the package from the deployed bundle
   logging: false,
   dialectOptions: {
     ssl: {

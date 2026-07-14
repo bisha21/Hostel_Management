@@ -40,9 +40,6 @@ package-lock.json
 # Yarn lock file (if you are using yarn, you can uncomment the next line)
 # yarn.lock
 
-# Sequelize migrations (if you are using migrations via Sequelize CLI)
-migrations/
-
 # Temporary files from editor (e.g. Sublime Text, Atom)
 *~
 
