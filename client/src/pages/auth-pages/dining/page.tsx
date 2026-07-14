@@ -1,10 +1,10 @@
 // src/components/dining/DiningScheduleAdmin.tsx
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 
 import { PlusCircle, Trash2, Save, X } from 'lucide-react';
 import { useForm } from 'react-hook-form';
-import { DayOfWeek, MealType, WeeklySchedule } from '../../../types/response.types';
+import { DayOfWeek, MealType } from '../../../types/response.types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../../../components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../../components/ui/tabs';
 import { Button } from '../../../components/ui/button';
@@ -29,7 +29,7 @@ const DiningScheduleAdmin: React.FC = () => {
     const [newItem, setNewItem] = useState<string>("");
     const [editMode, setEditMode] = useState<boolean>(false);
 
-    const { data: schedule, isLoading } = useFetchWeeklySchedule();
+    const { data: schedule } = useFetchWeeklySchedule();
     const createMealMutation = useCreateMealMutation();
     const updateMealMutation = useUpdateMealMutation();
     const deleteMealMutation = useDeleteMealMutation();

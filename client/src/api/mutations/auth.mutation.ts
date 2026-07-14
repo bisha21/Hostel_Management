@@ -3,7 +3,12 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toastTrigger } from "../../lib/utils";
 import { TLoginType } from "../../schemas/login";
 import { useNavigate } from "react-router";
-import { TRegisterType, TVerifyEmailSchema } from "../../schemas/register";
+import {
+  TRegisterType,
+  TVerifyEmailSchema,
+  TOtpType,
+  TChangePasswordSchema,
+} from "../../schemas/register";
 
 export const useLoginMutation = () => {
   const navigate = useNavigate();
@@ -81,7 +86,7 @@ export const useVerifyEmail = () => {
 export const useVerifyOtp = () => {
   const navigate = useNavigate();
   const verifyOtp = useMutation({
-    mutationFn: (data: TVerifyEmailSchema) => api.post("auth/verify-otp", data),
+    mutationFn: (data: TOtpType) => api.post("auth/verify-otp", data),
     onSuccess: () => {
       toastTrigger("OTP verification successful", undefined, "success");
       navigate("/change-password");
@@ -95,7 +100,7 @@ export const useVerifyOtp = () => {
 export const useResetPassword = () => {
   const navigate = useNavigate();
   const reserPassword = useMutation({
-    mutationFn: (data: TVerifyEmailSchema) =>
+    mutationFn: (data: TChangePasswordSchema) =>
       api.post("auth/reset-password", data),
     onSuccess: () => {
       toastTrigger("Password reset successful", undefined, "success");

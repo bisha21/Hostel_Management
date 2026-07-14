@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 import {
   LineChart,
@@ -58,7 +58,7 @@ const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("overview");
-  const [selectedComplaint, setSelectedComplaint] = useState(null);
+  const [selectedComplaint, setSelectedComplaint] = useState<any>(null);
   const [complaintDialogOpen, setComplaintDialogOpen] = useState(false);
   const { data: studentsData } = useFetchStudents();
   const { data: roomsData } = useFetchRooms();
@@ -69,11 +69,11 @@ export default function Dashboard() {
   const statusDistribution = [
     {
       name: "Confirmed",
-      value: bookingsData?.data.filter((b) => b.status === "confirmed").length,
+      value: bookingsData?.data.filter((b: any) => b.status === "confirmed").length,
     },
     {
       name: "Pending",
-      value: bookingsData?.data.filter((b) => b.status === "pending").length,
+      value: bookingsData?.data.filter((b: any) => b.status === "pending").length,
     },
   ];
 
@@ -81,7 +81,7 @@ export default function Dashboard() {
   const bookings = bookingsData?.data;
   const revenueMap: Record<string, number> = {};
   console.log(bookings);
-  payments?.forEach((payment) => {
+  payments?.forEach((payment: any) => {
     if (payment.status === "success") {
       const date = new Date(payment.paymentDate);
       const month = format(date, "MMM"); // "Mar", "Apr", etc.
@@ -93,7 +93,7 @@ export default function Dashboard() {
       revenueMap[month] += payment.amount;
     }
   });
-  bookings?.forEach((booking) => {
+  bookings?.forEach((booking: any) => {
     if (booking.status === "confirmed" && booking.paymentStatus === "pending") {
       const date = new Date(booking.booking_date);
       const month = format(date, "MMM"); // "Mar", "Apr", etc.
@@ -113,9 +113,9 @@ export default function Dashboard() {
   const occupancyRate = [
     {
       name: "Occupied",
-      value: roomsData?.data?.filter((room) =>
+      value: roomsData?.data?.filter((room: any) =>
         room?.bookings?.some(
-          (booking) =>
+          (booking: any) =>
             booking.status === "confirmed" &&
             new Date(booking.startDate) <= new Date() &&
             new Date(booking.endDate) >= new Date(),
@@ -126,9 +126,9 @@ export default function Dashboard() {
       name: "Available",
       value:
         roomsData?.data?.length -
-        roomsData?.data?.filter((room) =>
+        roomsData?.data?.filter((room: any) =>
           room?.bookings.some(
-            (booking) =>
+            (booking: any) =>
               booking.status === "confirmed" &&
               new Date(booking.startDate) <= new Date() &&
               new Date(booking.endDate) >= new Date(),
@@ -137,19 +137,19 @@ export default function Dashboard() {
     },
   ];
   // Function to get student name by ID
-  const getStudentName = (userId) => {
-    const student = studentsData.find((s) => s.id === userId);
+  const getStudentName = (userId: any) => {
+    const student = studentsData.find((s: any) => s.id === userId);
     return student ? student.username : "Unknown";
   };
 
   // Function to get room number by ID
-  const getRoomNumber = (roomId) => {
-    const room = roomsData?.find((r) => r.id === roomId);
+  const getRoomNumber = (roomId: any) => {
+    const room = roomsData?.find((r: any) => r.id === roomId);
     return room ? room.RoomNumber : "Unknown";
   };
 
   // Format date
-  const formatDate = (dateString) => {
+  const formatDate = (dateString: any) => {
     return new Date(dateString).toLocaleDateString("en-US", {
       year: "numeric",
       month: "short",
@@ -158,7 +158,7 @@ export default function Dashboard() {
   };
 
   // Handle complaint selection for details
-  const handleComplaintClick = (complaint) => {
+  const handleComplaintClick = (complaint: any) => {
     setSelectedComplaint(complaint);
     setComplaintDialogOpen(true);
   };
@@ -260,7 +260,7 @@ export default function Dashboard() {
                           `${name}: ${(percent * 100).toFixed(0)}%`
                         }
                       >
-                        {statusDistribution.map((entry, index) => (
+                        {statusDistribution.map((_entry, index) => (
                           <Cell
                             key={`cell-${index}`}
                             fill={COLORS[index % COLORS.length]}
@@ -318,7 +318,7 @@ export default function Dashboard() {
                           `${name}: ${(percent * 100).toFixed(0)}%`
                         }
                       >
-                        {occupancyRate.map((entry, index) => (
+                        {occupancyRate.map((_entry, index) => (
                           <Cell
                             key={`cell-${index}`}
                             fill={COLORS[index % COLORS.length]}
@@ -347,7 +347,7 @@ export default function Dashboard() {
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {complaintsData?.data?.map((complaint) => (
+                      {complaintsData?.data?.map((complaint: any) => (
                         <TableRow
                           key={complaint.id}
                           className="cursor-pointer"

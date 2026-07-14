@@ -34,8 +34,6 @@ const ComplaintPage = () => {
         credentials: "include",
       });
 
-      const result = await response.json();
-
       if (response.ok) {
         toastTrigger("Compaint Registered", "Your complaint has been registered.", "success");
         navigate("/dashboard/complaints");

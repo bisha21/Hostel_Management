@@ -10,7 +10,10 @@ const Booking = ({ id }: BookingProps) => {
   const { mutate: createBooking, isLoading } = useCreateBooking();
 
   const handleBooking = () => {
-    createBooking(id);
+    createBooking({
+      roomId: id,
+      startDate: new Date().toISOString().split("T")[0],
+    });
   };
 
   return (

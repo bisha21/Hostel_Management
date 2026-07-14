@@ -1,5 +1,3 @@
-import React from 'react'
-
 const Spinner = () => {
   return (
     <div className=" ml-[40%] py-6">

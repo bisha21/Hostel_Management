@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "../../../../components/ui/dropdown-menu";
 
-import { Bell } from "lucide-react";
+import { Bell, Menu, X } from "lucide-react";
 import { useFetchMyNotification } from "../../../../api/queries/notification.query";
 import {
   Popover,
@@ -49,6 +49,7 @@ const Navbar = () => {
   const { data } = useFetchMyNotification({ isAuthenticated });
   const navigate = useNavigate();
   const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const items = () => {
     if (isAuthenticated && user.user_type === "student") {
@@ -118,11 +119,12 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-slate-50 border-slate-100">
+    <nav className="sticky top-0 z-40 bg-slate-50/95 backdrop-blur-sm border-b border-slate-200 shadow-sm">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <NavLink
           to="/student"
           className="flex items-center space-x-3 rtl:space-x-reverse"
+          onClick={() => setIsMobileMenuOpen(false)}
         >
           <img src={logo} className="w-32" alt="Logo" />
         </NavLink>
@@ -251,49 +253,44 @@ const Navbar = () => {
 
           {/* Mobile menu button */}
           <button
-            data-collapse-toggle="navbar-user"
             type="button"
-            className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-slate-600 rounded-lg md:hidden hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+            className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-slate-600 rounded-lg md:hidden hover:bg-slate-200 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500"
             aria-controls="navbar-user"
-            aria-expanded="false"
+            aria-expanded={isMobileMenuOpen}
           >
-            <span className="sr-only">Open main menu</span>
-            <svg
-              className="w-5 h-5"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 17 14"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M1 1h15M1 7h15M1 13h15"
-              />
-            </svg>
+            <span className="sr-only">
+              {isMobileMenuOpen ? "Close main menu" : "Open main menu"}
+            </span>
+            {isMobileMenuOpen ? (
+              <X className="w-5 h-5" />
+            ) : (
+              <Menu className="w-5 h-5" />
+            )}
           </button>
         </div>
 
         {/* Navigation links */}
         <div
-          className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
+          className={`${
+            isMobileMenuOpen ? "block" : "hidden"
+          } items-center justify-between w-full md:flex md:w-auto md:order-1`}
           id="navbar-user"
         >
-          <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-slate-100 rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 bg-slate-50 md:bg-slate-50">
+          <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-slate-200 rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 bg-white md:bg-transparent shadow-sm md:shadow-none">
             {items().map((item, index) => (
               <li key={index}>
                 <NavLink
                   to={item.url}
+                  end
+                  onClick={() => setIsMobileMenuOpen(false)}
                   className={({ isActive }) =>
-                    `block py-2 px-3 ${
+                    `block py-2 px-3 rounded-md transition-colors md:p-0 md:rounded-none ${
                       isActive
-                        ? "text-emerald-600 font-semibold"
-                        : "text-slate-800 hover:text-emerald-500"
-                    } md:p-0`
+                        ? "text-emerald-600 font-semibold bg-emerald-50 md:bg-transparent"
+                        : "text-slate-700 hover:text-emerald-600 hover:bg-slate-50 md:hover:bg-transparent"
+                    }`
                   }
-                  aria-current={item.title === "Home" ? "page" : undefined}
                 >
                   {item.title}
                 </NavLink>

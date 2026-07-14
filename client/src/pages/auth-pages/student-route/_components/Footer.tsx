@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import logo from "../../../../assets/image/logo3.png";
 import useAuthContext from "../../../../hooks/useAuthContext";
 
@@ -8,7 +9,7 @@ const Footer = () => {
       return [
         {
           title: "Rooms",
-          url: "/student/rooms",
+          url: "/student",
         },
         {
           title: "Attendance",
@@ -41,15 +42,15 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-slate-50 pt-8 pb-6">
+    <footer className="bg-slate-50 border-t border-slate-200 pt-12 pb-6">
       <div className="container mx-auto px-4">
-        <div className="flex flex-wrap">
+        <div className="flex flex-wrap gap-y-8">
           {/* Logo and copyright section */}
-          <div className="w-full md:w-4/12 mb-8 md:mb-0">
-            <a href="/student" className="flex items-center mb-5">
+          <div className="w-full md:w-4/12 pr-0 md:pr-8">
+            <Link to="/student" className="flex items-center mb-5">
               <img src={logo} className="h-12 mr-3" alt="HostelHive Logo" />
-            </a>
-            <p className="text-slate-600 text-sm">
+            </Link>
+            <p className="text-slate-600 text-sm leading-relaxed">
               Hostel Hive, where comfort meets community in the heart of
               Kathmandu. Since 2018, we've been providing travelers, students,
               and digital nomads with a home away from home. Our hostel was
@@ -60,19 +61,19 @@ const Footer = () => {
           </div>
 
           {/* Links section */}
-          <div className="w-full md:w-4/12 mb-8 md:mb-0">
-            <h4 className="text-slate-800 text-lg font-semibold mb-4 ml-4">
+          <div className="w-full md:w-4/12">
+            <h4 className="text-slate-800 text-lg font-semibold mb-4">
               Quick Links
             </h4>
-            <ul className="space-y-2 ml-4">
+            <ul className="space-y-2">
               {items().map((item, index) => (
                 <li key={index}>
-                  <a
-                    href={item.url}
+                  <Link
+                    to={item.url}
                     className="text-slate-600 hover:text-emerald-600 transition-colors"
                   >
                     {item.title}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -83,14 +84,14 @@ const Footer = () => {
             <h4 className="text-slate-800 text-lg font-semibold mb-4">
               Connect With Us
             </h4>
-            <ul className="flex space-x-4 mb-6">
+            <ul className="flex space-x-3 mb-6">
               <li>
                 <a
                   href="#"
-                  className="text-slate-600 hover:text-emerald-600 transition-colors"
+                  className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-slate-600 hover:bg-emerald-100 hover:text-emerald-600 transition-colors"
                 >
                   <svg
-                    className="w-5 h-5"
+                    className="w-4 h-4"
                     fill="currentColor"
                     viewBox="0 0 24 24"
                     aria-hidden="true"
@@ -106,10 +107,10 @@ const Footer = () => {
               <li>
                 <a
                   href="#"
-                  className="text-slate-600 hover:text-emerald-600 transition-colors"
+                  className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-slate-600 hover:bg-emerald-100 hover:text-emerald-600 transition-colors"
                 >
                   <svg
-                    className="w-5 h-5"
+                    className="w-4 h-4"
                     fill="currentColor"
                     viewBox="0 0 24 24"
                     aria-hidden="true"
@@ -125,10 +126,10 @@ const Footer = () => {
               <li>
                 <a
                   href="#"
-                  className="text-slate-600 hover:text-emerald-600 transition-colors"
+                  className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-slate-600 hover:bg-emerald-100 hover:text-emerald-600 transition-colors"
                 >
                   <svg
-                    className="w-5 h-5"
+                    className="w-4 h-4"
                     fill="currentColor"
                     viewBox="0 0 24 24"
                     aria-hidden="true"

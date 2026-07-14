@@ -93,7 +93,7 @@ export default function AddTransaction() {
                     <SelectValue placeholder="Select a category" />
                   </SelectTrigger>
                   <SelectContent>
-                    {data?.data.map((room) => (
+                    {data?.data.map((room: any) => (
                       <SelectItem key={room.id} value={room.RoomNumber}>
                         {room.RoomNumber}
                       </SelectItem>

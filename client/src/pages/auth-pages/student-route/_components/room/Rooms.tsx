@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import { useFetchSingleRoom } from "../../../../../api/queries/room.query";
 import {
   ArrowRight,
