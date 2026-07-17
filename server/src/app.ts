@@ -41,7 +41,11 @@ app.use(
 );
 app.use(
   cors({
-    origin: "*",
+    origin: [
+      "http://localhost:5173",
+      "http://localhost:5174",
+      "https://hostel-management-jiiv.vercel.app",
+    ],
     methods: ["GET", "POST", "DELETE", "PATCH", "OPTIONS", "PUT"],
     allowedHeaders: ["Authorization", "Content-Type"],
     credentials: true,
